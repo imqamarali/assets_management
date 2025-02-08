@@ -1,0 +1,153 @@
+<?php 
+
+include "db.php";
+
+$sql1  = "SELECT * FROM memberplot where plot_id='".$_REQUEST['id']."' ";
+$result1 = $conn->query($sql1);
+$pay1 = $result1->fetch_assoc(); 
+
+$sql11  = "SELECT * FROM config";
+$result111 = $conn->query($sql11);
+$pay11 = $result111->fetch_assoc(); 
+
+$sql1= "SELECT * FROM memberplot mp where plot_id='".$_REQUEST['id']."'";
+$result1 = $conn->query($sql1);
+$pay1 = $result1->fetch_assoc();
+
+
+$sql_member= "SELECT mp.id,mp.plot_id,mp.plotno,mp.member_id,m.cnic,m.image,m.name FROM memberplot mp
+     left join members m on mp.member_id=m.id
+      where plot_id='".$_REQUEST['id']."' ";
+    $result_members = $conn->query($sql_member);
+
+    $acc= "SELECT * FROM accounts where ref='".$pay1['id']."'";
+    $acc1 = $conn->query($acc);
+    $acc2 = $acc1->fetch_assoc();
+
+
+ $sql_payment  = "SELECT * from payment where referanceid='".$acc2['id']."' ORDER BY `date`";
+$result_payments =  $conn->query($sql_payment);
+
+
+
+$sql_plotinfo  = "SELECT p.*,proj.project_name,sec.sector_name,st.street,s.size FROM plots p
+    left join projects proj on p.project_id=proj.id
+    left join sectors sec on p.sector=sec.id
+     left join streets st on p.street_id=st.id
+    left join size_cat s on p.size2=s.id
+     where p.id='".$_REQUEST['id']."'";
+    $info = $conn->query($sql_plotinfo);
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<title>Installment Plan</title>
+<link rel='stylesheet' type='text/css' href='css/style.css' />
+<link rel='stylesheet' type='text/css' href='css/print.css' media="print" />
+</head>
+
+<body style="background-color: aliceblue;">
+<div id="page-wrap" style="background-color:#FFFFFF;">
+  <div id="customer-title" style="margin-left: 20px;"> 
+    <img  src="../img/<?php echo $pay11['logo']; ?>" style="margin-top: 30px;" alt="logo" width="100px;"/> 
+  </div>
+  <div id="header" style="height:116px !important;letter-spacing: 2px !important;font-size:20px;width: 100%;background-color: white;color: black;">
+<?php echo $pay11['companyname'].' '.$pay11['adrress'] ?> </br> Phone # :<?php echo $pay11['phonenumber'] ?> </br>E-mail:<?php echo $pay11['email'] ?></br> Installment Plan
+</div>
+  <div style="clear:both"></div>
+  <div id="customer">
+    <span style="float:right; margin-right: 30px;">
+  <h3>Member Details</h3>
+<?php $res=array();
+    foreach($result_members as $mem){             
+  echo '<b>Name:</b>' .$mem['name'].'<br/>';
+    echo '<b>CNIC :</b>' .$mem['cnic'].'<br/>';
+  echo '<b>Membership # :</b>' .$mem['plotno'].'<br/>';
+   
+ } ?> 
+  </span>
+
+  <span style="margin-left: 30px;">
+  <h3>Plot Details</h3>
+<?php $res=array();
+$pro='';
+    foreach($info as $row){
+     echo '<b>Project     :</b>&nbsp;&nbsp;&nbsp;' .$row['project_name'].'</br>';
+$pro=$row['project_id'];
+$old_date = $row['create_date'];            
+$middle = strtotime($old_date);             
+$new_date = date('d-m-Y', $middle); 
+if($row['type']=='file'){echo '<b>File Size  :</b>';}else {echo '<b>Plot Size:</b>';}
+    echo '&nbsp;&nbsp;' .$row['size'].'&nbsp;('.$row['plot_size'].')'.'</br>';
+
+  if($row['type']=='file'){
+    echo '<b>File No:</b>';
+    } 
+    else{
+      echo '<b>Plot No: &nbsp;&nbsp;&nbsp;&nbsp;</b>';
+      }
+  echo $row['plot_detail_address'].'</br>';   
+      
+     echo'</td></tr>';
+  //echo '<b>Date  :</b>' .$new_date.'</br>';
+  $price=$row['price'];
+  }  ?>
+</span>
+    <div style="clear:both"></div>
+    <table id="items">
+        <tr>
+            <th><b>Sr.# </b></th>
+            <th><b>Details </b></th>
+            <th><b>Debit</b></th>
+            <th><b>Credit</b></th>
+            <th><b>Date</b></th>
+            <th><b>Ref No.</b></th>
+            <th><b>Balance Amount</b></th>
+        </tr>
+        
+      <?php  $ii=0;
+    	while($row = $result_payments->fetch_assoc())
+		{
+		$bal=$bal+$row['amount'];
+		$bal=$bal-$row['amount1'];
+		$d=$d+$row['amount'];
+		$c=$c+$row['amount1'];
+		$ii=$ii+1;
+		?>	
+  	    <tr>
+            <td>
+                <?php echo $ii;?>
+            </td>
+            <td><?php echo $row['remarks'];?></td>
+            <td style="text-align:right;"><?php echo $row['amount'];?></td>
+            <td style="text-align:right;"><?php echo $row['amount1'];?></td>
+            <td><?php echo  $row['date'];?></td>
+            <td><?php echo  $row['vid'];?></td>
+            <td><?php echo $bal;?></td> 
+            </td>
+        </tr>
+   		<?php
+		}
+		?>
+    </table>
+    <br/>
+    <br/>
+    <div style="clear:both"></div>
+    <div id="meta" style="float: left; padding: 9px;"> <span>____________________</br>
+      <h4>Officer</h4>
+      </span> <span>Dated: <?php echo date('d-M-y'); ?></span> </div>
+    <div id="meta" style="width:259px !important;"> <span>__________________________</br>
+      <h4>Authorised Singnature</h4>
+      </span> <span>Generated By:
+      <?php 
+ //echo $_SESSION["user_array"]['username'];?>
+      </span> </div>
+  </div>
+  <hr style="margin:5px 0px;" />
+</div>
+</body>
+</html>
