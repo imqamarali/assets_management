@@ -166,6 +166,7 @@ class Permissions extends Component
             'contract/contract_sub',
             'contract/contract_payment',
             'contract/contractdetails',
+            'contract/progress',
 
             'users/index',
             'users/roles',
@@ -184,7 +185,8 @@ class Permissions extends Component
 
 
             'notification/contractnotifications',
-            'notification/contractdetails'
+            'notification/contractdetails',
+            
 
         ];
         return in_array($action, $actions);

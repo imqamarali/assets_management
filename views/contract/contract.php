@@ -75,16 +75,7 @@ $conn = Yii::$app->getDb();
                         <?php $index = 1;
                         foreach ($contract_list as $item):
                             $status = ($item['status'] == 0) ? "Un-approved" : (($item['status'] == 1) ? "Approved & In-progress" : (($item['status'] == 2) ? "Approved & Discontinued" : (($item['status'] == 3) ? "Completed" : "N/A")));
-
-
                         ?>
-                        <!-- id, contract_no, contractor_id, area, type_of_work, scope, contract_date,
-                                date_of_com, engineer_estimate, bid_cost, date_of_completion, progress,
-                                unit, status, region_id, route_id, district_id, finance_ref_code 
-                                contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name, 
-                                r.name AS region_name,u.name AS unit_name,
-                                rt.name AS route_name,d.name AS district_name
-                            -->
                         <tr>
                             <td class="center"><?= $index++ ?></td>
                             <td><?= $item['contract_no'] ?></td>
@@ -103,6 +94,7 @@ $conn = Yii::$app->getDb();
                             <td><?= $item['district_name'] ?></td>
                             <td><?= $status ?></td>
                             <td>
+                                <?php if ($item['status'] > 0): ?>
                                 <?php if ($can['can_view'] == 1): ?>
                                 <div class="hidden-sm hidden-xs action-buttons"
                                     style="display: inline-flex; gap: 10px;">
@@ -113,6 +105,7 @@ $conn = Yii::$app->getDb();
                                     </a>
                                 </div>
                                 <?php endif; ?>
+                                <?php endif; ?>
                                 <?php if ($can['can_edit'] == 1): ?>
                                 <div class="hidden-sm hidden-xs action-buttons"
                                     style="display: inline-flex; gap: 10px;">
@@ -122,7 +115,6 @@ $conn = Yii::$app->getDb();
                                     </a>
                                 </div>
                                 <?php endif; ?>
-
                                 <?php if ($can['can_delete'] == 1): ?>
                                 <div class="hidden-sm hidden-xs action-buttons"
                                     style="display: inline-flex; gap: 10px;">
@@ -139,6 +131,7 @@ $conn = Yii::$app->getDb();
                                     </form>
                                 </div>
                                 <?php endif; ?>
+
                             </td>
 
 
@@ -210,10 +203,10 @@ function update(item) {
                         <div class="form-floating">
                             <select class="form-select" name="contractor_id" id="modalContractor" required>
                                 <option value="">Select Contractor</option>
-                                <<?php foreach ($contractors_list as $item): ?> <option value="<?= $item['id'] ?>">
+                                <?php foreach ($contractors_list as $item): ?> <option value="<?= $item['id'] ?>">
                                     <?= $item['company_name ']  ?>
-                                    </option>
-                                    <?php endforeach; ?>
+                                </option>
+                                <?php endforeach; ?>
                             </select>
                             <label for="modalContractor">Select Contractor<span style="color:red">*</span></label>
                         </div>
@@ -240,10 +233,10 @@ function update(item) {
                         <div class="form-floating">
                             <select class="form-select" name="typeofwork_id" id="modalType" required>
                                 <option value="">Select Type Of Work</option>
-                                <<?php foreach ($type_list as $item): ?> <option value="<?= $item['id'] ?>">
+                                <?php foreach ($type_list as $item): ?> <option value="<?= $item['id'] ?>">
                                     <?= $item['name']  ?>
-                                    </option>
-                                    <?php endforeach; ?>
+                                </option>
+                                <?php endforeach; ?>
                             </select>
                             <label for="modalType">Select Type Of Work<span style="color:red">*</span></label>
                         </div>
@@ -252,10 +245,10 @@ function update(item) {
                         <div class="form-floating">
                             <select class="form-select" name="scope_id" id="modalScope" required>
                                 <option value="">Select Scope</option>
-                                <<?php foreach ($scope_list as $item): ?> <option value="<?= $item['id'] ?>">
+                                <?php foreach ($scope_list as $item): ?> <option value="<?= $item['id'] ?>">
                                     <?= $item['name']  ?>
-                                    </option>
-                                    <?php endforeach; ?>
+                                </option>
+                                <?php endforeach; ?>
                             </select>
                             <label for="modalScope">Select Scope<span style="color:red">*</span></label>
                         </div>
@@ -276,10 +269,10 @@ function update(item) {
                         <div class="form-floating">
                             <select class="form-select" name="region_id" id="modalRegion" required>
                                 <option value="">Select Region</option>
-                                <<?php foreach ($region_list as $item): ?> <option value="<?= $item['ID'] ?>">
+                                <?php foreach ($region_list as $item): ?> <option value="<?= $item['ID'] ?>">
                                     <?= $item['name']  ?>
-                                    </option>
-                                    <?php endforeach; ?>
+                                </option>
+                                <?php endforeach; ?>
                             </select>
                             <label for="modalRegion">Select Region<span style="color:red">*</span></label>
                         </div>
@@ -288,10 +281,10 @@ function update(item) {
                         <div class="form-floating">
                             <select class="form-select" name="route_id" id="modalRoute" required>
                                 <option value="">Select Route</option>
-                                <<?php foreach ($route_list as $item): ?> <option value="<?= $item['id'] ?>">
+                                <?php foreach ($route_list as $item): ?> <option value="<?= $item['id'] ?>">
                                     <?= $item['name']  ?>
-                                    </option>
-                                    <?php endforeach; ?>
+                                </option>
+                                <?php endforeach; ?>
                             </select>
                             <label for="modalRoute">Select Route<span style="color:red">*</span></label>
                         </div>
