@@ -542,11 +542,28 @@ class BudgetingController extends Controller
     public function actionScope()
     {
 
+        $filter = '1=1';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
 
-
-            if (isset($data['save_record'])) {
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (isset($data['name'])  && !empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND "name" LIKE :name';
+                    $params[':name'] = '%' . $name . '%';
+                }
+                if (isset($data['code'])  && !empty($data['code'])) {
+                    $code = $data['code'];
+                    $filter .= ' AND "code" LIKE :code';
+                    $params[':code'] = '%' . $code . '%';
+                }
+                if (isset($data['details'])  && !empty($data['details'])) {
+                    $details = $data['details'];
+                    $filter .= ' AND details LIKE :details';
+                    $params[':details'] = '%' . $details . '%';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -593,9 +610,9 @@ class BudgetingController extends Controller
             }
         }
 
-        $scope_list = Yii::$app->db->createCommand('SELECT * FROM public."m_scope"')->queryAll();
 
-
+        $query = 'SELECT * FROM public."m_scope" WHERE ' . $filter;
+        $scope_list = Yii::$app->db->createCommand($query, $params)->queryAll();
 
         return $this->render('scope', [
             'can' => [

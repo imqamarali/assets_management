@@ -93,31 +93,70 @@ class AssetsController extends Controller
 
     public function actionList()
     {
-        // Query to fetch assets
+        $where = '1=1'; // Start with a true condition to simplify appending filters
+
+        if (Yii::$app->request->isPost) {
+            $data = Yii::$app->request->post();
+
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (isset($data['name']) && !empty($data['name'])) {
+                    $where .= " AND na.name LIKE '%" . $data['name'] . "%'";
+                }
+                if (isset($data['province']) && !empty($data['province'])) {
+                    $where .= " AND na.province_id = '" . $data['province'] . "'";
+                }
+                if (isset($data['district']) && !empty($data['district'])) {
+                    $where .= " AND na.district_id = '" . $data['district'] . "'";
+                }
+                if (isset($data['tehsil']) && !empty($data['tehsil'])) {
+                    $where .= " AND na.techsil_id = '" . $data['tehsil'] . "'";
+                }
+                if (isset($data['zone']) && !empty($data['zone'])) {
+                    $where .= " AND na.zone_id = '" . $data['zone'] . "'";
+                }
+                if (isset($data['unit']) && !empty($data['unit'])) {
+                    $where .= " AND na.\"M_Unit_id\" = '" . $data['unit'] . "'";
+                }
+                if (isset($data['type']) && !empty($data['type'])) {
+                    $where .= " AND na.type_id = '" . $data['type'] . "'";
+                }
+                if (isset($data['route']) && !empty($data['route'])) {
+                    $where .= " AND na.\"Route_id\" = '" . $data['route'] . "'";
+                }
+                if (isset($data['km_from']) && !empty($data['km_from'])) {
+                    $where .= " AND na.km_from >= " . (float)$data['km_from'];
+                }
+                if (isset($data['km_to']) && !empty($data['km_to'])) {
+                    $where .= " AND na.km_to <= " . (float)$data['km_to'];
+                }
+            }
+        }
+
         $asset_Q = 'SELECT 
-                    na.id, na.province_id, ap."name" as province_name, 
-                    na.district_id, ad.name as district_name, 
-                    na.techsil_id, at.name as tehsil_name, 
-                    na.zone_id, az."Name" as zone_name, 
-                    na."M_Unit_id", uu.name as unit_name, 
-                    na."Location", 
-                    na."Section_id", 
-                    na."Route_id", ar."name" as route_name, 
-                    na.direction_id, 
-                    na.type_id, mt."name" as type_name, 
-                    na.name, na."Asset_id", na.unit, 
-                    na.longitude, na.latitude, na.elevation, 
-                    na.metadata, na.km_from, na.km_to, na."Range", 
-                    na.reference, na.address, na.geom, 
-                    na."Reg", na.status, na.create_date
-                FROM public."n_asset" na
-                LEFT JOIN public."a_province" ap ON na.province_id = ap."ID"
-                LEFT JOIN public."a_district" ad ON na.district_id = ad.id
-                LEFT JOIN public."a_tehsil" at ON na.techsil_id = at.id
-                LEFT JOIN public."a_zone" az ON na.zone_id = az.id
-                LEFT JOIN public."a_route" ar ON na."Route_id" = ar.id
-                LEFT JOIN public."u_unit" uu ON na."M_Unit_id" = uu."ID"
-                LEFT JOIN public."m_type" mt ON na.type_id = mt.id;';
+                na.id, na.province_id, ap."name" as province_name, 
+                na.district_id, ad.name as district_name, 
+                na.techsil_id, at.name as tehsil_name, 
+                na.zone_id, az."Name" as zone_name, 
+                na."M_Unit_id", uu.name as unit_name, 
+                na."Location", 
+                na."Section_id", 
+                na."Route_id", ar."name" as route_name, 
+                na.direction_id, 
+                na.type_id, mt."name" as type_name, 
+                na.name, na."Asset_id", na.unit, 
+                na.longitude, na.latitude, na.elevation, 
+                na.metadata, na.km_from, na.km_to, na."Range", 
+                na.reference, na.address, na.geom, 
+                na."Reg", na.status, na.create_date
+            FROM public."n_asset" na
+            LEFT JOIN public."a_province" ap ON na.province_id = ap."ID"
+            LEFT JOIN public."a_district" ad ON na.district_id = ad.id
+            LEFT JOIN public."a_tehsil" at ON na.techsil_id = at.id
+            LEFT JOIN public."a_zone" az ON na.zone_id = az.id
+            LEFT JOIN public."a_route" ar ON na."Route_id" = ar.id
+            LEFT JOIN public."u_unit" uu ON na."M_Unit_id" = uu."ID"
+            LEFT JOIN public."m_type" mt ON na.type_id = mt.id
+            WHERE ' . $where;
 
         $assets_list = Yii::$app->db->createCommand($asset_Q)->queryAll();
 
@@ -147,8 +186,6 @@ class AssetsController extends Controller
             'types' => $types,
         ]);
     }
-
-
     public function actionSave()
     {
         if (Yii::$app->request->isPost) {
@@ -216,13 +253,27 @@ class AssetsController extends Controller
     }
     public function actionZone()
     {
-
+        $filter = '';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
             // echo json_encode($data);
             // exit;
+            //{"name":"","code":"","apply_search":"Search"}
 
-            if (isset($data['save_record'])) {
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (!empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND "Name" LIKE :name';
+                    $params[':name'] = '%' . $name . '%';
+                }
+
+                if (!empty($data['code'])) {
+                    $code = $data['code'];
+                    $filter .= ' AND "Code" LIKE :code';
+                    $params[':code'] = '%' . $code . '%';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -265,10 +316,8 @@ class AssetsController extends Controller
             }
         }
 
-        $zone_list = Yii::$app->db->createCommand('SELECT * FROM public."a_zone"')->queryAll();
-
-
-
+        $query = 'SELECT * FROM public."a_zone" WHERE 1=1' . $filter;
+        $zone_list = Yii::$app->db->createCommand($query, $params)->queryAll();
         return $this->render('zone', [
             'can' => [
                 'can_add'    => 1,
@@ -281,13 +330,28 @@ class AssetsController extends Controller
     }
     public function actionRegion()
     {
+        $filter = '1=1'; // Start with a true condition to simplify appending filters
+        $params = [];
 
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
-            // echo json_encode($data);
-            // exit;
 
-            if (isset($data['save_record'])) {
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (!empty($data['name'])) {
+                    $filter .= ' AND ar.name LIKE :name';
+                    $params[':name'] = '%' . $data['name'] . '%';
+                }
+
+                if (!empty($data['code'])) {
+                    $filter .= ' AND ar.code LIKE :code';
+                    $params[':code'] = '%' . $data['code'] . '%';
+                }
+
+                if (!empty($data['zone'])) {
+                    $filter .= ' AND ar.zone_id = :zone';
+                    $params[':zone'] = $data['zone'];
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -334,16 +398,18 @@ class AssetsController extends Controller
             }
         }
 
-        $region_list = Yii::$app->db->createCommand(
-            'SELECT ar.*, az."Name" AS zone_name
-                    FROM public."a_region" AS ar
-                    LEFT JOIN public."a_zone" AS az ON ar.zone_id = ar."ID"
-                    ORDER BY ar."ID" ASC;'
-        )->queryAll();
+        // Construct the SQL query with filters
+        $query = 'SELECT ar.*, az."Name" AS zone_name
+              FROM public."a_region" AS ar
+              LEFT JOIN public."a_zone" AS az ON ar.zone_id = az."id"
+              WHERE ' . $filter . ' 
+              ORDER BY ar."ID" ASC';
 
+        // Execute the query with parameters
+        $region_list = Yii::$app->db->createCommand($query, $params)->queryAll();
+
+        // Fetch data for the zone dropdown
         $zone_list = Yii::$app->db->createCommand('SELECT * FROM public."a_zone"')->queryAll();
-
-
 
         return $this->render('region', [
             'can' => [
@@ -353,17 +419,36 @@ class AssetsController extends Controller
                 'can_delete' => 1,
             ],
             'region_list' => $region_list,
-            'zone_list' => $zone_list
+            'zone_list' => $zone_list,
         ]);
     }
     public function actionProvince()
     {
+        $filter = '1=1';
+        $params = [];
 
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
 
 
-            if (isset($data['save_record'])) {
+
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (isset($data['name'])  && !empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND "name" LIKE :name';
+                    $params[':name'] = '%' . $name . '%';
+                }
+                if (isset($data['code'])  && !empty($data['code'])) {
+                    $code = $data['code'];
+                    $filter .= ' AND "code" LIKE :code';
+                    $params[':code'] = '%' . $code . '%';
+                }
+                if (isset($data['details'])  && !empty($data['details'])) {
+                    $details = $data['details'];
+                    $filter .= ' AND details LIKE :details';
+                    $params[':details'] = '%' . $details . '%';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -412,8 +497,8 @@ class AssetsController extends Controller
             }
         }
 
-        $province_list = Yii::$app->db->createCommand('SELECT * FROM public."a_province"')->queryAll();
-
+        $query = 'SELECT * FROM public."a_province" WHERE ' . $filter;
+        $province_list = Yii::$app->db->createCommand($query, $params)->queryAll();
 
 
         return $this->render('province', [
@@ -428,13 +513,31 @@ class AssetsController extends Controller
     }
     public function actionDistrict()
     {
-
+        $filter = '1=1';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
             // echo json_encode($data);
             // exit;
 
-            if (isset($data['save_record'])) {
+            // {"name":"","code":"","province":"","apply_search":"Search"}
+
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (!empty($data['name'])) {
+                    $filter .= ' AND ad.name LIKE :name';
+                    $params[':name'] = '%' . $data['name'] . '%';
+                }
+
+                if (!empty($data['code'])) {
+                    $filter .= ' AND ad.code LIKE :code';
+                    $params[':code'] = '%' . $data['code'] . '%';
+                }
+
+                if (!empty($data['province'])) {
+                    $filter .= ' AND ad.province_id = :province';
+                    $params[':province'] = $data['province'];
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -480,12 +583,16 @@ class AssetsController extends Controller
             }
         }
 
-        $district_list = Yii::$app->db->createCommand(
-            'SELECT ad.id, ad.province_id, ad.name, ad.code, ad.status, ap.name AS province_name
-                    FROM public."a_district" AS ad
-                    LEFT JOIN public."a_province" AS ap ON ad.province_id = ap."ID"
-                    ORDER BY ad.id ASC;'
-        )->queryAll();
+
+
+        // Fetch filtered district list
+        $query = 'SELECT ad.id, ad.province_id, ad.name, ad.code, ad.status, ap.name AS province_name
+              FROM public."a_district" AS ad
+              LEFT JOIN public."a_province" AS ap ON ad.province_id = ap."ID"
+              WHERE ' . $filter . '
+              ORDER BY ad.id ASC';
+        $district_list = Yii::$app->db->createCommand($query, $params)->queryAll();
+
 
         $province_list = Yii::$app->db->createCommand('SELECT * FROM public."a_province"')->queryAll();
 
@@ -504,13 +611,43 @@ class AssetsController extends Controller
     }
     public function actionRoute()
     {
-
+        $filter = '1=1';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
             // echo json_encode($data);
             // exit;
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (isset($data['name'])  && !empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND "name" LIKE :name';
+                    $params[':name'] = '%' . $name . '%';
+                }
+                if (isset($data['code'])  && !empty($data['code'])) {
+                    $code = $data['code'];
+                    $filter .= ' AND "code" LIKE :code';
+                    $params[':code'] = '%' . $code . '%';
+                }
+                if (
+                    isset($data['details'])  && !empty($data['details'])
+                ) {
+                    $details = $data['details'];
+                    $filter .= ' AND details LIKE :details';
+                    $params[':details'] = '%' . $details . '%';
+                }
+            } elseif (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (!empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND "Name" LIKE :name';
+                    $params[':name'] = '%' . $name . '%';
+                }
 
-            if (isset($data['save_record'])) {
+                if (!empty($data['code'])) {
+                    $code = $data['code'];
+                    $filter .= ' AND "Code" LIKE :code';
+                    $params[':code'] = '%' . $code . '%';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -563,10 +700,9 @@ class AssetsController extends Controller
             }
         }
 
-        $route_list = Yii::$app->db->createCommand(
-            'SELECT * FROM public."a_route" ORDER BY id ASC '
-        )->queryAll();
 
+        $query = 'SELECT * FROM public."a_route" WHERE ' . $filter;
+        $route_list = Yii::$app->db->createCommand($query, $params)->queryAll();
 
         return $this->render('route', [
             'can' => [
@@ -580,12 +716,26 @@ class AssetsController extends Controller
     }
     public function actionLayers()
     {
-
+        $filter = '1=1';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
 
 
-            if (isset($data['save_record'])) {
+
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (!empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND "name" LIKE :name';
+                    $params[':name'] = '%' . $name . '%';
+                }
+
+                if (!empty($data['code'])) {
+                    $code = $data['code'];
+                    $filter .= ' AND "code" LIKE :code';
+                    $params[':code'] = '%' . $code . '%';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -631,8 +781,8 @@ class AssetsController extends Controller
             }
         }
 
-        $layers_list = Yii::$app->db->createCommand('SELECT * FROM public."a_layers" ORDER BY id ASC ')->queryAll();
-
+        $query = 'SELECT * FROM public."a_layers" WHERE ' . $filter;
+        $layers_list = Yii::$app->db->createCommand($query, $params)->queryAll();
 
 
         return $this->render('layers', [
@@ -647,13 +797,30 @@ class AssetsController extends Controller
     }
     public function actionUnit()
     {
-
+        $filter = '1=1';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
             // echo json_encode($data);
             // exit;
 
-            if (isset($data['save_record'])) {
+            if (isset($data['apply_search']) && $data['apply_search'] == 'Search') {
+                if (!empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND au."name" LIKE :name';
+                    $params[':name'] = '%' . $name . '%';
+                }
+                if (!empty($data['region'])) {
+                    $region = $data['region'];
+                    $filter .= ' AND au.region_id LIKE :region';
+                    $params[':region'] = '%' . $region . '%';
+                }
+                if (!empty($data['code'])) {
+                    $code = $data['code'];
+                    $filter .= ' AND au."code" LIKE :code';
+                    $params[':code'] = '%' . $code . '%';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -704,12 +871,12 @@ class AssetsController extends Controller
             }
         }
 
-        $unit_list = Yii::$app->db->createCommand(
-            'SELECT au.*, ar."name" AS region_name
+        $query = 'SELECT au.*, ar."name" AS region_name
                     FROM public."u_unit" AS au
                     LEFT JOIN public."a_region" AS ar ON au.region_id = ar."ID"
-                    ORDER BY ar."ID" ASC;'
-        )->queryAll();
+                    WHERE ' . $filter;
+        $unit_list = Yii::$app->db->createCommand($query, $params)->queryAll();
+
 
         $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_region"')->queryAll();
 

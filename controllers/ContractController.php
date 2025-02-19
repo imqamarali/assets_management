@@ -693,12 +693,42 @@ class ContractController extends Controller
     }
     public function actionContract_payment()
     {
+        $filter = '1=1';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
             // echo json_encode($data);
             // exit;
+            // {"number":"101","name":"Default","voucher_No":"1001","instrument_no":"12312",
+            //  "instrument_date":"2025-01-25","apply_search":"Search"}
+            if (isset($data['apply_search']) & $data['apply_search'] == "Search") {
 
-            if (isset($data['save_record'])) {
+                if (!empty($data['number'])) {
+                    $number = $data['number'];
+                    $filter .= ' AND cont.contract_no LIKE :number';
+                    $params[':number'] = '%' . $number . '%';
+                }
+                if (!empty($data['name'])) {
+                    $name = $data['name'];
+                    $filter .= ' AND contr."company_name " LIKE :name';
+                    $params[':name'] =  '%' . $name . '%';
+                }
+                if (!empty($data['voucher_No'])) {
+                    $voucher_No = $data['voucher_No'];
+                    $filter .= ' AND cp.voucher_no = :voucher_No';
+                    $params[':voucher_No'] = $voucher_No;
+                }
+                if (!empty($data['instrument_no'])) {
+                    $instrument_no = $data['instrument_no'];
+                    $filter .= ' AND cp."intrument_no" = :instrument_no';
+                    $params[':instrument_no'] =  $instrument_no;
+                }
+                if (!empty($data['instrument_date'])) {
+                    $instrument_date = $data['instrument_date'];
+                    $filter .= ' AND cp."instrument_date" = :instrument_date';
+                    $params[':instrument_date'] = '' . $instrument_date . '';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -788,12 +818,14 @@ class ContractController extends Controller
                     LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
                     LEFT JOIN public."a_district" AS d ON cont.district_id = d.id;';
         $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
-        $contract_pay = 'SELECT cp.*, cont."contract_no", contr."company_name "
+
+        $contract_pay =
+            'SELECT cp.*, cont."contract_no", contr."company_name "
                             FROM public."m_contract_payments" cp
                             LEFT JOIN public."m_contract" cont ON cp."contract_id" = cont.id
                             LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
-                            ORDER BY id ASC';
-        $contract_pay_list = Yii::$app->db->createCommand($contract_pay)->queryAll();
+                            WHERE ' . $filter;
+        $contract_pay_list = Yii::$app->db->createCommand($contract_pay, $params)->queryAll();
 
         return $this->render('contract_payment', [
             'can' => [

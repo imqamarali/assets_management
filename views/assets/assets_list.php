@@ -27,17 +27,22 @@
                 </h3>
                 <p class="mb-0">Managing District Table</p>
             </div>
+
+            <?php if ($can['can_add'] == 1): ?>
+                <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add
+                    New<span class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+            <?php endif; ?>
         </div>
-        <hr class="bg-200">
+        <?php
+        $fields = ['name', 'province', 'district', 'tehsil', 'zone', 'unit', 'type', 'route', 'km_from', 'km_to'];
+        echo Yii::$app->Component->renderSearchForm($fields);
+
+        ?>
         <div class="row g-1  mb-5">
             <div id="tableExample2"
                 data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
                 <div class="table-responsive">
-                    <?php if ($can['can_add'] == 1): ?>
-                        <button data-bs-toggle="modal" data-bs-target="#newItemModal"
-                            class="btn btn-outline-primary mt-2 mb-2" style="float: right" style="margin-left: 5px"> Add
-                            New<span class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
-                    <?php endif; ?>
                     <table class="table table-striped table-hover table-sm fs--1 mb-0">
                         <thead>
                             <tr>

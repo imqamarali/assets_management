@@ -50,8 +50,8 @@ $this->title = 'HSMS';
                 <div class="">
                     <h2 class="accordion-header" id="headingOne">
 
-                        <button class="accordion-button collapsed" style="height: 0px !important;
-  padding: 0px;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                        <button class="accordion-button collapsed" style="height: 0px !important; padding: 0px;"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
                             aria-controls="collapseOne">
                         </button>
                     </h2>

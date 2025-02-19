@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\LinkPager;
@@ -7,6 +8,8 @@ use app\models\Employee;
 use app\models\Dashboardpermissions;
 
 $conn = Yii::$app->getDb();
+
+
 
 ?>
 
@@ -39,16 +42,21 @@ $conn = Yii::$app->getDb();
                 </h3>
                 <p class="mb-0">Managing Zone Table</p>
             </div>
+            <?php if ($can['can_add'] == 1): ?>
+                <button data-bs-toggle="modal" data-bs-target="#newItem" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add New<span
+                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+            <?php endif; ?>
         </div>
-        <hr class="bg-200">
+
+        <?php
+
+        echo Yii::$app->Component->renderSearchForm(['name', 'code']);
+
+        ?>
         <div id="tableExample2"
             data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
             <div class="table-responsive">
-                <?php if ($can['can_add'] == 1): ?>
-                    <button data-bs-toggle="modal" data-bs-target="#newItem" class="btn btn-outline-primary mt-2 mb-2"
-                        style="float: right" style="margin-left: 5px"> Add New<span
-                            class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
-                <?php endif; ?>
                 <table class="table table-striped table-hover table-sm fs--1 mb-0">
                     <thead>
                         <tr>

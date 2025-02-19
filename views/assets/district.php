@@ -39,16 +39,21 @@ $conn = Yii::$app->getDb();
                 </h3>
                 <p class="mb-0">Managing District Table</p>
             </div>
-        </div>
-        <hr class="bg-200">
-        <div id="tableExample2"
-            data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
-            <div class="table-responsive">
-                <?php if ($can['can_add'] == 1): ?>
+
+            <?php if ($can['can_add'] == 1): ?>
                 <button data-bs-toggle="modal" data-bs-target="#newItem" class="btn btn-outline-primary mt-2 mb-2"
                     style="float: right" style="margin-left: 5px"> Add New<span
                         class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
-                <?php endif; ?>
+            <?php endif; ?>
+        </div>
+        <?php
+        $fields = ['name', 'code', 'province'];
+        echo Yii::$app->Component->renderSearchForm($fields);
+
+        ?>
+        <div id="tableExample2"
+            data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
+            <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm fs--1 mb-0">
                     <thead>
                         <tr>
@@ -66,44 +71,44 @@ $conn = Yii::$app->getDb();
                             $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                         ?>
 
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
-                            <td><?= $item['name'] ?></td>
-                            <td><?= $item['code'] ?></td>
-                            <td><?= $item['province_name'] ?></td>
-                            <td><?= $status ?></td>
-                            <td>
-                                <?php if ($can['can_edit'] == 1): ?>
-                                <div class="hidden-sm hidden-xs action-buttons"
-                                    style="display: inline-flex; gap: 10px;">
-                                    <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
-                                        onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                    </a>
-                                </div>
-                                <?php endif; ?>
+                            <tr>
+                                <td class="center"><?= $index++ ?></td>
+                                <td><?= $item['name'] ?></td>
+                                <td><?= $item['code'] ?></td>
+                                <td><?= $item['province_name'] ?></td>
+                                <td><?= $status ?></td>
+                                <td>
+                                    <?php if ($can['can_edit'] == 1): ?>
+                                        <div class="hidden-sm hidden-xs action-buttons"
+                                            style="display: inline-flex; gap: 10px;">
+                                            <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
+                                                onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
 
-                                <?php if ($can['can_delete'] == 1): ?>
-                                <div class="hidden-sm hidden-xs action-buttons"
-                                    style="display: inline-flex; gap: 10px;">
-                                    <form id="deleteForm_<?php echo $item['id']; ?>"
-                                        action="index.php?r=assets/district" method="POST" style="display: inline;">
-                                        <input type="hidden" name="_csrf"
-                                            value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                        <input type="hidden" name="save_record" value="delete_record">
-                                        <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                        <button type="button" class="green" style="border: none; background: none;"
-                                            onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                            <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                                <?php endif; ?>
-                            </td>
+                                    <?php if ($can['can_delete'] == 1): ?>
+                                        <div class="hidden-sm hidden-xs action-buttons"
+                                            style="display: inline-flex; gap: 10px;">
+                                            <form id="deleteForm_<?php echo $item['id']; ?>"
+                                                action="index.php?r=assets/district" method="POST" style="display: inline;">
+                                                <input type="hidden" name="_csrf"
+                                                    value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                                <input type="hidden" name="save_record" value="delete_record">
+                                                <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                                <button type="button" class="green" style="border: none; background: none;"
+                                                    onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                                    <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
 
 
 
-                        </tr>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -114,31 +119,32 @@ $conn = Yii::$app->getDb();
 
 <!-- Script to handle update functionality -->
 <script>
-function confirmDelete(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('deleteForm_' + itemId).submit();
+    function confirmDelete(itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('deleteForm_' + itemId).submit();
+        }
     }
-}
 
-function update(item) {
-    console.log(item)
-    // ad.id, ad.province_id, ad.name, ad.code, ad.status, ap.name AS province_name
-    // Update form fields with the values from the item
-    document.getElementById('modalId').value = item.id;
-    document.getElementById('modalTitle').value = item.name;
-    document.getElementById('modalProvince').value = item.province_id;
-    document.getElementById('modalCode').value = item.code;
-    document.getElementById('modalStatus').value = item.status; // Ensure the correct status is selected
+    function update(item) {
+        console.log(item)
+        // ad.id, ad.province_id, ad.name, ad.code, ad.status, ap.name AS province_name
+        // Update form fields with the values from the item
+        document.getElementById('modalId').value = item.id;
+        document.getElementById('modalTitle').value = item.name;
+        document.getElementById('modalProvince').value = item.province_id;
+        document.getElementById('modalCode').value = item.code;
+        document.getElementById('modalStatus').value = item.status; // Ensure the correct status is selected
 
 
-    // Update the modal title to indicate update mode
-    document.querySelector('.modal-title').textContent = 'Update Record';
-}
+        // Update the modal title to indicate update mode
+        document.querySelector('.modal-title').textContent = 'Update Record';
+    }
 </script>
 <!-- Modal for Adding/Updating Record -->
 <div class="modal fade modal-xl" id="newItem" tabindex="-1" aria-labelledby="newItem" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="scrollingLongModalLabel2">Add New Record</h5>
                 <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
@@ -164,9 +170,9 @@ function update(item) {
                             <select class="form-select" name="province_id" id="modalProvince" required>
                                 <option value="">Select Province</option>
                                 <?php foreach ($province_list as $item): ?>
-                                <option value="<?= $item['ID'] ?>">
-                                    <?= $item['name']  ?>
-                                </option>
+                                    <option value="<?= $item['ID'] ?>">
+                                        <?= $item['name']  ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalProvince">Province<span style="color:red">*</span></label>

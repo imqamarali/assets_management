@@ -200,7 +200,99 @@ AppAsset::register($this);
 
         </div>
     </main>
+    <!-- Add this script for automatic table pagination -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tables = document.querySelectorAll("table");
+            const recordsPerPage = 20; // Set the number of records per page
 
+            tables.forEach(table => {
+                const rows = table.querySelectorAll("tbody tr");
+                if (rows.length > recordsPerPage) {
+                    applyPagination(table, rows, recordsPerPage);
+                }
+            });
+
+            function applyPagination(table, rows, recordsPerPage) {
+                const totalPages = Math.ceil(rows.length / recordsPerPage);
+                let currentPage = 1;
+
+                // Hide all rows initially
+                rows.forEach((row, index) => {
+                    row.style.display = "none";
+                });
+
+                // Show rows for the current page
+                function showPage(page) {
+                    const start = (page - 1) * recordsPerPage;
+                    const end = start + recordsPerPage;
+
+                    rows.forEach((row, index) => {
+                        if (index >= start && index < end) {
+                            row.style.display = "";
+                        } else {
+                            row.style.display = "none";
+                        }
+                    });
+                }
+
+                // Create pagination controls
+                const paginationDiv = document.createElement("div");
+                paginationDiv.className = "pagination";
+                for (let i = 1; i <= totalPages; i++) {
+                    const button = document.createElement("button");
+                    button.innerText = i;
+                    button.addEventListener("click", () => {
+                        currentPage = i;
+                        showPage(currentPage);
+                        updatePaginationButtons();
+                    });
+                    paginationDiv.appendChild(button);
+                }
+
+                // Insert pagination controls after the table
+                table.insertAdjacentElement("afterend", paginationDiv);
+
+                // Highlight the active page button
+                function updatePaginationButtons() {
+                    const buttons = paginationDiv.querySelectorAll("button");
+                    buttons.forEach((button, index) => {
+                        if (index + 1 === currentPage) {
+                            button.classList.add("active");
+                        } else {
+                            button.classList.remove("active");
+                        }
+                    });
+                }
+
+                // Show the first page by default
+                showPage(currentPage);
+                updatePaginationButtons();
+            }
+        });
+    </script>
+    <style>
+        .pagination {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .pagination button {
+            padding: 5px 10px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+        }
+
+        .pagination button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
     <script>
         let toastBox = document.getElementById('toastBox');
 
