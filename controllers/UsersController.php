@@ -68,7 +68,6 @@ class UsersController extends Controller
             $this->redirect(['site/index']);
         }
     }
-
     public function actionIndex()
     {
         $module_features = Yii::$app->Permissions->getModuleFeatures(31); // Asset Management Module id 23
@@ -124,7 +123,10 @@ class UsersController extends Controller
             $submenus = [];
             $moduleFeatures = Yii::$app->db->createCommand("SELECT * FROM modules_features WHERE module_id = :module_id")
                 ->bindValue(':module_id', $module['id'])->queryAll();
-
+            if ($module['id'] == 32) {
+                // echo json_encode($moduleFeatures);
+                // exit;
+            }
             foreach ($moduleFeatures as $feature) {
 
                 $permissions = Yii::$app->db->createCommand("
@@ -209,8 +211,6 @@ class UsersController extends Controller
 
         return "TRUE";
     }
-
-
     public function actionUserslist()
     {
 

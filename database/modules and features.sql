@@ -1,20 +1,20 @@
 
-INSERT INTO public.modules (name, icon, description, link, active, created_at)
-VALUES 
-    ('Home', 'fa-caret-right', 'Parent menu for home dashboards', 'index.php', 1, CURRENT_TIMESTAMP),
-    ('Asset Dashboard', 'fa-caret-right', 'Asset management dashboard', 'index.php?r=assets/index', 1, CURRENT_TIMESTAMP),
-    ('AMP Dashboard', 'fa-caret-right', 'AMP dashboard', 'index.php?r=amp/index', 1, CURRENT_TIMESTAMP),
-    ('Contract Dashboard', 'fa-caret-right', 'Dashboard for contracts', 'index.php?r=contract/index', 1, CURRENT_TIMESTAMP),
-    ('Condition Dashboard', 'fa-caret-right', 'Dashboard for condition monitoring', 'index.php?r=condition/index', 1, CURRENT_TIMESTAMP),
-    ('Asset Management', 'fa-caret-right', 'Manage assets', 'index.php?r=assets/index', 1, CURRENT_TIMESTAMP),
-    ('Contract Management', 'fa-caret-right', 'Manage contracts', 'index.php?r=contract/index', 1, CURRENT_TIMESTAMP),
-    ('Revenue Management', 'fa-caret-right', 'Manage revenues', 'index.php?r=revenue/index', 1, CURRENT_TIMESTAMP),
-    ('Traffic Management', 'fa-caret-right', 'Traffic management system', 'index.php?r=traffic/index', 1, CURRENT_TIMESTAMP),
-    ('Badgeting Management', 'fa-caret-right', 'Manage budgets', 'index.php?r=badgeting/index', 1, CURRENT_TIMESTAMP),
-    ('Events Management', 'fa-caret-right', 'Manage events', 'index.php?r=events/index', 1, CURRENT_TIMESTAMP),
-    ('Reporting', 'fa-caret-right', 'Generate reports', 'ndex.php?r=reporting/index', 1, CURRENT_TIMESTAMP),
-    ('Maintenance Unit', 'fa-caret-right', 'Manage maintenance units', 'index.php?r=maintenance/index', 1, CURRENT_TIMESTAMP),
-    ('User & Permissions', 'fa-caret-right', 'Manage users and permissions', 'index.php?r=permissions/index', 1, CURRENT_TIMESTAMP);
+    INSERT INTO public.modules (name, icon, description, link, active, created_at)
+    VALUES 
+        ('Home', 'fa-caret-right', 'Parent menu for home dashboards', 'index.php', 1, CURRENT_TIMESTAMP),
+        ('Asset Dashboard', 'fa-caret-right', 'Asset management dashboard', 'index.php?r=assets/index', 1, CURRENT_TIMESTAMP),
+        ('AMP Dashboard', 'fa-caret-right', 'AMP dashboard', 'index.php?r=amp/index', 1, CURRENT_TIMESTAMP),
+        ('Contract Dashboard', 'fa-caret-right', 'Dashboard for contracts', 'index.php?r=contract/index', 1, CURRENT_TIMESTAMP),
+        ('Condition Dashboard', 'fa-caret-right', 'Dashboard for condition monitoring', 'index.php?r=condition/index', 1, CURRENT_TIMESTAMP),
+        ('Asset Management', 'fa-caret-right', 'Manage assets', 'index.php?r=assets/index', 1, CURRENT_TIMESTAMP),
+        ('Contract Management', 'fa-caret-right', 'Manage contracts', 'index.php?r=contract/index', 1, CURRENT_TIMESTAMP),
+        ('Revenue Management', 'fa-caret-right', 'Manage revenues', 'index.php?r=revenue/index', 1, CURRENT_TIMESTAMP),
+        ('Traffic Management', 'fa-caret-right', 'Traffic management system', 'index.php?r=traffic/index', 1, CURRENT_TIMESTAMP),
+        ('Badgeting Management', 'fa-caret-right', 'Manage budgets', 'index.php?r=badgeting/index', 1, CURRENT_TIMESTAMP),
+        ('Events Management', 'fa-caret-right', 'Manage events', 'index.php?r=events/index', 1, CURRENT_TIMESTAMP),
+        ('Reporting', 'fa-caret-right', 'Generate reports', 'ndex.php?r=reporting/index', 1, CURRENT_TIMESTAMP),
+        ('Maintenance Unit', 'fa-caret-right', 'Manage maintenance units', 'index.php?r=maintenance/index', 1, CURRENT_TIMESTAMP),
+        ('User & Permissions', 'fa-caret-right', 'Manage users and permissions', 'index.php?r=permissions/index', 1, CURRENT_TIMESTAMP);
 
 
 INSERT INTO public.modules_features (module_id, icon, name, description, link, order_by, created_at)

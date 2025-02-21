@@ -96,7 +96,7 @@
                                         <div class="hidden-sm hidden-xs action-buttons"
                                             style="display: inline-flex; gap: 10px;">
                                             <a class="green" data-bs-toggle="modal" data-bs-target="#subnewItem"
-                                                onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                                onclick="update1(<?php echo htmlspecialchars(json_encode($item)); ?>)">
                                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                                             </a>
                                         </div>
@@ -230,7 +230,7 @@
         }
     }
 
-    function update(item) {
+    function update1(item) {
         document.getElementById('submodalId').value = item.id;
         document.getElementById('submodalTitle').value = item.amp_name;
         document.getElementById('submodalStatus').value = item.status;

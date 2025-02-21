@@ -38,145 +38,123 @@ h4 {
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>
             </div>
+
+            <button data-bs-toggle="modal" data-bs-target="#history" class="btn btn-outline-primary mt-2 mb-2 m-2"
+                style="float: right" style="margin-left: 5px">View History
+            </button>
+
+            <button data-bs-toggle="modal" data-bs-target="#submitprogress" class="btn btn-outline-primary mt-2 mb-2"
+                style="float: right" style="margin-left: 5px">Submit Progress<span
+                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+
         </div>
         <hr class="bg-200">
         <div class="row g-5 mb-5">
-            <div class="col-xl-8" style="padding: 0px;">
+            <div class="col-xl-12" style="padding: 0px;">
 
                 <div class="card mb-3">
                     <div class="card-body" style="padding: 7px;">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover table-sm fs--1 mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Contract</th>
-                                        <th>Area</th>
-                                        <th>Type </th>
-                                        <th>Scope</th>
-                                        <th>Estimate</th>
-                                        <th>Cost</th>
-                                        <th>Unit</th>
-                                        <th>Region</th>
-                                        <th>Route</th>
-                                        <th>District</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="list">
-                                    <?php $index = 1;
-                                    foreach ($contract_list as $item):
-                                    ?>
-                                    <tr>
-                                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                            <form action="index.php?r=contract/progress" method="post">
+                                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                <input type="hidden" name="save_record" value="save_record" />
+                                <input type="hidden" name="total_contract" value="<?= count($contract_list) ?>" />
+                                <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Contract</th>
+                                            <th>Area</th>
+                                            <th>Region</th>
+                                            <th>Type </th>
+                                            <th>Estimate</th>
+                                            <th>Cost</th>
+                                            <td>Task</td>
+                                            <td>Details</td>
+                                            <td>Progress</td>
+                                            <td>Start Date</td>
+                                            <td>End Date</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list">
+                                        <?php $index = 1;
+                                        foreach ($contract_list as $item):
+                                            $status = $item['progress_status'] > 1 ? true : false;
+                                        ?>
+                                        <tr>
+                                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                            <td><?= $item['area'] ?></td>
+                                            <td><?= $item['region_name'] ?></td>
+                                            <td><?= $item['type_name'] ?></td>
+                                            <td><?= $item['engineer_estimate'] ?></td>
+                                            <td><?= $item['bid_cost'] ?></td>
 
-                                        <td><?= $item['area'] ?></td>
-                                        <td><?= $item['type_name'] ?></td>
-                                        <td><?= $item['scope_name'] ?></td>
-                                        <td><?= $item['engineer_estimate'] ?></td>
-                                        <td><?= $item['bid_cost'] ?></td>
-                                        <td><?= $item['unit_name'] ?></td>
-                                        <td><?= $item['region_name'] ?></td>
-                                        <td><?= $item['route_name'] ?></td>
-                                        <td><?= $item['district_name'] ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                            <td>
+                                                <input type="text" id="task<?= $index ?>" name="task<?= $index ?>"
+                                                    class="form-control" value="<?= $item['task'] ?>"
+                                                    <?= $status ? 'readonly' : '' ?> placeholder="Enter task">
 
-                </div>
-            </div>
-            <div class="col-12 col-xl-4">
-                <div class="row g-2">
-                    <div class="col-12 col-xl-12">
-                        <div class="card mb-3">
-                            <div class="card-body">
+                                            </td>
+                                            <td>
+                                                <input type="text" id="details<?= $index ?>" name="details<?= $index ?>"
+                                                    class="form-control" value="<?= $item['details'] ?>"
+                                                    <?= $status ? 'readonly' : '' ?> placeholder="Enter details">
 
-                                <div class="row gx-3">
-                                    <h4 class="">Update Progress</h4>
-                                    <hr class="bg-200">
-                                    <div class="timeline-basic mb-9">
-                                        <form action="index.php?r=contract/progress" method="post">
-                                            <input type="hidden" name="_csrf"
-                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                            <input type="hidden" name="save_record" value="save_record" />
-                                            <input type="hidden" name="total_contract"
-                                                value="<?= count($contract_list) ?>" />
-                                            <div class="timeline-item">
-                                                <div class="col">
-                                                    <label for="task">Task</label>
-                                                    <input type="text" id="task" name="task" class="form-control"
-                                                        placeholder="Enter task">
-                                                </div>
-                                                <div class="col mt-2">
-                                                    <label for="details">Details</label>
-                                                    <input type="text" id="details" name="details" class="form-control"
-                                                        placeholder="Enter details">
-                                                </div>
-                                                <div class="col mt-2">
-                                                    <label for="progress">Progress</label>
-                                                    <input type="text" id="progress" name="progress"
-                                                        class="form-control" placeholder="Enter progress">
-                                                </div>
-                                                <div class="row g-3 mt-2">
-                                                    <div class="col mt-2">
-                                                        <label for="start_date">Start Date</label>
-                                                        <input class="form-control datetimepicker flatpickr-input"
-                                                            id="start_date" name="start_date" type="text"
-                                                            placeholder="Start Date" readonly="readonly">
-                                                    </div>
-                                                    <div class="col mt-2">
-                                                        <label for="end_date">End Date</label>
-                                                        <input class="form-control datetimepicker flatpickr-input"
-                                                            id="end_date" name="end_date" type="text"
-                                                            placeholder="End Date" readonly="readonly">
-                                                    </div>
-                                                </div>
-                                                <?php foreach ($contract_list as $index => $item):
-                                                    $index++; ?>
-                                                <div class="col mt-2">
+                                            </td>
+                                            <td>
+                                                <input type="text" id="progress<?= $index ?>"
+                                                    name="progress<?= $index ?>" value="<?= $item['progress'] ?>"
+                                                    <?= $status ? 'readonly' : '' ?> class="form-control"
+                                                    placeholder="Enter progress">
 
-                                                    <input type="hidden" id="typeofwork_id<?= $index ?>"
-                                                        name="typeofwork_id<?= $index ?>" class="form-control"
-                                                        value="<?= $item['type_of_work'] ?>"
-                                                        placeholder="Enter type of work">
-                                                </div>
-                                                <div class="col mt-2">
+                                            </td>
+                                            <td>
+                                                <input
+                                                    class="form-control <?= $status ? '' : 'datetimepicker flatpickr-input' ?>"
+                                                    id="start_date<?= $index ?>" value="<?= $item['start_date'] ?>"
+                                                    <?= $status ? 'readonly' : '' ?> name="start_date<?= $index ?>"
+                                                    type="text" placeholder="Start Date" readonly="readonly">
 
-                                                    <input type="hidden" id="scopofword_id<?= $index ?>"
-                                                        name="scopofword_id<?= $index ?>" class="form-control"
-                                                        value="<?= $item['scope'] ?>" placeholder="Enter scope of work">
-                                                </div>
-                                                <div class="col">
+                                            </td>
+                                            <td>
+                                                <input
+                                                    class="form-control <?= $status ? '' : 'datetimepicker flatpickr-input' ?>"
+                                                    id="end_date<?= $index ?>" value="<?= $item['end_date'] ?>"
+                                                    name="end_date<?= $index ?>" type="text" placeholder="End Date"
+                                                    readonly="readonly">
+                                            </td>
+                                        </tr>
 
-                                                    <input type="hidden" id="contract_id<?= $index ?>"
-                                                        name="contract_id<?= $index ?>" class="form-control"
-                                                        value="<?= $item['contractor_id'] ?>"
-                                                        placeholder="Enter contract ID">
-                                                </div>
-                                                <?php endforeach; ?>
-                                                <!-- <div class="row g-3 mt-2">
-                                                    <div class="col">
-                                                        <label for="submission_date<? //= $index 
-                                                                                    ?>">Submission
-                                                            Date</label>
-                                                        <input type="date" id="submission_date<? //= $index 
-                                                                                                ?>"
-                                                            name="submission_date[]" class="form-control">
-                                                    </div>
-                                                </div> -->
-                                            </div>
+                                        <input type="hidden" id="progress_id<?= $index ?>"
+                                            name="progress_id<?= $index ?>" class="form-control"
+                                            value="<?= $item['progress_id'] ?>">
 
-                                            <?php if(count($contract_list)>0): ?>
-                                            <button type="submit" class="btn btn-primary mt-3"
-                                                style="width: 100%;">Submit</button>
-                                            <?php endif; ?>
-                                        </form>
-                                    </div>
-                                </div>
+                                        <input type="hidden" id="progress_status<?= $index ?>"
+                                            name="progress_status<?= $index ?>" class="form-control"
+                                            value="<?= $item['progress_status'] ?>">
+                                        <input type="hidden" id="typeofwork_id<?= $index ?>"
+                                            name="typeofwork_id<?= $index ?>" class="form-control"
+                                            value="<?= $item['type_of_work'] ?>">
+
+                                        <input type="hidden" id="scopofword_id<?= $index ?>"
+                                            name="scopofword_id<?= $index ?>" class="form-control"
+                                            value="<?= $item['scope'] ?>">
+
+                                        <input type="hidden" id="contract_id<?= $index ?>"
+                                            name="contract_id<?= $index ?>" class="form-control"
+                                            value="<?= $item['id'] ?>">
 
 
-                            </div>
+                                        <?php $index++;
+                                        endforeach; ?>
+
+
+                                    </tbody>
+                                </table>
+                                <?php if (count($contract_list) > 0): ?>
+                                <button type="submit" class="btn btn-primary mt-3" style="float: right;">Save
+                                    Draft</button>
+                                <?php endif; ?>
+                            </form>
                         </div>
                     </div>
 
@@ -185,4 +163,167 @@ h4 {
         </div>
     </div>
 
+</div>
+
+<!-- Modal for Adding/Updating Record -->
+<div class="modal fade modal-xl" id="history" tabindex="-1" aria-labelledby="history" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scrollingLongModalLabel2">Progress Submission History</h5>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <span class="fas fa-times fs--1"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body" style="padding: 7px;">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Contract</th>
+                                    <th>Area</th>
+                                    <th>Region</th>
+                                    <th>Type </th>
+                                    <td>Task</td>
+                                    <td>Details</td>
+                                    <td>Progress</td>
+                                    <td>Start Date</td>
+                                    <td>End Date</td>
+                                    <td>Current Status</td>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                <?php $index = 1;
+                                foreach ($contract_list as $item):
+                                    if ($item['progress_status'] != 1) continue;
+                                    if ($item['progress_status'] != 1) continue; //do not add draft contracts
+                                    $status = $item['progress_status'];
+                                    $current_status = "Draft Saved";
+                                    if ($status == 2) {
+                                        $current_status = "Draft Submitted";
+                                    } elseif ($status == -2) {
+                                        $current_status = "Draft Rejected";
+                                    } elseif ($status == 3) {
+                                        $current_status = "Approved by RO";
+                                    } elseif ($status == -3) {
+                                        $current_status = "Rejected by RO";
+                                    } elseif ($status == 4) {
+                                        $current_status = "Approved by ZONE";
+                                    } elseif ($status == -4) {
+                                        $current_status = "Rejected by ZONE";
+                                    } elseif ($status == 5) {
+                                        $current_status = "Approved by RAMD";
+                                    } elseif ($status == -5) {
+                                        $current_status = "Rejected by RAMD";
+                                    } elseif ($status == 6) {
+                                        $current_status = "Approved by HO";
+                                    } elseif ($status == -6) {
+                                        $current_status = "Rejected by HO";
+                                    }
+
+                                ?>
+                                <tr>
+                                    <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                    <td><?= $item['area'] ?></td>
+                                    <td><?= $item['region_name'] ?></td>
+                                    <td><?= $item['type_name'] ?></td>
+                                    <td><?= $item['task'] ?></td>
+                                    <td><?= $item['details'] ?></td>
+                                    <td><?= $item['progress'] ?></td>
+                                    <td><?= $item['start_date'] ?></td>
+                                    <td><?= $item['end_date'] ?></td>
+                                    <td><?= $current_status ?></td>
+                                </tr>
+
+
+                                <?php $index++;
+                                endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php if (count($contract_list) < -121): // Hidden 
+                        ?>
+                        <button type="submit" class="btn btn-primary mt-3" style="float: right;">Save
+                            Draft</button>
+                        <?php endif; ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for Adding/Updating Record -->
+<div class="modal fade modal-xl" id="submitprogress" tabindex="-1" aria-labelledby="submitprogress" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scrollingLongModalLabel2">Submit Progress</h5>
+                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <span class="fas fa-times fs--1"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body" style="padding: 7px;">
+                    <div class="table-responsive">
+                        <form action="index.php?r=contract/progress" method="post">
+                            <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                            <input type="hidden" name="save_record" value="submit_draft" />
+                            <input type="hidden" name="total_contract" value="<?= count($contract_list) ?>" />
+                            <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Contract</th>
+                                        <th>Area</th>
+                                        <th>Region</th>
+                                        <th>Type </th>
+                                        <td>Task</td>
+                                        <td>Details</td>
+                                        <td>Progress</td>
+                                        <td>Start Date</td>
+                                        <td>End Date</td>
+                                        <td>Current Status</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    <?php $index = 1;
+                                    $to_save = false;
+                                    foreach ($contract_list as $item):
+                                        if ($item['progress_status'] != 1) continue; //do not add draft contracts
+                                        $current_status = "Draft Saved";
+                                        $to_save = true;
+                                    ?>
+                                    <tr>
+                                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                        <td><?= $item['area'] ?></td>
+                                        <td><?= $item['region_name'] ?></td>
+                                        <td><?= $item['type_name'] ?></td>
+                                        <td><?= $item['task'] ?></td>
+                                        <td><?= $item['details'] ?></td>
+                                        <td><?= $item['progress'] ?></td>
+                                        <td><?= $item['start_date'] ?></td>
+                                        <td><?= $item['end_date'] ?></td>
+                                        <td><?= $current_status ?></td>
+                                    </tr>
+                                    <input type="hidden" name="progress_id<?= $index ?>"
+                                        value="<?= $item['progress_id'] ?>" />
+                                    <input type="hidden" name="status<?= $index ?>"
+                                        value="<?= $item['progress_status'] ?>" />
+                                    <?php $index++;
+                                    endforeach; ?>
+                                </tbody>
+                            </table>
+                            <?php if ($to_save): // Hidden 
+                            ?>
+                            <button type="submit" class="btn btn-primary mt-3" style="float: right;">
+                                Submit Draft
+                            </button>
+                            <?php endif; ?>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

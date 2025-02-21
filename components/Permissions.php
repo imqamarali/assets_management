@@ -32,6 +32,7 @@ class Permissions extends Component
             $moduleFeatures = Yii::$app->db->createCommand("SELECT * FROM public.modules_features WHERE module_id = :module_id")
                 ->bindValue(':module_id', $module['id'])
                 ->queryAll();
+
             foreach ($moduleFeatures as $feature) {
                 $permissions = Yii::$app->db->createCommand("
                 SELECT * FROM public.permissions
@@ -57,6 +58,7 @@ class Permissions extends Component
                 }
             }
 
+
             // if (!empty($submenus)) {
             if ($module['name'] === "Home") {
                 $moduleList[] = [
@@ -68,6 +70,18 @@ class Permissions extends Component
                     'active' => $module['active'],
                     'submenu' => $submenus
                 ];
+            } elseif ($module['name'] === "Contract Progress") {
+                if (count($submenus) > 0) {
+                    $moduleList[] = [
+                        'module_id' => $module['id'],
+                        'title' => $module['name'],
+                        'is_active' => $module['active'],
+                        'link' => $module['link'],
+                        'icon' => $module['icon'],
+                        'active' => $module['active'],
+                        'submenu' => $submenus
+                    ];
+                }
             } else {
                 $moduleList[] = [
                     'module_id' => $module['id'],
@@ -78,8 +92,9 @@ class Permissions extends Component
                     'active' => $module['active'],
                 ];
             }
-            // }
         }
+        // echo json_encode($moduleList);
+        // exit;
 
         return $moduleList;
     }
@@ -186,7 +201,7 @@ class Permissions extends Component
 
             'notification/contractnotifications',
             'notification/contractdetails',
-            
+
 
         ];
         return in_array($action, $actions);

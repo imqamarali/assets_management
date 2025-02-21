@@ -214,6 +214,10 @@ AppAsset::register($this);
             });
 
             function applyPagination(table, rows, recordsPerPage) {
+                if (table.classList.contains("simlee")) {
+                    console.log("Pagination skipped for table with class 'simlee'.");
+                    return; // Exit the function early
+                }
                 const totalPages = Math.ceil(rows.length / recordsPerPage);
                 let currentPage = 1;
 

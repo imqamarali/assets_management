@@ -29,7 +29,8 @@
                         <div class="widget-body">
                             <div class="widget-main padding-2">
                                 <div class="widget-body">
-                                    <table class="table table-striped table-hover table-bordered table-sm fs--1 mb-0">
+                                    <table
+                                        class="table table-striped table-hover table-bordered table-sm fs--1 mb-0 simlee">
                                         <thead class="thin-border-bottom">
                                             <tr>
                                                 <th> Module</th>
