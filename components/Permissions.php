@@ -182,6 +182,7 @@ class Permissions extends Component
             'contract/contract_payment',
             'contract/contractdetails',
             'contract/progress',
+            'contract/new_progress',
 
             'users/index',
             'users/roles',

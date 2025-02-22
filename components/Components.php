@@ -69,10 +69,6 @@ class Components extends Component
         $route_list = Yii::$app->db->createCommand('SELECT * FROM public."a_route" ORDER BY id ASC')->queryAll();
         $scope_list = Yii::$app->db->createCommand('SELECT * FROM public."m_scope"')->queryAll();
         $province_list = Yii::$app->db->createCommand('SELECT * FROM public."a_province"')->queryAll();
-        // [{"ID":3,"name":"Punjab","details":"Province Punjab (PB)","status":1,"code":"PB"},{"ID":4,"name":"Route1","details":"Routes Details here","status":1,"code":"R1"}]
-        // echo json_encode($province_list);
-        // exit;
-
         $district_list = Yii::$app->db->createCommand(
             'SELECT ad.id, ad.province_id, ad.name, ad.code, ad.status, ap.name AS province_name
          FROM public."a_district" AS ad
@@ -118,6 +114,7 @@ class Components extends Component
 
         // Loop through the fields and render only those present in $array
         foreach ($array as $field) {
+
             if (array_key_exists($field, $data)) {
                 $form .= $this->renderField($field, $data[$field]);
             } elseif (strpos($field, 'date') !== false) {
@@ -146,22 +143,26 @@ class Components extends Component
 
         return $form;
     }
+
     private function renderDateField($field)
     {
         $label = ucfirst($field);
+
+        $valUe = strtolower(str_replace(' ', '_', $field));
+        $submittedValue = Yii::$app->request->post($valUe, '');
         return '
-                <div class="col-12 col-md-2">
-                    <label for="organizerSingle2">' . $label . '</label>
-                    <div class="flatpickr-input-container">
-                        <div class="form-floating">
-                            <input class="form-control datetimepicker flatpickr-input" id="modal' . ucfirst($field) . '"
-                                name="' . $field . '" type="text" placeholder="' . ucfirst(str_replace('_', ' ', $field)) . '"
-                                data-options="{&quot;disableMobile&quot;:true}" readonly="readonly">
-                            <label class="ps-6" for="modal' . ucfirst($field) . '">' . ucfirst(str_replace('_', ' ', $field)) . '</label>
-                            <span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
-                        </div>
-                    </div>
-                </div>';
+        <div class="col-12 col-md-2">
+            <label for="organizerSingle2">' . $label . '</label>
+            <div class="flatpickr-input-container">
+                <div class="form-floating">
+                    <input class="form-control datetimepicker flatpickr-input" id="modal' . ucfirst($field) . '"
+                        name="' . $field . '" type="text" placeholder="' . ucfirst(str_replace('_', ' ', $field)) . '"
+                        data-options="{&quot;disableMobile&quot;:true}" readonly="readonly" value="' . $submittedValue . '">
+                    <label class="ps-6" for="modal' . ucfirst($field) . '">' . ucfirst(str_replace('_', ' ', $field)) . '</label>
+                    <span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
+                </div>
+            </div>
+        </div>';
     }
 
     private function renderField($field, $options)
@@ -173,8 +174,9 @@ class Components extends Component
         $fieldHtml .= '<option selected value="">Please Select</option>';
 
         // Check if the field has a submitted value
-        $submittedValue = Yii::$app->request->post($field, '');
 
+        $valUe = strtolower(str_replace(' ', '_', $field));
+        $submittedValue = Yii::$app->request->post($valUe, '');
         foreach ($options as $value => $text) {
             $selected = ($value == $submittedValue) ? 'selected' : '';
             $fieldHtml .= '<option value="' . $value . '" ' . $selected . '>' . $text . '</option>';
@@ -192,8 +194,9 @@ class Components extends Component
         $fieldHtml = '<div class="col-12 col-md-2">';
         $fieldHtml .= '<label for="organizerSingle2">' . $label . '</label>';
 
-        // Check if the field has a submitted value
-        $submittedValue = Yii::$app->request->post($field, '');
+        $valUe = strtolower(str_replace(' ', '_', $field));
+        $submittedValue = Yii::$app->request->post($valUe, '');
+
         $fieldHtml .= '<input class="form-control" type="text" name="' . $field . '" placeholder="KM" value="' . $submittedValue . '">';
 
         $fieldHtml .= '</div>';
@@ -209,7 +212,11 @@ class Components extends Component
         $fieldHtml .= '<label for="organizerSingle2">' . $label . '</label>';
 
         // Check if the field has a submitted value
-        $submittedValue = Yii::$app->request->post($field, '');
+
+        $valUe = strtolower(str_replace(' ', '_', $field));
+        $submittedValue = Yii::$app->request->post($valUe, '');
+
+
         $fieldHtml .= '<input class="form-control" type="text" name="' . $field . '" placeholder="' . $placeholder . '" value="' . $submittedValue . '">';
 
         $fieldHtml .= '</div>';

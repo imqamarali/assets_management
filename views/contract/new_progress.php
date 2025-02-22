@@ -37,13 +37,15 @@
                         Progress</span><span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>
-                <p class="mb-0">Contract Progress Submission List</p>
             </div>
-            <a href="index.php?r=contract/new_progress" style="text-decoration: none;">
-                <button class="btn btn-outline-primary mt-2 mb-2" style="float: right" style="margin-left: 5px">
-                    New Progress<span class="fas fa-angle-right ms-2 fs--2 text-center"></span>
-                </button>
-            </a>
+
+            <button data-bs-toggle="modal" data-bs-target="#history" class="btn btn-outline-primary mt-2 mb-2 m-2"
+                style="float: right" style="margin-left: 5px">View History
+            </button>
+
+            <button data-bs-toggle="modal" data-bs-target="#submitprogress" class="btn btn-outline-primary mt-2 mb-2"
+                style="float: right" style="margin-left: 5px">Submit Progress<span
+                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
 
         </div>
         <hr class="bg-200">
@@ -53,71 +55,106 @@
                 <div class="card mb-3">
                     <div class="card-body" style="padding: 7px;">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover table-sm fs--1 mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Contract</th>
-                                        <th>Area</th>
-                                        <th>Region</th>
-                                        <th>Type </th>
-                                        <td>Task</td>
-                                        <td>Details</td>
-                                        <td>Progress</td>
-                                        <td>Start Date</td>
-                                        <td>End Date</td>
-                                        <td>Submission Date</td>
-                                        <td>Current Status</td>
-                                    </tr>
-                                </thead>
-                                <tbody class="list">
-                                    <?php $index = 1;
-                                    foreach ($contract_list as $item):
-                                        if ($item['progress_status'] != 1) continue;
-                                        if ($item['progress_status'] != 1) continue; //do not add draft contracts
-                                        $status = $item['progress_status'];
-                                        $current_status = "Draft Saved";
-                                        if ($status == 2) {
-                                            $current_status = "Draft Submitted";
-                                        } elseif ($status == -2) {
-                                            $current_status = "Draft Rejected";
-                                        } elseif ($status == 3) {
-                                            $current_status = "Approved by RO";
-                                        } elseif ($status == -3) {
-                                            $current_status = "Rejected by RO";
-                                        } elseif ($status == 4) {
-                                            $current_status = "Approved by ZONE";
-                                        } elseif ($status == -4) {
-                                            $current_status = "Rejected by ZONE";
-                                        } elseif ($status == 5) {
-                                            $current_status = "Approved by RAMD";
-                                        } elseif ($status == -5) {
-                                            $current_status = "Rejected by RAMD";
-                                        } elseif ($status == 6) {
-                                            $current_status = "Approved by HO";
-                                        } elseif ($status == -6) {
-                                            $current_status = "Rejected by HO";
-                                        }
-
-                                    ?>
+                            <form action="index.php?r=contract/progress" method="post">
+                                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                <input type="hidden" name="save_record" value="save_record" />
+                                <input type="hidden" name="total_contract" value="<?= count($contract_list) ?>" />
+                                <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                                    <thead>
                                         <tr>
-                                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                                            <td><?= $item['area'] ?></td>
-                                            <td><?= $item['region_name'] ?></td>
-                                            <td><?= $item['type_name'] ?></td>
-                                            <td><?= $item['task'] ?></td>
-                                            <td><?= $item['details'] ?></td>
-                                            <td><?= $item['progress'] ?></td>
-                                            <td><?= $item['start_date'] ?></td>
-                                            <td><?= $item['end_date'] ?></td>
-                                            <td><?= $item['submission_date'] ?></td>
-                                            <td><?= $current_status ?></td>
+                                            <th>Contract</th>
+                                            <th>Area</th>
+                                            <th>Region</th>
+                                            <th>Type </th>
+                                            <th>Estimate</th>
+                                            <th>Cost</th>
+                                            <td>Task</td>
+                                            <td>Details</td>
+                                            <td>Progress</td>
+                                            <td>Start Date</td>
+                                            <td>End Date</td>
                                         </tr>
+                                    </thead>
+                                    <tbody class="list">
+                                        <?php $index = 1;
+                                        foreach ($contract_list as $item):
+                                            $status = $item['progress_status'] > 1 ? true : false;
+                                        ?>
+                                            <tr>
+                                                <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                                <td><?= $item['area'] ?></td>
+                                                <td><?= $item['region_name'] ?></td>
+                                                <td><?= $item['type_name'] ?></td>
+                                                <td><?= $item['engineer_estimate'] ?></td>
+                                                <td><?= $item['bid_cost'] ?></td>
+
+                                                <td>
+                                                    <input type="text" id="task<?= $index ?>" name="task<?= $index ?>"
+                                                        class="form-control" value="<?= $item['task'] ?>"
+                                                        <?= $status ? 'readonly' : '' ?> placeholder="Enter task">
+
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="details<?= $index ?>" name="details<?= $index ?>"
+                                                        class="form-control" value="<?= $item['details'] ?>"
+                                                        <?= $status ? 'readonly' : '' ?> placeholder="Enter details">
+
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="progress<?= $index ?>"
+                                                        name="progress<?= $index ?>" value="<?= $item['progress'] ?>"
+                                                        <?= $status ? 'readonly' : '' ?> class="form-control"
+                                                        placeholder="Enter progress">
+
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        class="form-control <?= $status ? '' : 'datetimepicker flatpickr-input' ?>"
+                                                        id="start_date<?= $index ?>" value="<?= $item['start_date'] ?>"
+                                                        <?= $status ? 'readonly' : '' ?> name="start_date<?= $index ?>"
+                                                        type="text" placeholder="Start Date" readonly="readonly">
+
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        class="form-control <?= $status ? '' : 'datetimepicker flatpickr-input' ?>"
+                                                        id="end_date<?= $index ?>" value="<?= $item['end_date'] ?>"
+                                                        name="end_date<?= $index ?>" type="text" placeholder="End Date"
+                                                        readonly="readonly">
+                                                </td>
+                                            </tr>
+
+                                            <input type="hidden" id="progress_id<?= $index ?>"
+                                                name="progress_id<?= $index ?>" class="form-control"
+                                                value="<?= $item['progress_id'] ?>">
+
+                                            <input type="hidden" id="progress_status<?= $index ?>"
+                                                name="progress_status<?= $index ?>" class="form-control"
+                                                value="<?= $item['progress_status'] ?>">
+                                            <input type="hidden" id="typeofwork_id<?= $index ?>"
+                                                name="typeofwork_id<?= $index ?>" class="form-control"
+                                                value="<?= $item['type_of_work'] ?>">
+
+                                            <input type="hidden" id="scopofword_id<?= $index ?>"
+                                                name="scopofword_id<?= $index ?>" class="form-control"
+                                                value="<?= $item['scope'] ?>">
+
+                                            <input type="hidden" id="contract_id<?= $index ?>"
+                                                name="contract_id<?= $index ?>" class="form-control"
+                                                value="<?= $item['id'] ?>">
 
 
-                                    <?php $index++;
-                                    endforeach; ?>
-                                </tbody>
-                            </table>
+                                        <?php $index++;
+                                        endforeach; ?>
+
+
+                                    </tbody>
+                                </table>
+                                <?php if (count($contract_list) > 0): ?>
+                                    <button type="submit" class="btn btn-primary mt-3" style="float: right;">Save
+                                        Draft</button>
+                                <?php endif; ?>
+                            </form>
                         </div>
                     </div>
 

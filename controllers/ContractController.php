@@ -238,13 +238,33 @@ class ContractController extends Controller
     public function actionContract()
     {
 
-
+        $filter = '1=1';
+        $params = [];
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
             // echo json_encode($data);
             // exit;
+            if (isset($data['apply_search']) & $data['apply_search'] == "Search") {
 
-            if (isset($data['save_record'])) {
+                // {"contract_no":"","contractor_name":"",
+                //  "contract_date":"2025-02-04","apply_search":"Search"}
+
+                if (!empty($data['contract_no'])) {
+                    $contract_no = $data['contract_no'];
+                    $filter .= ' AND cont.contract_no LIKE :contract_no';
+                    $params[':contract_no'] = '%' . $contract_no . '%';
+                }
+                if (!empty($data['contractor_name'])) {
+                    $contractor_name = $data['contractor_name'];
+                    $filter .= ' AND contr."company_name " LIKE :contractor_name';
+                    $params[':contractor_name'] =  '%' . $contractor_name . '%';
+                }
+                if (!empty($data['contract_date'])) {
+                    $contract_date = $data['contract_date'];
+                    $filter .= ' AND cont."contract_date" = :contract_date';
+                    $params[':contract_date'] = '' . $contract_date . '';
+                }
+            } elseif (isset($data['save_record'])) {
 
                 $transaction = Yii::$app->db->beginTransaction();
 
@@ -348,7 +368,8 @@ class ContractController extends Controller
         $district_list = Yii::$app->db->createCommand('SELECT * FROM public."a_district" ')->queryAll();
 
 
-        $contract_Q = 'SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
+        $contract_Q =
+            'SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name
                     FROM public."m_contract" as cont
@@ -358,9 +379,9 @@ class ContractController extends Controller
                     LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
                     LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
                     LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
-                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
-';
-        $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id WHERE ' . $filter;
+        $contract_list = Yii::$app->db->createCommand($contract_Q, $params)->queryAll();
+
 
         return $this->render('contract', [
             'can' => [
@@ -437,14 +458,36 @@ class ContractController extends Controller
                             LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
                             WHERE cont."id" = ' . $ref . ' ';
 
+
+        $contract_Progress =
+            'SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
+                    r.name AS region_name,u.name AS unit_name,
+                    rt.name AS route_name,d.name AS district_name,
+                    cp.id as progress_id, cp.task,cp.details,
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status
+                    FROM public."m_contract" as cont
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+                    LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+                    WHERE cont.status=1 AND cp.contract_id =\'' . $ref . '\'
+                    ORDER BY cont.id ASC';
+
         $contract = Yii::$app->db->createCommand($contract_Q)->queryOne();
         $contract_sub_list = Yii::$app->db->createCommand($contract_sub_Q)->queryAll();
         $contract_revised_list = Yii::$app->db->createCommand($contract_revised_Q)->queryAll();
         $contract_pay_list = Yii::$app->db->createCommand($contract_pay_Q)->queryAll();
+        $contract_Progress_list = Yii::$app->db->createCommand($contract_Progress)->queryAll();
 
         $contract['contract_sub'] = $contract_sub_list;
         $contract['contract_revised'] = $contract_revised_list;
         $contract['contract_payment'] = $contract_pay_list;
+        $contract['contract_progress'] = $contract_Progress_list;
+
 
         return $this->render('contractdetails', [
             'can' => [
@@ -967,7 +1010,7 @@ class ContractController extends Controller
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name,
                     cp.id as progress_id, cp.task,cp.details,
-                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status, cp.submission_date
                     FROM public."m_contract" as cont
                     LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
                     LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
@@ -979,10 +1022,141 @@ class ContractController extends Controller
                     LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
                     WHERE cont.status=1 AND cp.submitted_by =\'' . $login_user . '\'
                     ORDER BY cont.id ASC';
-
         $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
 
         return $this->render('progress', [
+            'submenus' => $submenus,
+            'contract_list' => $contract_list,
+        ]);
+    }
+    public function actionNew_progress()
+    {
+        $login_user = Yii::$app->Component->SessionId();
+        $module_features = Yii::$app->Permissions->getModuleFeatures(24); // Contract Management Module id 23
+
+        if (count($module_features) < 1) $this->redirect(['site/index']); // If Not permission found redirect to Home!
+
+        $submenus = isset($module_features[0]['submenus']) ? $module_features[0]['submenus'] : [];
+
+        // Check if there is at least one submenu with can_view = true
+        $hasViewPermission = false;
+        foreach ($submenus as $submenu) {
+            if (isset($submenu['can_view']) && $submenu['can_view'] === true) {
+                $hasViewPermission = true;
+                break;
+            }
+        }
+        if (!$hasViewPermission) {
+            $this->redirect(['site/index']);
+        }
+        if (Yii::$app->request->isPost) {
+            $data = Yii::$app->request->post();
+            if (isset($data['save_record'])) {
+                $transaction = Yii::$app->db->beginTransaction();
+                // {"save_record":"save_record","total_contract":"2","typeofwork_id1":"1",
+                //     "scopofword_id1":"1","contract_id1":"1","typeofwork_id2":"1",
+                //     "scopofword_id2":"1","contract_id2":"2","task1":"1","details1":"1",
+                //     "progress1":"1","start_date1":"2025-02-21","end_date1":"2025-02-21",
+                //     "task2":"2","details2":"2","progress2":"2","start_date2":"2025-02-22",
+                //     "end_date2":"2025-02-22"}
+                try {
+                    if ($data['save_record'] === 'submit_draft') {
+                        $total_contract = $data['total_contract'];
+                        // {"save_record":"submit_draft","total_contract":"2",
+                        //  "progress_id1":"1","status1":"1","progress_id2":"2","status2":"1"}
+
+                        $total_contract = $data['total_contract'];
+                        $index = 1;
+                        while ($index <= $total_contract) {
+                            $progress_id = $data['progress_id' . $index];
+                            $index++;
+                            $check_Q = Yii::$app->db->createCommand("SELECT * FROM public.m_contract_progress WHERE id= $progress_id")->queryOne();
+                            if ($check_Q) {
+                                $status = $check_Q['status'];
+                                if ($status == 1) {
+                                    $post_list = [
+                                        'status' => $status + 1
+                                    ];
+                                    Yii::$app->db->createCommand()->update('m_contract_progress', $post_list, ['id' => $progress_id])->execute();
+                                }
+                            }
+                        }
+                        $transaction->commit();
+                        Yii::$app->session->setFlash('toast', 'Record saved successfully!');
+                        return $this->redirect(['contract/progress']);
+                    } else {
+                        $total_contract = $data['total_contract'];
+                        $index = 1;
+                        while ($index <= $total_contract) {
+
+                            $task = $data['task' . $index];
+                            $details = $data['details' . $index];
+                            $progress = $data['progress' . $index];
+                            $start_date = $data['start_date' . $index];
+                            $end_date = $data['end_date' . $index];
+                            $contract_id = $data['contract_id' . $index];
+                            $scopofword_id = $data['scopofword_id' . $index];
+                            $typeofwork_id = $data['typeofwork_id' . $index];
+                            $progress_id = $data['progress_id' . $index];
+                            $progress_status = $data['progress_status' . $index];
+                            $index++;
+
+                            $post_list = [
+                                'task' => $task,
+                                'details' => $details,
+                                'progress' => $progress,
+                                'start_date' => $start_date,
+                                'end_date' => $end_date,
+                                'typeofwork_id' => $typeofwork_id,
+                                'scopofword_id' => $scopofword_id,
+                                'submission_date' => date('Y-m-d'),
+                                'contract_id' => $contract_id,
+                                'submitted_by' => $login_user,
+                                'status' => 1
+                            ];
+                            if ($progress_id) {
+                                if ($progress_status == 1) { //If saved as draft
+                                    Yii::$app->db->createCommand()->update('m_contract_progress', $post_list, ['id' => $progress_id])->execute();
+                                } else {
+                                    // echo "Already Submitted";
+                                    // exit; Debugging
+                                }
+                            } else {
+                                Yii::$app->db->createCommand()->insert('m_contract_progress', $post_list)->execute();
+                            }
+                        }
+                        $transaction->commit();
+                        Yii::$app->session->setFlash('toast', 'Record saved successfully!');
+                        return $this->redirect(['contract/progress']);
+                    }
+                } catch (\Exception $e) {
+                    echo 'Internal Exception: ' . $e->getMessage();
+                    exit;
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('toast', 'Internal Exception: ' . $e->getMessage());
+                    return $this->redirect(['contract/progress']);
+                }
+            }
+        }
+        $contract_Q = '	SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
+                    r.name AS region_name,u.name AS unit_name,
+                    rt.name AS route_name,d.name AS district_name,
+                    cp.id as progress_id, cp.task,cp.details,
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status,cp.submission_date
+                    FROM public."m_contract" as cont
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+                    LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+                    WHERE cont.status=1 AND cp.submitted_by =\'' . $login_user . '\'
+                    ORDER BY cont.id ASC';
+        $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
+
+        return $this->render('new_progress', [
             'submenus' => $submenus,
             'contract_list' => $contract_list,
         ]);
