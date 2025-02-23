@@ -15,7 +15,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function tableName()
     {
-        return 'user';
+        return 'employee';
     }
 
     /**
@@ -24,8 +24,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['email', 'password'], 'required'],
-            [['email', 'password'], 'string', 'max' => 100]
+            [['username', 'password'], 'required'],
+            [['username', 'password'], 'string', 'max' => 100]
         ];
     }
 
@@ -35,8 +35,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => 'Userid',
-            'email' => 'Login Name',
+            'id' => 'User Id',
+            'username' => 'Login Name',
             'password' => 'Password'
         ];
     }
@@ -103,7 +103,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
 
         return null;*/
-        return static::findOne(['email' => $email]);
+        return static::findOne(['username' => $email]);
     }
 
     /**
@@ -121,7 +121,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
 
         return null;*/
-        return static::findOne(['email' => $username, 'password' => $password]);
+        return static::findOne(['username' => $username, 'password' => $password]);
     }
 
     /**

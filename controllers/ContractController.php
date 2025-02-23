@@ -39,7 +39,6 @@ class ContractController extends Controller
             ],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -55,9 +54,6 @@ class ContractController extends Controller
             ],
         ];
     }
-
-
-
     public function beforeAction($action)
     {
         $actions = 'contract/' . $action->id;
@@ -71,8 +67,6 @@ class ContractController extends Controller
             $this->redirect(['site/index']);
         }
     }
-
-
     public function actionIndex()
     {
         $module_features = Yii::$app->Permissions->getModuleFeatures(24); // Contract Management Module id 23
@@ -928,13 +922,9 @@ class ContractController extends Controller
     public function actionProgress()
     {
         $login_user = Yii::$app->Component->SessionId();
-        $module_features = Yii::$app->Permissions->getModuleFeatures(24); // Contract Management Module id 23
-
-        if (count($module_features) < 1) $this->redirect(['site/index']); // If Not permission found redirect to Home!
-
+        $module_features = Yii::$app->Permissions->getModuleFeatures(24);
+        if (count($module_features) < 1) $this->redirect(['site/index']);
         $submenus = isset($module_features[0]['submenus']) ? $module_features[0]['submenus'] : [];
-
-        // Check if there is at least one submenu with can_view = true
         $hasViewPermission = false;
         foreach ($submenus as $submenu) {
             if (isset($submenu['can_view']) && $submenu['can_view'] === true) {
@@ -997,28 +987,30 @@ class ContractController extends Controller
                             $progress_status = $data['progress_status' . $index];
                             $index++;
 
-                            $post_list = [
-                                'task' => $task,
-                                'details' => $details,
-                                'progress' => $progress,
-                                'start_date' => $start_date,
-                                'end_date' => $end_date,
-                                'typeofwork_id' => $typeofwork_id,
-                                'scopofword_id' => $scopofword_id,
-                                'submission_date' => date('Y-m-d'),
-                                'contract_id' => $contract_id,
-                                'submitted_by' => $login_user,
-                                'status' => 1
-                            ];
-                            if ($progress_id) {
-                                if ($progress_status == 1) { //If saved as draft
-                                    Yii::$app->db->createCommand()->update('m_contract_progress', $post_list, ['id' => $progress_id])->execute();
+                            if (!empty($task) && !empty($details) && !empty($progress) && !empty($start_date) && !empty($end_date)) {
+                                $post_list = [
+                                    'task' => $task,
+                                    'details' => $details,
+                                    'progress' => $progress,
+                                    'start_date' => $start_date,
+                                    'end_date' => $end_date,
+                                    'typeofwork_id' => $typeofwork_id,
+                                    'scopofword_id' => $scopofword_id,
+                                    'submission_date' => date('Y-m-d'),
+                                    'contract_id' => $contract_id,
+                                    'submitted_by' => $login_user,
+                                    'status' => 1
+                                ];
+                                if ($progress_id) {
+                                    if ($progress_status == 1) { //If saved as draft
+                                        Yii::$app->db->createCommand()->update('m_contract_progress', $post_list, ['id' => $progress_id])->execute();
+                                    } else {
+                                        // echo "Already Submitted";
+                                        // exit; Debugging
+                                    }
                                 } else {
-                                    // echo "Already Submitted";
-                                    // exit; Debugging
+                                    Yii::$app->db->createCommand()->insert('m_contract_progress', $post_list)->execute();
                                 }
-                            } else {
-                                Yii::$app->db->createCommand()->insert('m_contract_progress', $post_list)->execute();
                             }
                         }
                         $transaction->commit();
@@ -1034,7 +1026,7 @@ class ContractController extends Controller
                 }
             }
         }
-        $contract_Q = '	SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
+        $contract_Q = 'SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name,
                     cp.id as progress_id, cp.task,cp.details,
@@ -1049,7 +1041,7 @@ class ContractController extends Controller
                     LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
                     LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
                     WHERE cont.status=1 AND cp.submitted_by =\'' . $login_user . '\'
-                    ORDER BY cont.id ASC';
+                    ORDER BY cp.status ASC';
         $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
 
         return $this->render('progress', [
@@ -1146,8 +1138,7 @@ class ContractController extends Controller
                                 if ($progress_status == 1) { //If saved as draft
                                     Yii::$app->db->createCommand()->update('m_contract_progress', $post_list, ['id' => $progress_id])->execute();
                                 } else {
-                                    // echo "Already Submitted";
-                                    // exit; Debugging
+                                    Yii::$app->db->createCommand()->insert('m_contract_progress', $post_list)->execute();
                                 }
                             } else {
                                 Yii::$app->db->createCommand()->insert('m_contract_progress', $post_list)->execute();
@@ -1179,14 +1170,35 @@ class ContractController extends Controller
                     LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
                     LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
                     LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
-                    LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
-                    WHERE cont.status=1 AND cp.submitted_by =\'' . $login_user . '\'
-                    ORDER BY cont.id ASC';
+                    LEFT JOIN public."m_contract_progress" AS cp ON (cont.id = cp.contract_id   AND cp.status = 1 AND cp.submitted_by =\'' . $login_user . '\')
+                    WHERE cont.status=1
+                    ORDER BY cp.status DESC';
+
         $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
+
+
+        $new_contract_list = Yii::$app->db->createCommand('	SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
+                    r.name AS region_name,u.name AS unit_name,
+                    rt.name AS route_name,d.name AS district_name,
+                    cp.id as progress_id, cp.task,cp.details,
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status,cp.submission_date
+                    FROM public."m_contract" as cont
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+                    LEFT JOIN public."m_contract_progress" AS cp ON (cont.id = cp.contract_id)
+                    WHERE cont.status=1 AND cp.submitted_by =\'' . $login_user . '\'
+                    ORDER BY cp.status DESC')->queryAll();
+
 
         return $this->render('new_progress', [
             'submenus' => $submenus,
             'contract_list' => $contract_list,
+            'new_contract_list' => $new_contract_list
         ]);
     }
 }

@@ -133,3 +133,28 @@ VALUES
 (31, 56, 1, 1, TRUE, TRUE, TRUE, TRUE, NOW()),
 (31, 57, 1, 1, TRUE, TRUE, TRUE, TRUE, NOW());
 
+
+-- Permission for new role.
+SELECT clone_permissions(1); -- For ROLE 1
+SELECT clone_permissions(2); -- For ROLE 2
+
+CREATE OR REPLACE FUNCTION clone_permissions(new_role_id INT)
+RETURNS VOID AS
+$$
+BEGIN
+    INSERT INTO public.permissions (module_id, feature_id, role_id, is_active, can_view, can_add, can_edit, can_delete, created_at)
+    SELECT 
+        module_id, 
+        feature_id, 
+        new_role_id, -- Assign new role_id
+        is_active, 
+        FALSE AS can_view,  -- Set can_view to FALSE
+        TRUE AS can_add,    -- Set can_add to TRUE
+        TRUE AS can_edit,   -- Set can_edit to TRUE
+        TRUE AS can_delete, -- Set can_delete to TRUE
+        NOW() AS created_at
+    FROM public.permissions
+    WHERE role_id = 1;
+END;
+$$
+LANGUAGE plpgsql;

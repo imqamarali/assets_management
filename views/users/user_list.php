@@ -17,22 +17,19 @@
     <div id="tableExample2">
         <div class="table-responsive">
             <?php if ($can['can_add'] == 1): ?>
-                <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
-                    style="float: right" style="margin-left: 5px"> Add New<span
-                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+            <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
+                style="float: right" style="margin-left: 5px"> Add New<span
+                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
             <table class="table table-striped table-hover table-bordered table-sm fs--1 mb-0">
                 <thead>
                     <tr>
                         <th class="center">Sr #</th>
                         <th>Name</th>
-                        <th>Father</th>
-                        <th>Email</th>
-                        <th>Department</th>
-                        <th>Designation</th>
-                        <th>City</th>
-                        <th>Role</th>
-                        <th>Address</th>
+                        <th>Job Description</th>
+                        <th>User Type</th>
+                        <th>Username</th>
+                        <th>Password</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -40,7 +37,7 @@
                     <?php foreach ($employees as $key => $item): ?>
 
 
-                        <!-- $employee = "SELECT id, name, pic, sodowo, cnic, email, address, country,
+                    <!-- $employee = "SELECT id, name, pic, sodowo, cnic, email, address, country,
                     city, zip, job_discription, department, designation, username, password,
                     log_status, status, eobi, social, usertype, salecenter, user_id, create_date,
                     emis_id, gender, resign, resign_remarks, resign_date, resign_attachment, cadre,
@@ -49,52 +46,49 @@
                     nok_phone, date_of_appointegerment, service_no, prob_start, prob_end,
                     expiry_of_contract, bank_name, account_title, account_number, branch, whatsapp_no, desk_id
                     FROM public.employee;"; -->
-                        <tr class="menu-item" data-id="<?php echo $item['id']; ?>">
-                            <td class="center"><?php echo $key + 1; ?></td>
-                            <td><?php echo htmlspecialchars($item['name']); ?></td>
-                            <td><?php echo htmlspecialchars($item['sodowo']); ?></td>
-                            <td><?php echo htmlspecialchars($item['email']); ?></td>
-                            <td><?php echo htmlspecialchars($item['department']); ?></td>
-                            <td><?php echo htmlspecialchars($item['designation']); ?></td>
-                            <td><?php echo htmlspecialchars($item['city']); ?></td>
-                            <td><?php echo htmlspecialchars($item['user_level']); ?></td>
-                            <td><?php echo htmlspecialchars($item['address']); ?></td>
-                            <td>
+                    <tr class="menu-item" data-id="<?php echo $item['id']; ?>">
+                        <td class="center"><?php echo $key + 1; ?></td>
+                        <td><?php echo htmlspecialchars($item['name']); ?></td>
+                        <td><?php echo htmlspecialchars($item['job_discription']); ?></td>
+                        <td><?php echo htmlspecialchars($item['usertype']); ?></td>
+                        <td><?php echo htmlspecialchars($item['username']); ?></td>
+                        <td><?php echo htmlspecialchars($item['password']); ?></td>
+                        <td>
 
-                                <?php if ($can['can_view'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <a class="green" href="#"
-                                            onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                            <i class="ace-icon fa fa-eye bigger-130"></i>
-                                        </a>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($can['can_edit'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
-                                            onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                        </a>
-                                    </div>
-                                <?php endif; ?>
+                            <?php if ($can['can_view'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <a class="green" href="#"
+                                    onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                    <i class="ace-icon fa fa-eye bigger-130"></i>
+                                </a>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ($can['can_edit'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
+                                    onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                </a>
+                            </div>
+                            <?php endif; ?>
 
-                                <?php if ($can['can_delete'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <form id="deleteForm_<?php echo $item['id']; ?>" action="index.php?r=users/userslist"
-                                            method="POST" style="display: inline;">
-                                            <input type="hidden" name="_csrf"
-                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                            <input type="hidden" name="save_record" value="delete_record">
-                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                            <button type="button" class="green" style="border: none; background: none;"
-                                                onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
+                            <?php if ($can['can_delete'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <form id="deleteForm_<?php echo $item['id']; ?>" action="index.php?r=users/userslist"
+                                    method="POST" style="display: inline;">
+                                    <input type="hidden" name="_csrf"
+                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                    <input type="hidden" name="save_record" value="delete_record">
+                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                    <button type="button" class="green" style="border: none; background: none;"
+                                        onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -102,39 +96,39 @@
     </div>
 </div>
 <script>
-    function confirmDelete(itemId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('deleteForm_' + itemId).submit();
-        }
+function confirmDelete(itemId) {
+    if (confirm('Are you sure you want to delete this item?')) {
+        document.getElementById('deleteForm_' + itemId).submit();
     }
+}
 
-    function update(item) {
-        // Populate hidden and input fields
-        document.getElementById('modalId').value = item.id;
-        document.getElementById('modalname').value = item.name || '';
-        document.getElementById('modalsodowo').value = item.sodowo || '';
-        document.getElementById('modalcnic').value = item.cnic || '';
-        document.getElementById('modalemail').value = item.email || '';
-        document.getElementById('modalmobile').value = item.mobile || '';
-        document.getElementById('modalzip').value = item.zip || '';
-        document.getElementById('modaldepartment').value = item.department || '';
-        document.getElementById('modaltype').value = item.type || '';
-        document.getElementById('modalcountry').value = item.country || '';
-        document.getElementById('modalrole').value = item.user_level || '';
-        document.getElementById('modalmeritalstatus').value = item.merital_status || '';
-        document.getElementById('modalgender').value = item.gender || '';
-        document.getElementById('modaldateofbirth').value = item.dob || '';
-        document.getElementById('modalbloodgroup').value = item.b_group || '';
-        document.getElementById('modalreligion').value = item.religion || '';
-        document.getElementById('modalpassport').value = item.passport || '';
-        document.getElementById('modaldiscription').value = item.job_discription || '';
-        document.getElementById('modaladdress').value = item.address || '';
-        document.getElementById('modalusername').value = item.username || '';
-        document.getElementById('modalpassword').value = item.password || '';
+function update(item) {
+    // Populate hidden and input fields
+    document.getElementById('modalId').value = item.id;
+    document.getElementById('modalname').value = item.name || '';
+    document.getElementById('modalsodowo').value = item.sodowo || '';
+    document.getElementById('modalcnic').value = item.cnic || '';
+    document.getElementById('modalemail').value = item.email || '';
+    document.getElementById('modalmobile').value = item.mobile || '';
+    document.getElementById('modalzip').value = item.zip || '';
+    document.getElementById('modaldepartment').value = item.department || '';
+    document.getElementById('modaltype').value = item.type || '';
+    document.getElementById('modalcountry').value = item.country || '';
+    document.getElementById('modalrole').value = item.user_level || '';
+    document.getElementById('modalmeritalstatus').value = item.merital_status || '';
+    document.getElementById('modalgender').value = item.gender || '';
+    document.getElementById('modaldateofbirth').value = item.dob || '';
+    document.getElementById('modalbloodgroup').value = item.b_group || '';
+    document.getElementById('modalreligion').value = item.religion || '';
+    document.getElementById('modalpassport').value = item.passport || '';
+    document.getElementById('modaldiscription').value = item.job_discription || '';
+    document.getElementById('modaladdress').value = item.address || '';
+    document.getElementById('modalusername').value = item.username || '';
+    document.getElementById('modalpassword').value = item.password || '';
 
-        // Show the modal
-        new bootstrap.Modal(document.getElementById('newItemModal')).show();
-    }
+    // Show the modal
+    new bootstrap.Modal(document.getElementById('newItemModal')).show();
+}
 </script>
 <div class="modal fade modal-xl" id="newItemModal" tabindex="-1" aria-labelledby="newItemModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -232,7 +226,7 @@
                             <select class="form-select" name="user_level" id="modalrole" required>
                                 <option value="">Select Role</option>
                                 <?php foreach ($roles as $item): ?>
-                                    <option value="<?= $item['role_id'] ?>"><?= $item['role_name'] ?></option>
+                                <option value="<?= $item['role_id'] ?>"><?= $item['role_name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalrole">Role<span style="color:red">*</span></label>
