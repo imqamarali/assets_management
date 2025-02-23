@@ -176,6 +176,7 @@ class Permissions extends Component
 
             'contract/index',
             'contract/contractor',
+            'contract/contractor_details',
             'contract/contract',
             'contract/contract_revised',
             'contract/contract_sub',

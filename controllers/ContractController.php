@@ -227,6 +227,34 @@ class ContractController extends Controller
             'contractors_list' => $contractors_list
         ]);
     }
+    public function actionContractor_details()
+    {
+        $permissions = Yii::$app->Component->CheckPermissions(24, 38)[0];
+
+        if ($permissions['can_view'] == '0') {
+            Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+            return $this->redirect(['contract/index']);
+        }
+        if (!isset($_REQUEST['referance']) && empty($_REQUEST['referance'])) {
+            Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+            return $this->redirect(['contract/index']);
+        }
+
+        $ref = $_REQUEST['referance'];
+
+        $contractor_Q = 'SELECT * FROM public."m_contractor" WHERE id = ' . $ref . ' ';
+        $contractor = Yii::$app->db->createCommand($contractor_Q)->queryOne();
+
+        return $this->render('contractordetails', [
+            'can' => [
+                'can_add'    => 1,
+                'can_view'   => 1,
+                'can_edit'   => 1,
+                'can_delete' => 1,
+            ],
+            'contractor' => $contractor
+        ]);
+    }
     /*
     Contract Status
     0. Un-approved
