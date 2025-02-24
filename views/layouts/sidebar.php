@@ -40,25 +40,6 @@ $reporting = in_array(29, array_column($sidebarItems, 'module_id')) ?? false;
 $maintenance = in_array(30, array_column($sidebarItems, 'module_id')) ?? false;
 $users_permission = in_array(31, array_column($sidebarItems, 'module_id')) ?? false;
 
-
-
-$contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name, t.name AS type_name,ms.name AS scope_name,
-                    r.name AS region_name,u.name AS unit_name,
-                    rt.name AS route_name,d.name AS district_name
-                    FROM public."m_contract" as cont
-                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
-                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
-                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
-                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
-                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
-                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
-                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
-                    WHERE cont.status<1';
-$contract_notifications = Yii::$app->db->createCommand($contract_Q)->queryAll();
-
-
-
-
 ?>
 
 
@@ -66,10 +47,10 @@ $contract_notifications = Yii::$app->db->createCommand($contract_Q)->queryAll();
 
 <nav class="navbar navbar-vertical navbar-expand-lg">
     <script>
-        var navbarStyle = window.config.config.phoenixNavbarStyle;
-        if (navbarStyle && navbarStyle !== 'transparent') {
-            document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
-        }
+    var navbarStyle = window.config.config.phoenixNavbarStyle;
+    if (navbarStyle && navbarStyle !== 'transparent') {
+        document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+    }
     </script>
 
 
@@ -96,45 +77,45 @@ $contract_notifications = Yii::$app->db->createCommand($contract_Q)->queryAll();
                                 <li class="collapsed-nav-item-title d-none">Home</li>
 
                                 <?php if ($home_assets): ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center">
-                                                <span class="nav-link-text">Asset Dashboard</span>
-                                            </div>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Asset Dashboard</span>
+                                        </div>
+                                    </a>
+                                </li>
                                 <?php endif; ?>
 
                                 <?php if ($home_amp): ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center">
-                                                <span class="nav-link-text">AMP Dashboard</span>
-                                            </div>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">AMP Dashboard</span>
+                                        </div>
+                                    </a>
+                                </li>
                                 <?php endif; ?>
 
                                 <?php if ($home_contract): ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center">
-                                                <span class="nav-link-text">Contract Dashboard</span>
-                                                <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
-                                            </div>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Contract Dashboard</span>
+                                            <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
+                                        </div>
+                                    </a>
+                                </li>
                                 <?php endif; ?>
 
                                 <?php if ($home_condition): ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center">
-                                                <span class="nav-link-text">Condition Dashboard</span>
-                                                <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
-                                            </div>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Condition Dashboard</span>
+                                            <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
+                                        </div>
+                                    </a>
+                                </li>
                                 <?php endif; ?>
 
                             </ul>
@@ -148,134 +129,134 @@ $contract_notifications = Yii::$app->db->createCommand($contract_Q)->queryAll();
                     <hr class="navbar-vertical-line">
 
                     <?php if ($assets_management): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=assets/index" role="button"
-                                aria-expanded="false" aria-controls="nv-e-commerce">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="shopping-cart"></span></span>
-                                    <span class="nav-link-text">Asset Management</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=assets/index" role="button"
+                            aria-expanded="false" aria-controls="nv-e-commerce">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="shopping-cart"></span></span>
+                                <span class="nav-link-text">Asset Management</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($contract_management): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/index"
-                                aria-expanded="false" aria-controls="nv-CRM">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="phone"></span></span>
-                                    <span class="nav-link-text">Contract Management</span>
-                                    <span class="fa-solid fa-circle text-info ms-1 new-page-indicator"
-                                        style="font-size: 6px"></span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/index"
+                            aria-expanded="false" aria-controls="nv-CRM">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="phone"></span></span>
+                                <span class="nav-link-text">Contract Management</span>
+                                <span class="fa-solid fa-circle text-info ms-1 new-page-indicator"
+                                    style="font-size: 6px"></span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
                     <?php if ($contract_progress): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/progress"
-                                aria-expanded="false" aria-controls="nv-CRM">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="phone"></span></span>
-                                    <span class="nav-link-text">Contract Progress</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/progress"
+                            aria-expanded="false" aria-controls="nv-CRM">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="phone"></span></span>
+                                <span class="nav-link-text">Contract Progress</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($revenue_management): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=revenue/index" role="button"
-                                aria-expanded="false" aria-controls="nv-project-management">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="clipboard"></span></span>
-                                    <span class="nav-link-text">Revenue Management</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=revenue/index" role="button"
+                            aria-expanded="false" aria-controls="nv-project-management">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="clipboard"></span></span>
+                                <span class="nav-link-text">Revenue Management</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($traffic_management): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link label-1" href="index.php?r=traffic/index" role="button"
-                                aria-expanded="false">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><span data-feather="message-square"></span></span>
-                                    <span class="nav-link-text-wrapper"><span class="nav-link-text">Traffic
-                                            Management</span></span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link label-1" href="index.php?r=traffic/index" role="button"
+                            aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><span data-feather="message-square"></span></span>
+                                <span class="nav-link-text-wrapper"><span class="nav-link-text">Traffic
+                                        Management</span></span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($budgeting_management): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=budgeting/index" role="button"
-                                aria-expanded="false" aria-controls="nv-email">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="mail"></span></span>
-                                    <span class="nav-link-text">Budgeting Management</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=budgeting/index" role="button"
+                            aria-expanded="false" aria-controls="nv-email">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="mail"></span></span>
+                                <span class="nav-link-text">Budgeting Management</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($event_management): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=events/index" role="button"
-                                data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-events">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="bookmark"></span></span>
-                                    <span class="nav-link-text">Events Management</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=events/index" role="button"
+                            data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-events">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="bookmark"></span></span>
+                                <span class="nav-link-text">Events Management</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($reporting): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=reporting/index" role="button"
-                                aria-expanded="false" aria-controls="nv-kanban">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="align-justify"></span></span>
-                                    <span class="nav-link-text">Reporting</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=reporting/index" role="button"
+                            aria-expanded="false" aria-controls="nv-kanban">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="align-justify"></span></span>
+                                <span class="nav-link-text">Reporting</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($maintenance): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=maintenance/index"
-                                role="button" aria-expanded="false" aria-controls="nv-support">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="settings"></span></span>
-                                    <span class="nav-link-text">Maintenance</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=maintenance/index"
+                            role="button" aria-expanded="false" aria-controls="nv-support">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="settings"></span></span>
+                                <span class="nav-link-text">Maintenance</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                     <?php if ($users_permission): ?>
-                        <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=users/index" role="button"
-                                aria-expanded="false" aria-controls="nv-users">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                    <span class="nav-link-icon"><span data-feather="users"></span></span>
-                                    <span class="nav-link-text">Users Permissions</span>
-                                </div>
-                            </a>
-                        </div>
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=users/index" role="button"
+                            aria-expanded="false" aria-controls="nv-users">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                <span class="nav-link-icon"><span data-feather="users"></span></span>
+                                <span class="nav-link-text">Users Permissions</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php endif; ?>
 
                 </li>
@@ -336,103 +317,8 @@ $contract_notifications = Yii::$app->db->createCommand($contract_Q)->queryAll();
                 </div>
             </li>
 
-            <?php echo $this->render('notifications/progress_notification.php') ?>
             <?php echo $this->render('notifications/contract_notification.php') ?>
-            <li class="nav-item dropdown">
-                <a class="nav-link" id="navbarDropdownNindeDots" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-haspopup="true" data-bs-auto-close="outside" aria-expanded="false">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="2" cy="2" r="2" fill="currentColor"></circle>
-                        <circle cx="2" cy="8" r="2" fill="currentColor"></circle>
-                        <circle cx="2" cy="14" r="2" fill="currentColor"></circle>
-                        <circle cx="8" cy="8" r="2" fill="currentColor"></circle>
-                        <circle cx="8" cy="14" r="2" fill="currentColor"></circle>
-                        <circle cx="14" cy="8" r="2" fill="currentColor"></circle>
-                        <circle cx="14" cy="14" r="2" fill="currentColor"></circle>
-                        <circle cx="8" cy="2" r="2" fill="currentColor"></circle>
-                        <circle cx="14" cy="2" r="2" fill="currentColor"></circle>
-                    </svg></a>
 
-                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-nide-dots shadow border border-300"
-                    aria-labelledby="navbarDropdownNindeDots">
-                    <div class="card bg-white position-relative border-0">
-                        <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar" style="height: 20rem;">
-                            <div class="row text-center align-items-center gx-0 gy-0">
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/behance.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Behance</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/google-cloud.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Cloud</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/slack.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Slack</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/gitlab.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Gitlab</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/bitbucket.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">BitBucket</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/google-drive.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Drive</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/trello.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Trello</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/figma.webp" alt="" width="20">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Figma</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/twitter.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Twitter</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/pinterest.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Pinterest</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/ln.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Linkedin</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/google-maps.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Maps</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/google-photos.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Photos</p>
-                                    </a></div>
-                                <div class="col-4"><a
-                                        class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
-                                        href="#!"><img src="assets/img/nav-icons/spotify.webp" alt="" width="30">
-                                        <p class="mb-0 text-black text-truncate fs--2 mt-1 pt-1">Spotify</p>
-                                    </a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button"
                     data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar avatar-l ">

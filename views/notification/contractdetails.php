@@ -111,7 +111,7 @@
             <input type="hidden" name="save_record" value="save_record" />
             <div class="mb-3">
                 <textarea class="form-control" id="comment" name="comment" rows="2"
-                    placeholder="Enter comments (Optional)"><?= $contract['comments'] ?></textarea>
+                    placeholder="Enter comments (Optional)"></textarea>
             </div>
             <div class="mb-3" style="float: right;">
                 <button type="button" class="btn btn-primary" onclick="submitForm(1)">Approve</button>
@@ -121,10 +121,10 @@
         </form>
 
         <script>
-        function submitForm(status) {
-            document.getElementById('status').value = status;
-            document.getElementById('contractStatusForm').submit();
-        }
+            function submitForm(status) {
+                document.getElementById('status').value = status;
+                document.getElementById('contractStatusForm').submit();
+            }
         </script>
 
     </div>

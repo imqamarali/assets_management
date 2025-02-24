@@ -2,6 +2,8 @@
 
 use yii\widgets\LinkPager;
 
+$conn = Yii::$app->getDb();
+
 ?>
 
 <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
@@ -55,16 +57,16 @@ use yii\widgets\LinkPager;
                         foreach ($contract_list as $item):
                             $status = ($item['status'] == 0) ? "Un-approved" : (($item['status'] == 1) ? "Approved & In-progress" : (($item['status'] == 2) ? "Approved & Discontinued" : (($item['status'] == 3) ? "Completed" : "N/A")));
                         ?>
-                            <tr style="margin: -3px;font-size: smaller;">
-                                <td style="padding-left: 5px;"><?= $item['contract_no'] ?></td>
+                            <tr style="margin: -3px;">
+                                <td><?= $item['contract_no'] ?></td>
                                 <td><?= $item['contractor_name'] ?></td>
                                 <td><?= $item['area'] ?></td>
                                 <td><?= $item['scope_name'] ?></td>
                                 <td><?= $item['contract_date'] ?></td>
                                 <td>
                                     <?php if ($can['can_edit'] == 1): ?>
-                                        <div class=" btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle hidden-sm hidden-xs action-buttons"
-                                            style="display: inline-flex; gap: 0px;padding:0px">
+                                        <div class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle hidden-sm hidden-xs action-buttons"
+                                            style="display: inline-flex; gap: 10px;">
                                             <a class="green"
                                                 href="index.php?r=notification/contractdetails&referance=<?= $item['id'] ?> "
                                                 onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
@@ -101,6 +103,66 @@ use yii\widgets\LinkPager;
                         'activePageCssClass' => 'active',
                     ]); ?>
                 </div>
+
+
+                <?php $index = 1; ?>
+                <?php foreach ($contract_list as $item): ?>
+                    <?php
+                    $status = ($item['status'] == 0) ? "Un-approved" : (($item['status'] == 1) ? "Approved & In-progress" : (($item['status'] == 2) ? "Approved & Discontinued" : (($item['status'] == 3) ? "Completed" : "N/A")));
+                    ?>
+
+                    <div
+                        class="d-flex align-items-center justify-content-between py-3 border-300 px-lg-6 px-4 notification-card border-top unread">
+                        <div class="d-flex">
+                            <div class="me-2 flex-1 mt-1 m-5">
+                                <h4 class="fs--1 text-black"><?= htmlspecialchars($item['contractor_name']) ?>
+                                    <span style="margin-left: 10px;font-size: x-small;">
+
+                                        <span
+                                            class="fw-bold"><?= htmlspecialchars(date("h:i A", strtotime($item['contract_date']))) ?>
+                                        </span>
+                                        <?= htmlspecialchars(date("F d, Y", strtotime($item['contract_date']))) ?>
+                                    </span>
+                                </h4>
+
+                                <p class="fs--1 text-1000">
+                                    <span class='me-1'>📄</span> Contract No: <span
+                                        class="fw-bold"><?= htmlspecialchars($item['contract_no']) ?></span> |
+                                    <span class='me-1'>📍</span> Area: <span
+                                        class="fw-bold"><?= htmlspecialchars($item['area']) ?></span>
+                                    <br>
+                                    <span class='me-1'>🏗</span> Type: <span
+                                        class="fw-bold"><?= htmlspecialchars($item['type_name']) ?></span> |
+                                    <span class='me-1'>📜</span> Scope: <span
+                                        class="fw-bold"><?= htmlspecialchars($item['scope_name']) ?></span>
+                                    <br>
+                                    <span class='me-1'>📅</span> Contract Date: <span
+                                        class="fw-bold"><?= htmlspecialchars($item['contract_date']) ?></span>
+                                    <br>
+                                    <span class='me-1'>🏗</span> Progress: <span
+                                        class="fw-bold"><?= htmlspecialchars($item['progress']) ?>%</span>
+                                    <br>
+                                    <span class='me-1'>✅</span> Status: <span
+                                        class="fw-bold"><?= htmlspecialchars($status) ?></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="font-sans-serif">
+
+                            <?php if ($can['can_edit'] == 1): ?>
+                                <div class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle hidden-sm hidden-xs action-buttons"
+                                    style="display: inline-flex; gap: 10px;">
+                                    <a class="green"
+                                        href="index.php?r=notification/contractdetails&referance=<?= $item['id'] ?> "
+                                        onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                        <i class="ace-icon fa fa-eye   fs--2 text-900"></i>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
             </div>
         </div>
     </div>

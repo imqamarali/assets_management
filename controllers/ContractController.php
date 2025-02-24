@@ -955,25 +955,28 @@ class ContractController extends Controller
                 //     "end_date2":"2025-02-22"}
                 try {
                     if ($data['save_record'] === 'submit_draft') {
-                        echo json_encode($data);
-                        exit;
+                        // echo json_encode($data);
+                        // exit;
                         $total_contract = $data['total_contract'];
                         // {"save_record":"submit_draft","total_contract":"2",
                         //  "progress_id1":"1","status1":"1","progress_id2":"2","status2":"1"}
 
                         $total_contract = $data['total_contract'];
-                        $index = 1;
+                        $index = 0;
                         while ($index <= $total_contract) {
-                            $progress_id = $data['progress_id' . $index];
                             $index++;
-                            $check_Q = Yii::$app->db->createCommand("SELECT * FROM public.m_contract_progress WHERE id= $progress_id")->queryOne();
-                            if ($check_Q) {
-                                $status = $check_Q['status'];
-                                if ($status == 1) {
-                                    $post_list = [
-                                        'status' => $status + 1
-                                    ];
-                                    Yii::$app->db->createCommand()->update('m_contract_progress', $post_list, ['id' => $progress_id])->execute();
+
+                            if (isset($data['progress_id' . $index])) {
+                                $progress_id = $data['progress_id' . $index];
+                                $check_Q = Yii::$app->db->createCommand("SELECT * FROM public.m_contract_progress WHERE id= $progress_id")->queryOne();
+                                if ($check_Q) {
+                                    $status = $check_Q['status'];
+                                    if ($status == 1) {
+                                        $post_list = [
+                                            'status' => $status + 1
+                                        ];
+                                        Yii::$app->db->createCommand()->update('m_contract_progress', $post_list, ['id' => $progress_id])->execute();
+                                    }
                                 }
                             }
                         }

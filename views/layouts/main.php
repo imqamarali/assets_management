@@ -1,12 +1,5 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -62,115 +55,115 @@ AppAsset::register($this);
     <link href="assets/css/user-rtl.min.css" type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href="assets/css/user.min.css" type="text/css" rel="stylesheet" id="user-style-default">
     <style>
-    .navbar-top {
-        background: #60c6ff;
-    }
+        .navbar-top {
+            background: #60c6ff;
+        }
 
-    .content {
-        background-color: #fff;
-    }
+        .content {
+            background-color: #fff;
+        }
 
-    .bg-soft {
+        .bg-soft {
 
-        background-color: #fff !important;
-    }
+            background-color: #fff !important;
+        }
     </style>
     <script>
-    var phoenixIsRTL = window.config.config.phoenixIsRTL;
-    if (phoenixIsRTL) {
-        var linkDefault = document.getElementById('style-default');
-        var userLinkDefault = document.getElementById('user-style-default');
-        linkDefault.setAttribute('disabled', true);
-        userLinkDefault.setAttribute('disabled', true);
-        document.querySelector('html').setAttribute('dir', 'rtl');
-    } else {
-        var linkRTL = document.getElementById('style-rtl');
-        var userLinkRTL = document.getElementById('user-style-rtl');
-        linkRTL.setAttribute('disabled', true);
-        userLinkRTL.setAttribute('disabled', true);
-    }
+        var phoenixIsRTL = window.config.config.phoenixIsRTL;
+        if (phoenixIsRTL) {
+            var linkDefault = document.getElementById('style-default');
+            var userLinkDefault = document.getElementById('user-style-default');
+            linkDefault.setAttribute('disabled', true);
+            userLinkDefault.setAttribute('disabled', true);
+            document.querySelector('html').setAttribute('dir', 'rtl');
+        } else {
+            var linkRTL = document.getElementById('style-rtl');
+            var userLinkRTL = document.getElementById('user-style-rtl');
+            linkRTL.setAttribute('disabled', true);
+            userLinkRTL.setAttribute('disabled', true);
+        }
     </script>
 
     <style>
-    #toastBox {
-        position: absolute;
-        top: 80px;
-        right: 30px;
-        display: flex;
-        align-items: flex-end;
-        flex-direction: column;
-        overflow: hidden;
-        padding: 20px;
-    }
-
-    .toast {
-        font-size: smaller;
-        width: 350px;
-        height: 47px;
-        background: red;
-        font-weight: 500;
-        margin: 4px 0;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
-
-    .toast i {
-        margin: 0 20px;
-        font-size: 30px;
-        color: green;
-    }
-
-    .toast.error i {
-        color: red;
-    }
-
-    .toast.invalid i {
-        color: orange;
-    }
-
-    .toast::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 5px;
-        background: green;
-        animation: anim 3s linear forwards;
-    }
-
-    @keyframes anim {
-        100% {
-            width: 0;
+        #toastBox {
+            position: absolute;
+            top: 80px;
+            right: 30px;
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 20px;
         }
-    }
 
-    .toast.error::after {
-        background: red;
-    }
+        .toast {
+            font-size: smaller;
+            width: 350px;
+            height: 47px;
+            background: red;
+            font-weight: 500;
+            margin: 4px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
 
-    .toast.invalid::after {
-        background: orange;
-    }
+        .toast i {
+            margin: 0 20px;
+            font-size: 30px;
+            color: green;
+        }
 
-    .btn-new {
-        color: white;
-        margin: 10px;
-        border-width: 3px;
-        background-color: #727272;
-        border-color: #525252;
-        transition: 0.3s;
-        background: #525252;
-        color: white;
-        padding: 5px;
-        background-color: #727272;
-        transition: .3s;
-        background: #525252;
-        background-color: #525252 !important;
-        border-color: #525252;
-    }
+        .toast.error i {
+            color: red;
+        }
+
+        .toast.invalid i {
+            color: orange;
+        }
+
+        .toast::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 5px;
+            background: green;
+            animation: anim 3s linear forwards;
+        }
+
+        @keyframes anim {
+            100% {
+                width: 0;
+            }
+        }
+
+        .toast.error::after {
+            background: red;
+        }
+
+        .toast.invalid::after {
+            background: orange;
+        }
+
+        .btn-new {
+            color: white;
+            margin: 10px;
+            border-width: 3px;
+            background-color: #727272;
+            border-color: #525252;
+            transition: 0.3s;
+            background: #525252;
+            color: white;
+            padding: 5px;
+            background-color: #727272;
+            transition: .3s;
+            background: #525252;
+            background-color: #525252 !important;
+            border-color: #525252;
+        }
     </style>
 </head>
 
@@ -200,125 +193,6 @@ AppAsset::register($this);
 
         </div>
     </main>
-    <!-- Add this script for automatic table pagination -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const tables = document.querySelectorAll("table");
-        const recordsPerPage = 20; // Set the number of records per page
-
-        tables.forEach(table => {
-            const rows = table.querySelectorAll("tbody tr");
-            if (rows.length > recordsPerPage) {
-                applyPagination(table, rows, recordsPerPage);
-            }
-        });
-
-        function applyPagination(table, rows, recordsPerPage) {
-            return; // Disable it for now
-            if (table.classList.contains("simlee")) {
-                console.log("Pagination skipped for table with class 'simlee'.");
-                return; // Exit the function early
-            }
-            const totalPages = Math.ceil(rows.length / recordsPerPage);
-            let currentPage = 1;
-
-            // Hide all rows initially
-            rows.forEach((row, index) => {
-                row.style.display = "none";
-            });
-
-            // Show rows for the current page
-            function showPage(page) {
-                const start = (page - 1) * recordsPerPage;
-                const end = start + recordsPerPage;
-
-                rows.forEach((row, index) => {
-                    if (index >= start && index < end) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            }
-
-            // Create pagination controls
-            const paginationDiv = document.createElement("div");
-            paginationDiv.className = "pagination";
-            for (let i = 1; i <= totalPages; i++) {
-                const button = document.createElement("button");
-                button.innerText = i;
-                button.addEventListener("click", () => {
-                    currentPage = i;
-                    showPage(currentPage);
-                    updatePaginationButtons();
-                });
-                paginationDiv.appendChild(button);
-            }
-
-            // Insert pagination controls after the table
-            table.insertAdjacentElement("afterend", paginationDiv);
-
-            // Highlight the active page button
-            function updatePaginationButtons() {
-                const buttons = paginationDiv.querySelectorAll("button");
-                buttons.forEach((button, index) => {
-                    if (index + 1 === currentPage) {
-                        button.classList.add("active");
-                    } else {
-                        button.classList.remove("active");
-                    }
-                });
-            }
-
-            // Show the first page by default
-            showPage(currentPage);
-            updatePaginationButtons();
-        }
-    });
-    </script>
-    <style>
-    .pagination {
-        margin-top: 10px;
-        display: flex;
-        justify-content: center;
-        gap: 5px;
-    }
-
-    .pagination button {
-        padding: 5px 10px;
-        cursor: pointer;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-        border-radius: 3px;
-    }
-
-    .pagination button.active {
-        background-color: #007bff;
-        color: white;
-        border-color: #007bff;
-    }
-    </style>
-    <script>
-    let toastBox = document.getElementById('toastBox');
-
-    function showToast(message) {
-
-        let toast = document.createElement('div');
-        toast.classList.add('toast');
-        toast.innerHTML = '<i class="fa fa-info"></i> ' + message;
-        toastBox.appendChild(toast);
-        if (message.includes('error')) {
-            toast.classList.add('error');
-        }
-        if (message.includes('Invalid')) {
-            toast.classList.add('invalid');
-        }
-        setTimeout(() => {
-            toast.remove();
-        }, 3000);
-    }
-    showToast("error : Hello");
-    </script>
     <script src="vendors/popper/popper.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.min.js"></script>
     <script src="vendors/anchorjs/anchor.min.js"></script>
@@ -335,17 +209,17 @@ AppAsset::register($this);
 
 
     <script>
-    var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
-    var navbarTop = document.querySelector('.navbar-top');
-    if (navbarTopStyle === 'darker') {
-        navbarTop.classList.add('navbar-darker');
-    }
+        var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+        var navbarTop = document.querySelector('.navbar-top');
+        if (navbarTopStyle === 'darker') {
+            navbarTop.classList.add('navbar-darker');
+        }
 
-    var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
-    var navbarVertical = document.querySelector('.navbar-vertical');
-    if (navbarVertical && navbarVerticalStyle === 'darker') {
-        navbarVertical.classList.add('navbar-darker');
-    }
+        var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+        var navbarVertical = document.querySelector('.navbar-vertical');
+        if (navbarVertical && navbarVerticalStyle === 'darker') {
+            navbarVertical.classList.add('navbar-darker');
+        }
     </script>
 
     <?php $this->endBody() ?>

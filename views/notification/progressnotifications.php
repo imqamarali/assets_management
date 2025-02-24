@@ -1,7 +1,7 @@
 <?php
 
-$conn = Yii::$app->getDb();
 
+use yii\widgets\LinkPager;
 ?>
 
 <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
@@ -38,127 +38,101 @@ $conn = Yii::$app->getDb();
         <div id="tableExample2"
             data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
             <div class="table-responsive">
-                <div class="mx-n4 mx-lg-n6 border-bottom border-300 mt-4">
-
-                    <?php $index = 1; ?>
-                    <?php foreach ($contract_list as $item): ?>
-                    <?php
-                        $status = ($item['status'] == 0) ? "Un-approved" : (($item['status'] == 1) ? "Approved & In-progress" : (($item['status'] == 2) ? "Approved & Discontinued" : (($item['status'] == 3) ? "Completed" : "N/A")));
-                        ?>
-
-                    <div
-                        class="d-flex align-items-center justify-content-between py-3 border-300 px-lg-6 px-4 notification-card border-top unread">
-                        <div class="d-flex">
-                            <div class="me-2 flex-1 mt-1 m-5">
-                                <h4 class="fs--1 text-black"><?= htmlspecialchars($item['contractor_name']) ?>
-                                    <span style="margin-left: 10px;font-size: x-small;">
-
-                                        <span
-                                            class="fw-bold"><?= htmlspecialchars(date("h:i A", strtotime($item['contract_date']))) ?>
-                                        </span>
-                                        <?= htmlspecialchars(date("F d, Y", strtotime($item['contract_date']))) ?>
-                                    </span>
-                                </h4>
-
-                                <p class="fs--1 text-1000">
-                                    <span class='me-1'>📄</span> Contract No: <span
-                                        class="fw-bold"><?= htmlspecialchars($item['contract_no']) ?></span> |
-                                    <span class='me-1'>📍</span> Area: <span
-                                        class="fw-bold"><?= htmlspecialchars($item['area']) ?></span>
-                                    <br>
-                                    <span class='me-1'>🏗</span> Type: <span
-                                        class="fw-bold"><?= htmlspecialchars($item['type_name']) ?></span> |
-                                    <span class='me-1'>📜</span> Scope: <span
-                                        class="fw-bold"><?= htmlspecialchars($item['scope_name']) ?></span>
-                                    <br>
-                                    <span class='me-1'>📅</span> Contract Date: <span
-                                        class="fw-bold"><?= htmlspecialchars($item['contract_date']) ?></span>
-                                    <br>
-                                    <span class='me-1'>🏗</span> Progress: <span
-                                        class="fw-bold"><?= htmlspecialchars($item['progress']) ?></span>
-                                    <br>
-                                    <span class='me-1'>✅</span> Status: <span
-                                        class="fw-bold"><?= htmlspecialchars($status) ?></span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="font-sans-serif">
-
-                            <?php if ($can['can_edit'] == 1): ?>
-                            <div class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle hidden-sm hidden-xs action-buttons"
-                                style="display: inline-flex; gap: 10px;">
-                                <a class="green"
-                                    href="index.php?r=notification/contractdetails&referance=<?= $item['id'] ?> "
-                                    onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                    <i class="ace-icon fa fa-eye   fs--2 text-900"></i>
-                                </a>
-                            </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-
-                </div>
-                <table class="table table-striped table-hover table-sm fs--1 mb-0 mt-3" style="display: none;">
+                <table class="table table-sm fs--1 leads-table simlee mt-3" style="border: 1px solid #a9a9a954;">
                     <thead>
                         <tr>
-                            <th class="sort border-top ps-3">Sr No</th>
-                            <th class="sort border-top">Contract No</th>
-                            <th class="sort border-top">Contractor Name</th>
-                            <th class="sort border-top">Area</th>
-                            <th class="sort border-top">Type of Work</th>
-                            <th class="sort border-top">Scope</th>
-                            <th class="sort border-top">Contract Date</th>
-                            <th class="sort border-top">Engineer Estimate</th>
-                            <th class="sort border-top">Bid Cost</th>
-                            <th class="sort border-top">Date of Completion</th>
-                            <th class="sort border-top">Progress</th>
-                            <th class="sort border-top">Unit</th>
-                            <th class="sort border-top">Region</th>
-                            <th class="sort border-top">Route</th>
-                            <th class="sort border-top">District</th>
-                            <th class="sort border-top" style="width:8%">Status</th>
-                            <th class="sort border-top" style="width:3%"></th>
+                            <th>Contract</th>
+                            <th>Submitted By</th>
+                            <th>Task</th>
+                            <th>Details</t>
+                            <th>Progress</td>
+                            <th>Start Date</td>
+                            <th>End Date</td>
+                            <th>Current Status</td>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="list">
                         <?php $index = 1;
                         foreach ($contract_list as $item):
-                            $status = ($item['status'] == 0) ? "Un-approved" : (($item['status'] == 1) ? "Approved & In-progress" : (($item['status'] == 2) ? "Approved & Discontinued" : (($item['status'] == 3) ? "Completed" : "N/A")));
+                            // if ($item['progress_status']) {
+                            //     if ($item['progress_status'] != 1) continue; //do not add draft contracts
+                            // }
+                            $status = $item['progress_status'];
+                            $current_status = "Draft Saved";
+                            if ($status == 2) {
+                                $current_status = "Draft Submitted";
+                            } elseif ($status == -2) {
+                                $current_status = "Draft Rejected";
+                            } elseif ($status == 3) {
+                                $current_status = "Approved by RO";
+                            } elseif ($status == -3) {
+                                $current_status = "Rejected by RO";
+                            } elseif ($status == 4) {
+                                $current_status = "Approved by ZONE";
+                            } elseif ($status == -4) {
+                                $current_status = "Rejected by ZONE";
+                            } elseif ($status == 5) {
+                                $current_status = "Approved by RAMD";
+                            } elseif ($status == -5) {
+                                $current_status = "Rejected by RAMD";
+                            } elseif ($status == 6) {
+                                $current_status = "Approved by HO";
+                            } elseif ($status == -6) {
+                                $current_status = "Rejected by HO";
+                            }
+
                         ?>
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
-                            <td><?= $item['contract_no'] ?></td>
-                            <td><?= $item['contractor_name'] ?></td>
-                            <td><?= $item['area'] ?></td>
-                            <td><?= $item['type_name'] ?></td>
-                            <td><?= $item['scope_name'] ?></td>
-                            <td><?= $item['contract_date'] ?></td>
-                            <td><?= $item['engineer_estimate'] ?></td>
-                            <td><?= $item['bid_cost'] ?></td>
-                            <td><?= $item['date_of_completion'] ?></td>
+                        <tr style="margin: -3px;font-size: smaller;">
+                            <td style="padding-left: 5px;"><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)
+                            </td>
+                            <td><?= $item['submitted_by'] ?></td>
+                            <td><?= $item['task'] ?></td>
+                            <td><?= $item['details'] ?></td>
                             <td><?= $item['progress'] ?></td>
-                            <td><?= $item['unit_name'] ?></td>
-                            <td><?= $item['region_name'] ?></td>
-                            <td><?= $item['route_name'] ?></td>
-                            <td><?= $item['district_name'] ?></td>
-                            <td><?= $status ?></td>
-                            <td>
+                            <td><?= $item['start_date'] ?></td>
+                            <td><?= $item['end_date'] ?></td>
+                            <td><?= $current_status ?></td>
+
+                            <td style="text-align: center;">
                                 <?php if ($can['can_edit'] == 1): ?>
-                                <div class="hidden-sm hidden-xs action-buttons"
-                                    style="display: inline-flex; gap: 10px;">
+                                <div class=" btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle hidden-sm hidden-xs action-buttons"
+                                    style="display: inline-flex; gap: 0px;padding:0px">
                                     <a class="green"
-                                        href="index.php?r=notification/contractdetails&referance=<?= $item['id'] ?> "
-                                        onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                        <i class="ace-icon fa fa-eye bigger-130"></i>
+                                        href="index.php?r=notification/progressdetails&referance=<?= $item['progress_id'] ?> ">
+                                        <i class="ace-icon fa fa-eye   fs--2 text-900"></i>
                                     </a>
                                 </div>
                                 <?php endif; ?>
+
                             </td>
                         </tr>
-                        <?php endforeach; ?>
+
+
+                        <?php $index++;
+                        endforeach; ?>
                     </tbody>
                 </table>
+
+            </div>
+            <!-- Add pagination links here -->
+            <div class="pagination-container text-center mt-3">
+                <?= LinkPager::widget([
+                    'pagination' => $pages,
+                    'options' => ['class' => 'pagination justify-content-center'],
+                    'prevPageLabel' => '&laquo; Previous',
+                    'nextPageLabel' => 'Next &raquo;',
+                    'firstPageLabel' => 'First',
+                    'lastPageLabel' => 'Last',
+                    'maxButtonCount' => 5,
+                    'linkOptions' => ['class' => 'page-link'],
+                    'disabledPageCssClass' => 'disabled',
+                    'prevPageCssClass' => 'page-item',
+                    'nextPageCssClass' => 'page-item',
+                    'firstPageCssClass' => 'page-item',
+                    'lastPageCssClass' => 'page-item',
+                    'activePageCssClass' => 'active',
+                ]); ?>
             </div>
         </div>
     </div>

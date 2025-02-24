@@ -62,7 +62,7 @@
                 style="display:flex; margin-top: 20px; font-size: smaller; margin:5px;margin-right:10px; width: 100%;">
 
                 <div style="width:12% ;background: #EDF3F4; padding: 5px">contractor Name:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contractor['company_name '] ?></div>
+                <div style="width:20.5% ; padding: 5px"><?= $contractor['company_name'] ?></div>
                 <div style="width: 12%;background: #EDF3F4; padding: 5px">Phone:</div>
                 <div style="width:20.5% ; padding: 5px"><?= $contractor['phone_no'] ?></div>
                 <div style="width:12% ;background: #EDF3F4; padding: 5px">Contact Person</div>

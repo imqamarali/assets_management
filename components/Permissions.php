@@ -204,8 +204,7 @@ class Permissions extends Component
             'notification/contractnotifications',
             'notification/contractdetails',
             'notification/progressnotifications',
-            'notification/progressdetails',
-
+            'notification/progressdetails'
 
         ];
         return in_array($action, $actions);

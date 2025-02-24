@@ -45,7 +45,7 @@ switch ($user_level) {
         break;
 }
 
-$contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name,
+$contract_Q = 'SELECT cont.*, contr."company_name " as contractor_name,
                     t.name AS type_name,ms.name AS scope_name,
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name,
@@ -105,18 +105,18 @@ $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
                     <div class="border-300">
                         <?php
                         if (count($contract_list) == 0) { ?>
-                            <div
-                                class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
-                                <div class="d-flex align-items-center justify-content-between position-relative">
-                                    <div class="d-flex">
-                                        <div class="flex-1 me-sm-3">
-                                            <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal"><span
-                                                    class="me-1 fs--2"></span>No Notification!<span
-                                                    class="ms-2 text-400 fw-bold fs--2"></span></p>
-                                        </div>
+                        <div
+                            class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
+                            <div class="d-flex align-items-center justify-content-between position-relative">
+                                <div class="d-flex">
+                                    <div class="flex-1 me-sm-3">
+                                        <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal"><span
+                                                class="me-1 fs--2"></span>No Notification!<span
+                                                class="ms-2 text-400 fw-bold fs--2"></span></p>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <?php  }
                         foreach ($contract_list as $notify):
                             $status = $notify['progress_status'];
@@ -143,44 +143,44 @@ $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
                                 $status = "Rejected by HO";
                             }
                         ?>
-                            <div
-                                class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
-                                <div class="d-flex align-items-center justify-content-between position-relative">
-                                    <!-- Notification content -->
-                                    <div class="d-flex">
-                                        <div class="flex-1 me-sm-3">
-                                            <h4 class="fs--1 text-black">
-                                                <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
-                                                    <span class="me-1 fs--2">💬</span> New Progress Submitted </b>
-                                                </p>
-                                                <!-- Displaying Current Status -->
-                                                <p class="text-800 fs--1 mb-0">
-                                                    <span class="me-1 far fa-calendar-check"></span>
-                                                    <span class="fw-bold"><?= $current_status ?></span>
-                                                </p>
-                                                <br>
-                                                <!-- Displaying created date -->
-                                                <p class="text-800 fs--1 mb-0">
-                                                    <span class="me-1 fas fa-clock"></span>
-                                                    <span
-                                                        class="fw-bold"><?= date('h:i A', strtotime($notify['submission_date'])) ?>
-                                                    </span>
-                                                    <?= date('F j, Y', strtotime($notify['submission_date'])) ?>
-                                                </p>
-                                        </div>
+                        <div
+                            class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
+                            <div class="d-flex align-items-center justify-content-between position-relative">
+                                <!-- Notification content -->
+                                <div class="d-flex">
+                                    <div class="flex-1 me-sm-3">
+                                        <h4 class="fs--1 text-black">
+                                            <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
+                                                <span class="me-1 fs--2">💬</span> New Progress Submitted </b>
+                                            </p>
+                                            <!-- Displaying Current Status -->
+                                            <p class="text-800 fs--1 mb-0">
+                                                <span class="me-1 far fa-calendar-check"></span>
+                                                <span class="fw-bold"><?= $current_status ?></span>
+                                            </p>
+                                            <br>
+                                            <!-- Displaying created date -->
+                                            <p class="text-800 fs--1 mb-0">
+                                                <span class="me-1 fas fa-clock"></span>
+                                                <span
+                                                    class="fw-bold"><?= date('h:i A', strtotime($notify['submission_date'])) ?>
+                                                </span>
+                                                <?= date('F j, Y', strtotime($notify['submission_date'])) ?>
+                                            </p>
                                     </div>
-
-                                    <!-- Notification actions (button) -->
-                                    <div class="font-sans-serif d-none d-sm-block">
-                                        <a href="index.php?r=notification/progressnotifications"
-                                            class="btn fs--2 btn-sm transition-none notification-dropdown-toggle"
-                                            type="button">
-                                            <span class="ace-icon fa fa-eye bigger-130"></span>
-                                        </a>
-                                    </div>
-
                                 </div>
+
+                                <!-- Notification actions (button) -->
+                                <div class="font-sans-serif d-none d-sm-block">
+                                    <a href="index.php?r=notification/progressnotifications"
+                                        class="btn fs--2 btn-sm transition-none notification-dropdown-toggle"
+                                        type="button">
+                                        <span class="ace-icon fa fa-eye bigger-130"></span>
+                                    </a>
+                                </div>
+
                             </div>
+                        </div>
 
                         <?php endforeach; ?>
 
