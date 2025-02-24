@@ -53,7 +53,7 @@ $conn = Yii::$app->getDb();
         <div id="tableExample2"
             data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
             <div class="table-responsive">
-                <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                <table class="table table-sm fs--1 leads-table simlee">
                     <thead>
                         <tr>
                             <th class="sort border-top ps-3">Sr No</th>
@@ -145,6 +145,26 @@ $conn = Yii::$app->getDb();
                     </tbody>
                 </table>
             </div>
+            <!-- Add pagination links here -->
+            <div class="pagination-container text-center mt-3">
+                <?= LinkPager::widget([
+                    'pagination' => $pages,
+                    'options' => ['class' => 'pagination justify-content-center'],
+                    'prevPageLabel' => '&laquo; Previous',
+                    'nextPageLabel' => 'Next &raquo;',
+                    'firstPageLabel' => 'First',
+                    'lastPageLabel' => 'Last',
+                    'maxButtonCount' => 5,
+                    'linkOptions' => ['class' => 'page-link'],
+                    'disabledPageCssClass' => 'disabled',
+                    'prevPageCssClass' => 'page-item',
+                    'nextPageCssClass' => 'page-item',
+                    'firstPageCssClass' => 'page-item',
+                    'lastPageCssClass' => 'page-item',
+                    'activePageCssClass' => 'active',
+                ]); ?>
+            </div>
+
         </div>
     </div>
 </div>
@@ -208,7 +228,7 @@ $conn = Yii::$app->getDb();
                             <select class="form-select" name="contractor_id" id="modalContractor" required>
                                 <option value="">Select Contractor</option>
                                 <?php foreach ($contractors_list as $item): ?> <option value="<?= $item['id'] ?>">
-                                        <?= $item['company_name ']  ?>
+                                        <?= $item['company_name']  ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

@@ -59,7 +59,7 @@ h4 {
                                 <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
                                 <input type="hidden" name="save_record" value="save_record" />
                                 <input type="hidden" name="total_contract" value="<?= count($contract_list) ?>" />
-                                <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                                <table class="table table-striped table-hover table-sm fs--1 mb-0 simlee">
                                     <thead>
                                         <tr>
                                             <th>Contract</th>

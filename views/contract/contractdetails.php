@@ -209,7 +209,7 @@
                         <tr>
                             <td class="center"><?= $index++ ?></td>
                             <td><?= $item['contract_no'] ?></td>
-                            <td><?= $item['company_name '] ?></td>
+                            <td><?= $item['company_name'] ?></td>
                             <td><?= $item['km_from'] ?></td>
                             <td><?= $item['Km_to'] ?></td>
                             <td><?= $item['direction'] ?></td>
@@ -367,7 +367,7 @@
                         <tr>
                             <td class="center"><?= $index++ ?></td>
                             <td><?= $item['contract_no'] ?></td>
-                            <td><?= $item['company_name '] ?></td>
+                            <td><?= $item['company_name'] ?></td>
                             <td><?= $item['type_of_payment'] ?></td>
                             <td><?= $item['dated'] ?></td>
                             <td><?= $item['voucher_no'] ?></td>
@@ -484,7 +484,7 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="scrollingLongModalLabel2">Add New Record</h5>
+                <h5 class="modal-title" id="scrollingLongModalLabel2">Contract Payment</h5>
                 <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
                     <span class="fas fa-times fs--1"></span>
                 </button>
@@ -593,7 +593,7 @@
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="scrollingLongModalLabel2">Add New Record</h5>
+                <h5 class="modal-title" id="scrollingLongModalLabel2">Revised Contract</h5>
                 <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
                     <span class="fas fa-times fs--1"></span>
                 </button>
@@ -637,8 +637,8 @@
                         <div class="form-floating">
                             <select class="form-select" name="typeofwork_id" id="revmodalType" required>
                                 <option value="">Select Type Of Work</option>
-                                <<?php foreach ($type_list as $item): ?> <option value="<?= $item['id'] ?>">
-                                    <?= $item['name']  ?>
+                                <?php foreach ($type_list as $item): ?> <option value="<?= $item['id'] ?>">
+                                        <?= $item['name']  ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

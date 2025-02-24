@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\User;
+use yii\data\Pagination;
 
 class AssetsController extends Controller
 {
@@ -160,6 +161,13 @@ class AssetsController extends Controller
 
         $assets_list = Yii::$app->db->createCommand($asset_Q)->queryAll();
 
+        $totalCount = count($assets_list);
+        $pages = new Pagination(['totalCount' => $totalCount]);
+        $pages->setPageSize(10);
+        $contract_list = array_slice($assets_list, $pages->offset, $pages->limit);
+
+
+
         // Fetch data for dropdowns
         $provinces = Yii::$app->db->createCommand('SELECT "ID", "name" FROM public."a_province"')->queryAll();
         $districts = Yii::$app->db->createCommand('SELECT id, name FROM public."a_district"')->queryAll();
@@ -184,6 +192,7 @@ class AssetsController extends Controller
             'routes' => $routes,
             'units' => $units,
             'types' => $types,
+            'pages' => $pages,
         ]);
     }
     public function actionSave()

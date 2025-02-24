@@ -185,7 +185,7 @@ class NotificationController extends Controller
         $district_list = Yii::$app->db->createCommand('SELECT * FROM public."a_district" ')->queryAll();
 
 
-        $contract_Q = 'SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
+        $contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name, t.name AS type_name,ms.name AS scope_name,
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name
                     FROM public."m_contract" as cont
@@ -289,7 +289,7 @@ class NotificationController extends Controller
 
 
 
-        $contract_Q = 'SELECT cont.*, contr."company_name " as contractor_name, t.name AS type_name,ms.name AS scope_name,
+        $contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name, t.name AS type_name,ms.name AS scope_name,
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name
                     FROM public."m_contract" as cont
@@ -457,7 +457,7 @@ class NotificationController extends Controller
                 break;
         }
 
-        $contract_Q = 'SELECT cont.*, contr."company_name " as contractor_name,
+        $contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name,
                     t.name AS type_name,ms.name AS scope_name,
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name,

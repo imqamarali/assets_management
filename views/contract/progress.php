@@ -1,12 +1,20 @@
-<style>
-.dropdown-toggle {
-    border: 0;
-    background: #fff;
-}
+<?php
 
-h4 {
-    float: left;
-}
+use yii\widgets\LinkPager;
+
+$conn = Yii::$app->getDb();
+
+?>
+
+<style>
+    .dropdown-toggle {
+        border: 0;
+        background: #fff;
+    }
+
+    h4 {
+        float: left;
+    }
 </style>
 
 <div class="row">
@@ -99,25 +107,45 @@ h4 {
                                         }
 
                                     ?>
-                                    <tr>
-                                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                                        <td><?= $item['area'] ?></td>
-                                        <td><?= $item['region_name'] ?></td>
-                                        <td><?= $item['type_name'] ?></td>
-                                        <td><?= $item['task'] ?></td>
-                                        <td><?= $item['details'] ?></td>
-                                        <td><?= $item['progress'] ?></td>
-                                        <td><?= $item['start_date'] ?></td>
-                                        <td><?= $item['end_date'] ?></td>
-                                        <td><?= $item['submission_date'] ?></td>
-                                        <td><?= $current_status ?></td>
-                                    </tr>
+                                        <tr>
+                                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                            <td><?= $item['area'] ?></td>
+                                            <td><?= $item['region_name'] ?></td>
+                                            <td><?= $item['type_name'] ?></td>
+                                            <td><?= $item['task'] ?></td>
+                                            <td><?= $item['details'] ?></td>
+                                            <td><?= $item['progress'] ?></td>
+                                            <td><?= $item['start_date'] ?></td>
+                                            <td><?= $item['end_date'] ?></td>
+                                            <td><?= $item['submission_date'] ?></td>
+                                            <td><?= $current_status ?></td>
+                                        </tr>
 
 
                                     <?php $index++;
                                     endforeach; ?>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Add pagination links here -->
+                        <div class="pagination-container text-center mt-3">
+                            <?= LinkPager::widget([
+                                'pagination' => $pages,
+                                'options' => ['class' => 'pagination justify-content-center'],
+                                'prevPageLabel' => '&laquo; Previous',
+                                'nextPageLabel' => 'Next &raquo;',
+                                'firstPageLabel' => 'First',
+                                'lastPageLabel' => 'Last',
+                                'maxButtonCount' => 5,
+                                'linkOptions' => ['class' => 'page-link'],
+                                'disabledPageCssClass' => 'disabled',
+                                'prevPageCssClass' => 'page-item',
+                                'nextPageCssClass' => 'page-item',
+                                'firstPageCssClass' => 'page-item',
+                                'lastPageCssClass' => 'page-item',
+                                'activePageCssClass' => 'active',
+                            ]); ?>
                         </div>
                     </div>
 
@@ -185,18 +213,18 @@ h4 {
                                     }
 
                                 ?>
-                                <tr>
-                                    <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                                    <td><?= $item['area'] ?></td>
-                                    <td><?= $item['region_name'] ?></td>
-                                    <td><?= $item['type_name'] ?></td>
-                                    <td><?= $item['task'] ?></td>
-                                    <td><?= $item['details'] ?></td>
-                                    <td><?= $item['progress'] ?></td>
-                                    <td><?= $item['start_date'] ?></td>
-                                    <td><?= $item['end_date'] ?></td>
-                                    <td><?= $current_status ?></td>
-                                </tr>
+                                    <tr>
+                                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                        <td><?= $item['area'] ?></td>
+                                        <td><?= $item['region_name'] ?></td>
+                                        <td><?= $item['type_name'] ?></td>
+                                        <td><?= $item['task'] ?></td>
+                                        <td><?= $item['details'] ?></td>
+                                        <td><?= $item['progress'] ?></td>
+                                        <td><?= $item['start_date'] ?></td>
+                                        <td><?= $item['end_date'] ?></td>
+                                        <td><?= $current_status ?></td>
+                                    </tr>
 
 
                                 <?php $index++;
@@ -205,8 +233,8 @@ h4 {
                         </table>
                         <?php if (count($contract_list) < -121): // Hidden 
                         ?>
-                        <button type="submit" class="btn btn-primary mt-3" style="float: right;">Save
-                            Draft</button>
+                            <button type="submit" class="btn btn-primary mt-3" style="float: right;">Save
+                                Draft</button>
                         <?php endif; ?>
 
                     </div>
@@ -255,31 +283,31 @@ h4 {
                                         $current_status = "Draft Saved";
                                         $to_save = true;
                                     ?>
-                                    <tr>
-                                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                                        <td><?= $item['area'] ?></td>
-                                        <td><?= $item['region_name'] ?></td>
-                                        <td><?= $item['type_name'] ?></td>
-                                        <td><?= $item['task'] ?></td>
-                                        <td><?= $item['details'] ?></td>
-                                        <td><?= $item['progress'] ?></td>
-                                        <td><?= $item['start_date'] ?></td>
-                                        <td><?= $item['end_date'] ?></td>
-                                        <td><?= $current_status ?></td>
-                                    </tr>
-                                    <input type="hidden" name="progress_id<?= $index ?>"
-                                        value="<?= $item['progress_id'] ?>" />
-                                    <input type="hidden" name="status<?= $index ?>"
-                                        value="<?= $item['progress_status'] ?>" />
+                                        <tr>
+                                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                            <td><?= $item['area'] ?></td>
+                                            <td><?= $item['region_name'] ?></td>
+                                            <td><?= $item['type_name'] ?></td>
+                                            <td><?= $item['task'] ?></td>
+                                            <td><?= $item['details'] ?></td>
+                                            <td><?= $item['progress'] ?></td>
+                                            <td><?= $item['start_date'] ?></td>
+                                            <td><?= $item['end_date'] ?></td>
+                                            <td><?= $current_status ?></td>
+                                        </tr>
+                                        <input type="hidden" name="progress_id<?= $index ?>"
+                                            value="<?= $item['progress_id'] ?>" />
+                                        <input type="hidden" name="status<?= $index ?>"
+                                            value="<?= $item['progress_status'] ?>" />
                                     <?php $index++;
                                     endforeach; ?>
                                 </tbody>
                             </table>
                             <?php if ($to_save): // Hidden 
                             ?>
-                            <button type="submit" class="btn btn-primary mt-3" style="float: right;">
-                                Submit Draft
-                            </button>
+                                <button type="submit" class="btn btn-primary mt-3" style="float: right;">
+                                    Submit Draft
+                                </button>
                             <?php endif; ?>
 
                         </form>
