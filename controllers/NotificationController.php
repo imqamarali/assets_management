@@ -221,8 +221,10 @@ class NotificationController extends Controller
                     LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
                     LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
                     LEFT JOIN public.employee AS emp ON emp.id = cp.submitted_by
-                    WHERE cont.status=1 ' . $progress_status . '
+                    WHERE cont.status=1 AND cp.id > 0  ' . $progress_status . '
                     ORDER BY cont.id ASC';
+        // echo $contract_Q;
+        // exit;
         $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
         $totalCount = count($contract_list);
         $pages = new Pagination(['totalCount' => $totalCount]);

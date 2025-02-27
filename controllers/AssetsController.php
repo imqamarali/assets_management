@@ -164,7 +164,7 @@ class AssetsController extends Controller
         $totalCount = count($assets_list);
         $pages = new Pagination(['totalCount' => $totalCount]);
         $pages->setPageSize(10);
-        $contract_list = array_slice($assets_list, $pages->offset, $pages->limit);
+        $assets_list = array_slice($assets_list, $pages->offset, $pages->limit);
 
 
 

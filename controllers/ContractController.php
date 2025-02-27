@@ -311,66 +311,54 @@ class ContractController extends Controller
                     //  "engineer_estimate":"15000","contract_date":"2025-01-30","date_of_completion":"2025-02-28",
                     //  "bid_cost":"50000","finance_ref_code":"13242"}
                     try {
-                        $id = $data['id'];
-                        $contract_no = $data['contract_no'];
-                        $contractor_id = $data['contractor_id'];
-                        $type_of_work = $data['typeofwork_id'];
-                        $scope_id = $data['scope_id'];
-                        $unit_id = $data['unit_id'];
-                        $region_id = $data['region_id'];
-                        $route_id = $data['route_id'];
-                        $district_id = $data['district_id'];
-                        $progress = $data['progress'];
-                        $engineer_estimate = $data['engineer_estimate'];
-                        $contract_date = $data['contract_date'];
-                        $date_of_completion = $data['date_of_completion'];
-                        $bid_cost = $data['bid_cost'];
-                        $finance_ref_code = $data['finance_ref_code'];
-                        $area = $data['area'];
+                        $id = $data['id'] ?? '';
+                        $contract_no = $data['contract_no'] ?? '';
+                        $contractor_id = $data['contractor_id'] ?? '';
+                        $type_of_work = $data['typeofwork_id'] ?? '';
+                        $scope_id = $data['scope_id'] ?? '';
+                        $unit_id = $data['unit_id'] ?? '';
+                        $region_id = $data['region_id'] ?? '';
+                        $route_id = $data['route_id'] ?? '';
+                        $district_id = $data['district_id'] ?? '';
+                        $progress = $data['progress'] ?? '';
+                        $engineer_estimate = $data['engineer_estimate'] ?? '';
+                        $contract_date = $data['contract_date'] ?? '';
+                        $date_of_completion = $data['date_of_completion'] ?? '';
+                        $bid_cost = $data['bid_cost'] ?? '';
+                        $finance_ref_code = $data['finance_ref_code'] ?? '';
+                        $area = $data['area'] ?? '';
                         $status = 0; //$data['status'];
 
                         // id, contract_no, contractor_id, area, type_of_work, scope, contract_date, 
                         // date_of_com, engineer_estimate, bid_cost, date_of_completion, progress, 
                         // unit, status, region_id, route_id, district_id, finance_ref_code)
+                        $fields = [
+                            'contract_no' => $contract_no,
+                            'contractor_id' => $contractor_id,
+                            'area' => $area,
+                            'type_of_work' => $type_of_work,
+                            'scope' => $scope_id,
+                            'contract_date' => $contract_date,
+                            'date_of_com' => $date_of_completion,
+                            'engineer_estimate' => $engineer_estimate,
+                            'bid_cost' => $bid_cost,
+                            'date_of_completion' => $date_of_completion,
+                            'progress' => $progress,
+                            'unit' => $unit_id,
+                            'region_id' => $region_id,
+                            'route_id' => $route_id,
+                            'district_id' => $district_id,
+                            'finance_ref_code' => $finance_ref_code,
+                        ]; // Remove null values from the update array
+                        $updateFields = array_filter($fields, function ($value) {
+                            return $value !== null;
+                        });
+                        // echo json_encode($updateFields);
+                        // exit;
                         if ($id) {
-                            Yii::$app->db->createCommand()->update('m_contract', [
-                                'contract_no' => $contract_no,
-                                'contractor_id' => $contractor_id,
-                                'area' => $area,
-                                'type_of_work' => $type_of_work,
-                                'scope' => $scope_id,
-                                'contract_date' => $contract_date,
-                                'date_of_com' => $date_of_completion,
-                                'engineer_estimate' => $engineer_estimate,
-                                'bid_cost' => $bid_cost,
-                                'date_of_completion' => $date_of_completion,
-                                'progress' => $progress,
-                                'unit' => $unit_id,
-                                'region_id' => $region_id,
-                                'route_id' => $route_id,
-                                'district_id' => $district_id,
-                                'finance_ref_code' => $finance_ref_code,
-                            ], ['id' => $id])->execute();
+                            Yii::$app->db->createCommand()->update('m_contract', $updateFields, ['id' => $id])->execute();
                         } else {
-                            Yii::$app->db->createCommand()->insert('m_contract', [
-                                'contract_no' => $contract_no,
-                                'contractor_id' => $contractor_id,
-                                'area' => $area,
-                                'type_of_work' => $type_of_work,
-                                'scope' => $scope_id,
-                                'contract_date' => $contract_date,
-                                'date_of_com' => $date_of_completion,
-                                'engineer_estimate' => $engineer_estimate,
-                                'bid_cost' => $bid_cost,
-                                'date_of_completion' => $date_of_completion,
-                                'progress' => $progress,
-                                'unit' => $unit_id,
-                                'region_id' => $region_id,
-                                'route_id' => $route_id,
-                                'district_id' => $district_id,
-                                'finance_ref_code' => $finance_ref_code,
-                                'status' => $status
-                            ])->execute();
+                            Yii::$app->db->createCommand()->insert('m_contract', $updateFields)->execute();
                         }
                         $transaction->commit();
                         Yii::$app->session->setFlash('toast', 'Record saved successfully!');

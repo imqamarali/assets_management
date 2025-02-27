@@ -7,14 +7,14 @@ $conn = Yii::$app->getDb();
 ?>
 
 <style>
-    .dropdown-toggle {
-        border: 0;
-        background: #fff;
-    }
+.dropdown-toggle {
+    border: 0;
+    background: #fff;
+}
 
-    h4 {
-        float: left;
-    }
+h4 {
+    float: left;
+}
 </style>
 
 <div class="row">
@@ -58,27 +58,26 @@ $conn = Yii::$app->getDb();
         <div class="row g-5 mb-5">
             <div class="col-xl-12" style="padding: 0px;">
 
-                <div class="card mb-3">
-                    <div class="card-body" style="padding: 7px;">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover table-sm fs--1 mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>Contract</th>
-                                        <th>Area</th>
-                                        <th>Region</th>
-                                        <th>Type </th>
-                                        <td>Task</td>
-                                        <td>Details</td>
-                                        <td>Progress</td>
-                                        <td>Start Date</td>
-                                        <td>End Date</td>
-                                        <td>Submission Date</td>
-                                        <td>Current Status</td>
-                                    </tr>
-                                </thead>
-                                <tbody class="list">
-                                    <?php $index = 1;
+                <div class="table-responsive">
+                    <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
+                        style="border: 1px solid #a9a9a954;">
+                        <thead>
+                            <tr style="margin: -3px;font-size: smaller;">
+                                <th>Contract</th>
+                                <th>Area</th>
+                                <th>Region</th>
+                                <th>Type </th>
+                                <td>Task</td>
+                                <td>Details</td>
+                                <td>Progress</td>
+                                <td>Start Date</td>
+                                <td>End Date</td>
+                                <td>Submission Date</td>
+                                <td>Current Status</td>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            <?php $index = 1;
                                     foreach ($contract_list as $item):
                                         // if ($item['progress_status'] != 1) continue;
                                         // if ($item['progress_status'] != 1) continue; //do not add draft contracts
@@ -107,30 +106,32 @@ $conn = Yii::$app->getDb();
                                         }
 
                                     ?>
-                                        <tr>
-                                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                                            <td><?= $item['area'] ?></td>
-                                            <td><?= $item['region_name'] ?></td>
-                                            <td><?= $item['type_name'] ?></td>
-                                            <td><?= $item['task'] ?></td>
-                                            <td><?= $item['details'] ?></td>
-                                            <td><?= $item['progress'] ?></td>
-                                            <td><?= $item['start_date'] ?></td>
-                                            <td><?= $item['end_date'] ?></td>
-                                            <td><?= $item['submission_date'] ?></td>
-                                            <td><?= $current_status ?></td>
-                                        </tr>
+
+                            <tr style="margin: -3px;font-size: smaller;">
+                                <td style="padding-left: 5px;"><?= $item['contract_no'] ?>
+                                    (<?= $item['contractor_name'] ?>)</td>
+                                <td><?= $item['area'] ?></td>
+                                <td><?= $item['region_name'] ?></td>
+                                <td><?= $item['type_name'] ?></td>
+                                <td><?= $item['task'] ?></td>
+                                <td><?= $item['details'] ?></td>
+                                <td><?= $item['progress'] ?></td>
+                                <td><?= $item['start_date'] ?></td>
+                                <td><?= $item['end_date'] ?></td>
+                                <td><?= $item['submission_date'] ?></td>
+                                <td><?= $current_status ?></td>
+                            </tr>
 
 
-                                    <?php $index++;
+                            <?php $index++;
                                     endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                        </tbody>
+                    </table>
+                </div>
 
-                        <!-- Add pagination links here -->
-                        <div class="pagination-container text-center mt-3">
-                            <?= LinkPager::widget([
+                <!-- Add pagination links here -->
+                <div class="pagination-container text-center mt-3">
+                    <?= LinkPager::widget([
                                 'pagination' => $pages,
                                 'options' => ['class' => 'pagination justify-content-center'],
                                 'prevPageLabel' => '&laquo; Previous',
@@ -146,11 +147,9 @@ $conn = Yii::$app->getDb();
                                 'lastPageCssClass' => 'page-item',
                                 'activePageCssClass' => 'active',
                             ]); ?>
-                        </div>
-                    </div>
-
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -213,18 +212,18 @@ $conn = Yii::$app->getDb();
                                     }
 
                                 ?>
-                                    <tr>
-                                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                                        <td><?= $item['area'] ?></td>
-                                        <td><?= $item['region_name'] ?></td>
-                                        <td><?= $item['type_name'] ?></td>
-                                        <td><?= $item['task'] ?></td>
-                                        <td><?= $item['details'] ?></td>
-                                        <td><?= $item['progress'] ?></td>
-                                        <td><?= $item['start_date'] ?></td>
-                                        <td><?= $item['end_date'] ?></td>
-                                        <td><?= $current_status ?></td>
-                                    </tr>
+                                <tr>
+                                    <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                    <td><?= $item['area'] ?></td>
+                                    <td><?= $item['region_name'] ?></td>
+                                    <td><?= $item['type_name'] ?></td>
+                                    <td><?= $item['task'] ?></td>
+                                    <td><?= $item['details'] ?></td>
+                                    <td><?= $item['progress'] ?></td>
+                                    <td><?= $item['start_date'] ?></td>
+                                    <td><?= $item['end_date'] ?></td>
+                                    <td><?= $current_status ?></td>
+                                </tr>
 
 
                                 <?php $index++;
@@ -233,8 +232,8 @@ $conn = Yii::$app->getDb();
                         </table>
                         <?php if (count($contract_list) < -121): // Hidden 
                         ?>
-                            <button type="submit" class="btn btn-primary mt-3" style="float: right;">Save
-                                Draft</button>
+                        <button type="submit" class="btn btn-primary mt-3" style="float: right;">Save
+                            Draft</button>
                         <?php endif; ?>
 
                     </div>
@@ -283,31 +282,31 @@ $conn = Yii::$app->getDb();
                                         $current_status = "Draft Saved";
                                         $to_save = true;
                                     ?>
-                                        <tr>
-                                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                                            <td><?= $item['area'] ?></td>
-                                            <td><?= $item['region_name'] ?></td>
-                                            <td><?= $item['type_name'] ?></td>
-                                            <td><?= $item['task'] ?></td>
-                                            <td><?= $item['details'] ?></td>
-                                            <td><?= $item['progress'] ?></td>
-                                            <td><?= $item['start_date'] ?></td>
-                                            <td><?= $item['end_date'] ?></td>
-                                            <td><?= $current_status ?></td>
-                                        </tr>
-                                        <input type="hidden" name="progress_id<?= $index ?>"
-                                            value="<?= $item['progress_id'] ?>" />
-                                        <input type="hidden" name="status<?= $index ?>"
-                                            value="<?= $item['progress_status'] ?>" />
+                                    <tr>
+                                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                                        <td><?= $item['area'] ?></td>
+                                        <td><?= $item['region_name'] ?></td>
+                                        <td><?= $item['type_name'] ?></td>
+                                        <td><?= $item['task'] ?></td>
+                                        <td><?= $item['details'] ?></td>
+                                        <td><?= $item['progress'] ?></td>
+                                        <td><?= $item['start_date'] ?></td>
+                                        <td><?= $item['end_date'] ?></td>
+                                        <td><?= $current_status ?></td>
+                                    </tr>
+                                    <input type="hidden" name="progress_id<?= $index ?>"
+                                        value="<?= $item['progress_id'] ?>" />
+                                    <input type="hidden" name="status<?= $index ?>"
+                                        value="<?= $item['progress_status'] ?>" />
                                     <?php $index++;
                                     endforeach; ?>
                                 </tbody>
                             </table>
                             <?php if ($to_save): // Hidden 
                             ?>
-                                <button type="submit" class="btn btn-primary mt-3" style="float: right;">
-                                    Submit Draft
-                                </button>
+                            <button type="submit" class="btn btn-primary mt-3" style="float: right;">
+                                Submit Draft
+                            </button>
                             <?php endif; ?>
 
                         </form>

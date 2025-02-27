@@ -21,9 +21,10 @@
                 style="float: right" style="margin-left: 5px"> Add New<span
                     class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
-            <table class="table table-striped table-hover table-bordered table-sm fs--1 mb-0">
+            <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
+                style="border: 1px solid #a9a9a954;">
                 <thead>
-                    <tr>
+                    <tr style="margin: -3px;font-size: smaller;">
                         <th class="center">Sr #</th>
                         <th>Name</th>
                         <th>Job Description</th>
@@ -46,8 +47,9 @@
                     nok_phone, date_of_appointegerment, service_no, prob_start, prob_end,
                     expiry_of_contract, bank_name, account_title, account_number, branch, whatsapp_no, desk_id
                     FROM public.employee;"; -->
-                    <tr class="menu-item" data-id="<?php echo $item['id']; ?>">
-                        <td class="center"><?php echo $key + 1; ?></td>
+
+                    <tr style="margin: -3px;font-size: smaller;">
+                        <td style="padding-left: 5px;"><?php echo $key + 1; ?></td>
                         <td><?php echo htmlspecialchars($item['name']); ?></td>
                         <td><?php echo htmlspecialchars($item['job_discription']); ?></td>
                         <td><?php echo htmlspecialchars($item['usertype']); ?></td>

@@ -128,7 +128,7 @@ h4 {
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=users/permissions&id=1">View List</a>
+                                    <a class="dropdown-item" href="index.php?r=users/roles">View List</a>
                                 </div>
                             </div>
                         </div>

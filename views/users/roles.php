@@ -39,10 +39,10 @@
                 No Roles found.
             </p>
             <?php } else { ?>
-
-            <table class="table table-striped table-hover table-bordered table-sm fs--1 mb-0">
+            <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
+                style="border: 1px solid #a9a9a954;">
                 <thead>
-                    <tr>
+                    <tr style="margin: -3px;font-size: smaller;">
                         <th class="center">Sr #</th>
                         <th>Roles</th>
                         <th>Permissions</th>
@@ -50,8 +50,8 @@
                 </thead>
                 <tbody>
                     <?php foreach ($roles as $key => $item): ?>
-                    <tr class="menu-item" data-id="<?php echo $key; ?>">
-                        <td class="center"><?php echo $key + 1; ?></td>
+                    <tr class="menu-item" data-id="<?php echo $key; ?>" style="margin: -3px;font-size: smaller;">
+                        <td style="padding-left: 5px;"><?php echo $key + 1; ?></td>
                         <td>
                             <a style="cursor: pointer">
                                 <?php echo htmlspecialchars($item['role_name']); ?>

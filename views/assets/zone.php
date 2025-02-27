@@ -57,9 +57,10 @@ $conn = Yii::$app->getDb();
         <div id="tableExample2"
             data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
             <div class="table-responsive">
-                <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
+                    style="border: 1px solid #a9a9a954;">
                     <thead>
-                        <tr>
+                        <tr style="margin: -3px;font-size: smaller;">
                             <th class="sort border-top ps-3">Sr No</th>
                             <th class="sort border-top">Name</th>
                             <th class="sort border-top">Code</th>
@@ -71,12 +72,14 @@ $conn = Yii::$app->getDb();
                         <?php $index = 1;
                         foreach ($zone_list as $item):
                             $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
+                            $status_color = ($item['status'] == 1) ? "green" : (($item['status'] == 0) ? "red" : "black");
                         ?>
-                            <tr>
-                                <td class="center"><?= $index++ ?></td>
+                            <tr style="margin: -3px;font-size: smaller;">
+                                <td style="padding-left: 5px;"><?= $index++ ?></td>
                                 <td><?= $item['Name'] ?></td>
                                 <td><?= $item['Code'] ?></td>
-                                <td><?= $status ?></td>
+                                <td class="align-middle age" style="font-weight: bold;color: <?= $status_color ?>;">
+                                    <?= $status ?></td>
                                 <td>
                                     <?php if ($can['can_edit'] == 1): ?>
                                         <div class="hidden-sm hidden-xs action-buttons"

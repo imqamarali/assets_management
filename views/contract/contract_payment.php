@@ -41,9 +41,9 @@ $conn = Yii::$app->getDb();
                 <p class="mb-0">Managing Contract Payment Table</p>
             </div>
             <?php if ($can['can_add'] == 1): ?>
-            <button data-bs-toggle="modal" data-bs-target="#newItem" class="btn btn-outline-primary mt-2 mb-2"
-                style="float: right" style="margin-left: 5px"> Add New<span
-                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+                <button data-bs-toggle="modal" data-bs-target="#newItem" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add New<span
+                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
         </div>
         <?php
@@ -54,9 +54,10 @@ $conn = Yii::$app->getDb();
         <div id="tableExample2"
             data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
             <div class="table-responsive">
-                <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
+                    style="border: 1px solid #a9a9a954;">
                     <thead>
-                        <tr>
+                        <tr style="margin: -3px;font-size: smaller;">
                             <th class="sort border-top ps-3">Sr No</th>
                             <th class="sort border-top">Contract No</th>
                             <th class="sort border-top">Company Name</th>
@@ -74,51 +75,53 @@ $conn = Yii::$app->getDb();
                         <?php $index = 1;
                         foreach ($contract_pay_list as $item):
                             $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
+                            $status_color = ($item['status'] == 1) ? "green" : (($item['status'] == 0) ? "red" : "black");
                         ?>
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
-                            <td><?= $item['contract_no'] ?></td>
-                            <td><?= $item['company_name '] ?></td>
-                            <td><?= $item['type_of_payment'] ?></td>
-                            <td><?= $item['dated'] ?></td>
-                            <td><?= $item['voucher_no'] ?></td>
-                            <td><?= $item['amount'] ?></td>
-                            <td><?= $item['intrument_no'] ?></td>
-                            <td><?= $item['instrument_date'] ?></td>
-                            <td><?= $status ?></td>
-                            <td>
-                                <?php if ($can['can_edit'] == 1): ?>
-                                <div class="hidden-sm hidden-xs action-buttons"
-                                    style="display: inline-flex; gap: 10px;">
-                                    <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
-                                        onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                    </a>
-                                </div>
-                                <?php endif; ?>
+                            <tr style="margin: -3px;font-size: smaller;">
+                                <td style="padding-left: 5px;"><?= $index++ ?></td>
+                                <td><?= $item['contract_no'] ?></td>
+                                <td><?= $item['company_name'] ?></td>
+                                <td><?= $item['type_of_payment'] ?></td>
+                                <td><?= $item['dated'] ?></td>
+                                <td><?= $item['voucher_no'] ?></td>
+                                <td><?= $item['amount'] ?></td>
+                                <td><?= $item['intrument_no'] ?></td>
+                                <td><?= $item['instrument_date'] ?></td>
+                                <td class="align-middle age" style="font-weight: bold;color: <?= $status_color ?>;">
+                                    <?= $status ?></td>
+                                <td>
+                                    <?php if ($can['can_edit'] == 1): ?>
+                                        <div class="hidden-sm hidden-xs action-buttons"
+                                            style="display: inline-flex; gap: 10px;">
+                                            <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
+                                                onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
 
-                                <?php if ($can['can_delete'] == 1): ?>
-                                <div class="hidden-sm hidden-xs action-buttons"
-                                    style="display: inline-flex; gap: 10px;">
-                                    <form id="deleteForm_<?php echo $item['id']; ?>"
-                                        action="index.php?r=contract/contract_payment" method="POST"
-                                        style="display: inline;">
-                                        <input type="hidden" name="_csrf"
-                                            value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                        <input type="hidden" name="save_record" value="delete_record">
-                                        <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                        <button type="button" class="green" style="border: none; background: none;"
-                                            onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                            <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                                <?php endif; ?>
-                            </td>
+                                    <?php if ($can['can_delete'] == 1): ?>
+                                        <div class="hidden-sm hidden-xs action-buttons"
+                                            style="display: inline-flex; gap: 10px;">
+                                            <form id="deleteForm_<?php echo $item['id']; ?>"
+                                                action="index.php?r=contract/contract_payment" method="POST"
+                                                style="display: inline;">
+                                                <input type="hidden" name="_csrf"
+                                                    value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                                <input type="hidden" name="save_record" value="delete_record">
+                                                <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                                <button type="button" class="green" style="border: none; background: none;"
+                                                    onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                                    <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
 
 
 
-                        </tr>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -128,23 +131,23 @@ $conn = Yii::$app->getDb();
 </div>
 
 <script>
-function confirmDelete(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('deleteForm_' + itemId).submit();
+    function confirmDelete(itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('deleteForm_' + itemId).submit();
+        }
     }
-}
 
-function update(item) {
-    document.getElementById('modalId').value = item.id;
-    document.getElementById('modalContract').value = item.contract_id; // The contract ID
-    document.getElementById('modalPaymentType').value = item.type_of_payment; // Type of payment
-    document.getElementById('Dated').value = item.dated; // Dated field
-    document.getElementById('modalStatus').value = item.status; // Status (Active/Disabled)
-    document.getElementById('modalVoucherno').value = item.voucher_no; // Voucher number
-    document.getElementById('modalAmount').value = item.amount; // Amount
-    document.getElementById('modalInstrument').value = item.intrument_no; // Instrument number
-    document.getElementById('modalInstrumentDate').value = item.instrument_date; // Instrument date
-}
+    function update(item) {
+        document.getElementById('modalId').value = item.id;
+        document.getElementById('modalContract').value = item.contract_id; // The contract ID
+        document.getElementById('modalPaymentType').value = item.type_of_payment; // Type of payment
+        document.getElementById('Dated').value = item.dated; // Dated field
+        document.getElementById('modalStatus').value = item.status; // Status (Active/Disabled)
+        document.getElementById('modalVoucherno').value = item.voucher_no; // Voucher number
+        document.getElementById('modalAmount').value = item.amount; // Amount
+        document.getElementById('modalInstrument').value = item.intrument_no; // Instrument number
+        document.getElementById('modalInstrumentDate').value = item.instrument_date; // Instrument date
+    }
 </script>
 
 <!-- Modal for Adding/Updating Record -->
@@ -169,8 +172,8 @@ function update(item) {
                             <select class="form-select" name="contract_id" id="modalContract" required>
                                 <option value="">Select Contract</option>
                                 <?php foreach ($contract_list as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['contractor_name'] ?>
-                                    (<?= $item['contract_no'] ?>)</option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['contractor_name'] ?>
+                                        (<?= $item['contract_no'] ?>)</option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalContract">Contract Contract<span style="color:red">*</span></label>

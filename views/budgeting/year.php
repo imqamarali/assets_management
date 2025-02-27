@@ -49,9 +49,10 @@ $conn = Yii::$app->getDb();
                     style="float: right" style="margin-left: 5px"> Add New<span
                         class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
                 <?php endif; ?>
-                <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
+                    style="border: 1px solid #a9a9a954;">
                     <thead>
-                        <tr>
+                        <tr style="margin: -3px;font-size: smaller;">
                             <th class="sort border-top ps-3">Sr No</th>
                             <th class="sort border-top">Year</th>
                             <th class="sort border-top">Action</th>
@@ -61,8 +62,8 @@ $conn = Yii::$app->getDb();
                         <?php $index = 1;
                         foreach ($amp_year_list as $item):
                         ?>
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
+                        <tr style="margin: -3px;font-size: smaller;">
+                            <td style="padding-left: 5px;"><?= $index++ ?></td>
                             <td><?= $item['year'] ?></td>
                             <td>
                                 <?php if ($can['can_edit'] == 1): ?>
