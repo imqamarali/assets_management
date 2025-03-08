@@ -47,10 +47,10 @@ $users_permission = in_array(31, array_column($sidebarItems, 'module_id')) ?? fa
 
 <nav class="navbar navbar-vertical navbar-expand-lg">
     <script>
-    var navbarStyle = window.config.config.phoenixNavbarStyle;
-    if (navbarStyle && navbarStyle !== 'transparent') {
-        document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
-    }
+        var navbarStyle = window.config.config.phoenixNavbarStyle;
+        if (navbarStyle && navbarStyle !== 'transparent') {
+            document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+        }
     </script>
 
 
@@ -77,45 +77,45 @@ $users_permission = in_array(31, array_column($sidebarItems, 'module_id')) ?? fa
                                 <li class="collapsed-nav-item-title d-none">Home</li>
 
                                 <?php if ($home_assets): ?>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center">
-                                            <span class="nav-link-text">Asset Dashboard</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Asset Dashboard</span>
+                                            </div>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
 
                                 <?php if ($home_amp): ?>
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center">
-                                            <span class="nav-link-text">AMP Dashboard</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">AMP Dashboard</span>
+                                            </div>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
 
                                 <?php if ($home_contract): ?>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center">
-                                            <span class="nav-link-text">Contract Dashboard</span>
-                                            <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Contract Dashboard</span>
+                                                <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
+                                            </div>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
 
                                 <?php if ($home_condition): ?>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center">
-                                            <span class="nav-link-text">Condition Dashboard</span>
-                                            <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="index.php" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Condition Dashboard</span>
+                                                <span class="badge ms-2 badge badge-phoenix badge-phoenix-info">New</span>
+                                            </div>
+                                        </a>
+                                    </li>
                                 <?php endif; ?>
 
                             </ul>
@@ -129,134 +129,148 @@ $users_permission = in_array(31, array_column($sidebarItems, 'module_id')) ?? fa
                     <hr class="navbar-vertical-line">
 
                     <?php if ($assets_management): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=assets/index" role="button"
-                            aria-expanded="false" aria-controls="nv-e-commerce">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="shopping-cart"></span></span>
-                                <span class="nav-link-text">Asset Management</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=assets/index" role="button"
+                                aria-expanded="false" aria-controls="nv-e-commerce">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="shopping-cart"></span></span>
+                                    <span class="nav-link-text">Asset Management</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($contract_management): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/index"
-                            aria-expanded="false" aria-controls="nv-CRM">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="phone"></span></span>
-                                <span class="nav-link-text">Contract Management</span>
-                                <span class="fa-solid fa-circle text-info ms-1 new-page-indicator"
-                                    style="font-size: 6px"></span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/index"
+                                aria-expanded="false" aria-controls="nv-CRM">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="phone"></span></span>
+                                    <span class="nav-link-text">Contract Management</span>
+                                    <span class="fa-solid fa-circle text-info ms-1 new-page-indicator"
+                                        style="font-size: 6px"></span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
                     <?php if ($contract_progress): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/progress"
-                            aria-expanded="false" aria-controls="nv-CRM">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="phone"></span></span>
-                                <span class="nav-link-text">Contract Progress</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=contract/progress"
+                                aria-expanded="false" aria-controls="nv-CRM">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="phone"></span></span>
+                                    <span class="nav-link-text">Contract Progress</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($revenue_management): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=revenue/index" role="button"
-                            aria-expanded="false" aria-controls="nv-project-management">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="clipboard"></span></span>
-                                <span class="nav-link-text">Revenue Management</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=revenue/index" role="button"
+                                aria-expanded="false" aria-controls="nv-project-management">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="clipboard"></span></span>
+                                    <span class="nav-link-text">Revenue Management</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($traffic_management): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link label-1" href="index.php?r=traffic/index" role="button"
-                            aria-expanded="false">
-                            <div class="d-flex align-items-center">
-                                <span class="nav-link-icon"><span data-feather="message-square"></span></span>
-                                <span class="nav-link-text-wrapper"><span class="nav-link-text">Traffic
-                                        Management</span></span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link label-1" href="index.php?r=traffic/index" role="button"
+                                aria-expanded="false">
+                                <div class="d-flex align-items-center">
+                                    <span class="nav-link-icon"><span data-feather="message-square"></span></span>
+                                    <span class="nav-link-text-wrapper"><span class="nav-link-text">Traffic
+                                            Management</span></span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($budgeting_management): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=budgeting/index" role="button"
-                            aria-expanded="false" aria-controls="nv-email">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="mail"></span></span>
-                                <span class="nav-link-text">Budgeting Management</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=budgeting/index" role="button"
+                                aria-expanded="false" aria-controls="nv-email">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="mail"></span></span>
+                                    <span class="nav-link-text">Budgeting Management</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($event_management): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=events/index" role="button"
-                            data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-events">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="bookmark"></span></span>
-                                <span class="nav-link-text">Events Management</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=events/index" role="button"
+                                data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-events">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="bookmark"></span></span>
+                                    <span class="nav-link-text">Events Management</span>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+
+                    <?php if ($reporting): ?>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=imports/importconditiondata"
+                                role="button" aria-expanded="false" aria-controls="nv-kanban">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="clipboard"></span></span>
+                                    <span class="nav-link-text">Imports</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($reporting): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=reporting/index" role="button"
-                            aria-expanded="false" aria-controls="nv-kanban">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="align-justify"></span></span>
-                                <span class="nav-link-text">Reporting</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=reporting/index" role="button"
+                                aria-expanded="false" aria-controls="nv-kanban">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="align-justify"></span></span>
+                                    <span class="nav-link-text">Reporting</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($maintenance): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=maintenance/index"
-                            role="button" aria-expanded="false" aria-controls="nv-support">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="settings"></span></span>
-                                <span class="nav-link-text">Maintenance</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=maintenance/index"
+                                role="button" aria-expanded="false" aria-controls="nv-support">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="settings"></span></span>
+                                    <span class="nav-link-text">Maintenance</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($users_permission): ?>
-                    <div class="nav-item-wrapper">
-                        <a class="nav-link dropdown-indicator label-1" href="index.php?r=users/index" role="button"
-                            aria-expanded="false" aria-controls="nv-users">
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
-                                <span class="nav-link-icon"><span data-feather="users"></span></span>
-                                <span class="nav-link-text">Users Permissions</span>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="nav-item-wrapper">
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=users/index" role="button"
+                                aria-expanded="false" aria-controls="nv-users">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
+                                    <span class="nav-link-icon"><span data-feather="users"></span></span>
+                                    <span class="nav-link-text">Users Permissions</span>
+                                </div>
+                            </a>
+                        </div>
                     <?php endif; ?>
 
                 </li>
@@ -337,34 +351,18 @@ $users_permission = in_array(31, array_column($sidebarItems, 'module_id')) ?? fa
                                 </div>
                                 <h6 class="mt-2 text-black">Jerry Seinfield</h6>
                             </div>
-                            <div class="mb-3 mx-3">
-                                <input class="form-control form-control-sm" id="statusUpdateInput" type="text"
-                                    placeholder="Update your status">
-                            </div>
                         </div>
-                        <div class="overflow-auto scrollbar" style="height: 10rem;">
+                        <div class="overflow-auto scrollbar" style="height: 5rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
                                             data-feather="user"></span><span>Profile</span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900"
-                                            data-feather="pie-chart"></span>Dashboard</a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
-                                            data-feather="lock"></span>Posts &amp; Activity</a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
-                                            data-feather="settings"></span>Settings &amp; Privacy </a></li>
+
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
                                             data-feather="help-circle"></span>Help Center</a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
-                                            data-feather="globe"></span>Language</a></li>
                             </ul>
                         </div>
                         <div class="card-footer p-0 border-top">
-                            <ul class="nav d-flex flex-column my-3">
-                                <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900"
-                                            data-feather="user-plus"></span>Add another account</a></li>
-                            </ul>
-                            <hr>
-                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100"
+                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100  mt-3"
                                     href="index.php?r=site/signout">
                                     <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
                             <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1"

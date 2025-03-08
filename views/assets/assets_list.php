@@ -37,9 +37,9 @@ $conn = Yii::$app->getDb();
             </div>
 
             <?php if ($can['can_add'] == 1): ?>
-            <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
-                style="float: right" style="margin-left: 5px"> Add
-                New<span class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+                <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add
+                    New<span class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
         </div>
         <?php
@@ -79,51 +79,51 @@ $conn = Yii::$app->getDb();
                                 $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                                 $status_color = ($item['status'] == 1) ? "green" : (($item['status'] == 0) ? "red" : "black");
                             ?>
-                            <tr style="margin: -3px;font-size: smaller;">
-                                <td style="padding-left: 5px;"><?= $index++ ?></td>
-                                <td><?= $item['name'] ?></td>
-                                <td><?= $item['province_name'] ?></td>
-                                <td><?= $item['district_name'] ?></td>
-                                <td><?= $item['tehsil_name'] ?></td>
-                                <td><?= $item['zone_name'] ?></td>
-                                <td><?= $item['route_name'] ?></td>
-                                <td><?= $item['unit_name'] ?></td>
-                                <td><?= $item['type_name'] ?></td>
-                                <td><?= $item['Location'] ?></td>
-                                <td><?= $item['longitude'] ?></td>
-                                <td><?= $item['latitude'] ?></td>
-                                <td><?= $item['elevation'] ?></td>
-                                <td class="align-middle age" style="font-weight: bold;color: <?= $status_color ?>;">
-                                    <?= $status ?></td>
-                                <td>
-                                    <?php if ($can['can_edit'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons"
-                                        style="display: inline-flex; gap: 10px;">
-                                        <a class="green" data-bs-toggle="modal" data-bs-target="#newItemModal"
-                                            onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                        </a>
-                                    </div>
-                                    <?php endif; ?>
+                                <tr style="margin: -3px;font-size: smaller;">
+                                    <td style="padding-left: 5px;"><?= $index++ ?></td>
+                                    <td><?= $item['name'] ?></td>
+                                    <td><?= $item['province_name'] ?></td>
+                                    <td><?= $item['district_name'] ?></td>
+                                    <td><?= $item['tehsil_name'] ?></td>
+                                    <td><?= $item['zone_name'] ?></td>
+                                    <td><?= $item['route_name'] ?></td>
+                                    <td><?= $item['unit_name'] ?></td>
+                                    <td><?= $item['type_name'] ?></td>
+                                    <td><?= $item['Location'] ?></td>
+                                    <td><?= $item['longitude'] ?></td>
+                                    <td><?= $item['latitude'] ?></td>
+                                    <td><?= $item['elevation'] ?></td>
+                                    <td class="align-middle age" style="font-weight: bold;color: <?= $status_color ?>;">
+                                        <?= $status ?></td>
+                                    <td>
+                                        <?php if ($can['can_edit'] == 1): ?>
+                                            <div class="hidden-sm hidden-xs action-buttons"
+                                                style="display: inline-flex; gap: 10px;">
+                                                <a class="green" data-bs-toggle="modal" data-bs-target="#newItemModal"
+                                                    onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
 
-                                    <?php if ($can['can_delete'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons"
-                                        style="display: inline-flex; gap: 10px;">
-                                        <form id="deleteForm_<?php echo $item['id']; ?>"
-                                            action="index.php?r=assets/save" method="POST" style="display: inline;">
-                                            <input type="hidden" name="_csrf"
-                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                            <input type="hidden" name="save_record" value="delete_record">
-                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                            <button type="button" class="green" style="border: none; background: none;"
-                                                onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
+                                        <?php if ($can['can_delete'] == 1): ?>
+                                            <div class="hidden-sm hidden-xs action-buttons"
+                                                style="display: inline-flex; gap: 10px;">
+                                                <form id="deleteForm_<?php echo $item['id']; ?>"
+                                                    action="index.php?r=assets/save" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="_csrf"
+                                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                                    <input type="hidden" name="save_record" value="delete_record">
+                                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                                    <button type="button" class="green" style="border: none; background: none;"
+                                                        onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -154,50 +154,50 @@ $conn = Yii::$app->getDb();
 
 <!-- Script to handle update functionality -->
 <script>
-function confirmDelete(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('deleteForm_' + itemId).submit();
+    function confirmDelete(itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('deleteForm_' + itemId).submit();
+        }
     }
-}
 
-function update(item) {
-    console.log(item);
+    function update(item) {
+        console.log(item);
 
-    // Assign values to the modal fields
-    document.getElementById('modalId').value = item.id;
-    document.getElementById('modalName').value = item.name;
-    document.getElementById('modalProvince').value = item.province_id;
-    document.getElementById('modalDistrict').value = item.district_id;
-    document.getElementById('modalTehsil').value = item.techsil_id;
-    document.getElementById('modalZone').value = item.zone_id;
-    document.getElementById('modalMUnit').value = item.M_Unit_id;
-    document.getElementById('modalLocation').value = item.Location;
-    document.getElementById('modalSection').value = item.Section_id;
-    document.getElementById('modalRoute').value = item.Route_id;
-    document.getElementById('modalDirection').value = item.direction_id;
-    document.getElementById('modalType').value = item.type_id;
-    document.getElementById('modalAssetId').value = item.Asset_id;
-    document.getElementById('modalUnit').value = item.unit;
-    document.getElementById('modalLongitude').value = item.longitude;
-    document.getElementById('modalLatitude').value = item.latitude;
-    document.getElementById('modalElevation').value = item.elevation;
-    document.getElementById('modalMetadata').value = item.metadata;
-    document.getElementById('modalKmFrom').value = item.km_from;
-    document.getElementById('modalKmTo').value = item.km_to;
-    document.getElementById('modalRange').value = item.Range;
-    document.getElementById('modalReference').value = item.reference;
-    document.getElementById('modalAddress').value = item.address;
-    document.getElementById('modalGeom').value = item.geom;
-    document.getElementById('modalReg').value = item.Reg;
-    document.getElementById('modalStatus').value = item.status;
+        // Assign values to the modal fields
+        document.getElementById('modalId').value = item.id;
+        document.getElementById('modalName').value = item.name;
+        document.getElementById('modalProvince').value = item.province_id;
+        document.getElementById('modalDistrict').value = item.district_id;
+        document.getElementById('modalTehsil').value = item.techsil_id;
+        document.getElementById('modalZone').value = item.zone_id;
+        document.getElementById('modalMUnit').value = item.M_Unit_id;
+        document.getElementById('modalLocation').value = item.Location;
+        document.getElementById('modalSection').value = item.Section_id;
+        document.getElementById('modalRoute').value = item.Route_id;
+        document.getElementById('modalDirection').value = item.direction_id;
+        document.getElementById('modalType').value = item.type_id;
+        document.getElementById('modalAssetId').value = item.Asset_id;
+        document.getElementById('modalUnit').value = item.unit;
+        document.getElementById('modalLongitude').value = item.longitude;
+        document.getElementById('modalLatitude').value = item.latitude;
+        document.getElementById('modalElevation').value = item.elevation;
+        document.getElementById('modalMetadata').value = item.metadata;
+        document.getElementById('modalKmFrom').value = item.km_from;
+        document.getElementById('modalKmTo').value = item.km_to;
+        document.getElementById('modalRange').value = item.Range;
+        document.getElementById('modalReference').value = item.reference;
+        document.getElementById('modalAddress').value = item.address;
+        document.getElementById('modalGeom').value = item.geom;
+        document.getElementById('modalReg').value = item.Reg;
+        document.getElementById('modalStatus').value = item.status;
 
-    // Update the modal title
-    document.querySelector('.modal-title').textContent = 'Update Record';
+        // Update the modal title
+        document.querySelector('.modal-title').textContent = 'Update Record';
 
-    // Show the modal
-    var modal = new bootstrap.Modal(document.getElementById('newItemModal'));
-    modal.show();
-}
+        // Show the modal
+        var modal = new bootstrap.Modal(document.getElementById('newItemModal'));
+        modal.show();
+    }
 </script>
 
 
@@ -243,7 +243,7 @@ function update(item) {
                             <select class="form-select" name="province_id" id="modalProvince" required>
                                 <option value="">Select Province</option>
                                 <?php foreach ($province_list as $item): ?>
-                                <option value="<?= $item['ID'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['ID'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalProvince">Province<span style="color:red">*</span></label>
@@ -256,7 +256,7 @@ function update(item) {
                             <select class="form-select" name="district_id" id="modalDistrict" required>
                                 <option value="">Select District</option>
                                 <?php foreach ($districts as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalDistrict">District<span style="color:red">*</span></label>
@@ -269,7 +269,7 @@ function update(item) {
                             <select class="form-select" name="techsil_id" id="modalTehsil" required>
                                 <option value="">Select Tehsil</option>
                                 <?php foreach ($tehsils as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalTehsil">Tehsil<span style="color:red">*</span></label>
@@ -282,7 +282,7 @@ function update(item) {
                             <select class="form-select" name="zone_id" id="modalZone" required>
                                 <option value="">Select Zone</option>
                                 <?php foreach ($zones as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalZone">Zone<span style="color:red">*</span></label>
@@ -295,7 +295,7 @@ function update(item) {
                             <select class="form-select" name="M_Unit_id" id="modalMUnit" required>
                                 <option value="">Select Unit</option>
                                 <?php foreach ($units as $item): ?>
-                                <option value="<?= $item['ID'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['ID'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalMUnit">Unit<span style="color:red">*</span></label>
@@ -309,7 +309,7 @@ function update(item) {
                             <select class="form-select" name="type_id" id="modalType" required>
                                 <option value="">Select Type</option>
                                 <?php foreach ($types as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalType">Type<span style="color:red">*</span></label>
@@ -340,7 +340,7 @@ function update(item) {
                             <select class="form-select" name="Route_id" id="modalRoute" required>
                                 <option value="">Select Route</option>
                                 <?php foreach ($routes as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalRoute">Route<span style="color:red">*</span></label>

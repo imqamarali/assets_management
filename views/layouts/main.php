@@ -2,8 +2,7 @@
 
 use app\assets\AppAsset;
 
-AppAsset::register($this);
-
+AppAsset::register($this)
 
 
 ?>
