@@ -223,7 +223,7 @@ $users_permission = in_array(31, array_column($sidebarItems, 'module_id')) ?? fa
 
                     <?php if ($reporting): ?>
                         <div class="nav-item-wrapper">
-                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=imports/importconditiondata"
+                            <a class="nav-link dropdown-indicator label-1" href="index.php?r=imports/conditiondata"
                                 role="button" aria-expanded="false" aria-controls="nv-kanban">
                                 <div class="d-flex align-items-center">
                                     <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>

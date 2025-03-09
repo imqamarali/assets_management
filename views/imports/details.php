@@ -34,49 +34,48 @@
                 </svg>
                 <!-- <i class="fa-inverse fa-stack-1x text-primary-soft fas fa-cart-plus" data-fa-transform="shrink-4"></i> Font Awesome fontawesome.com --></span>
             <div class="col">
-                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">Pavement Condition
-                        and Roughness Survey Data - 2021-22 </span><span
+                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">Details</span><span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>
-                <p class="mb-0">Route: E-35_Burhan-Thakot</p>
             </div>
 
-
-            <?php if (true): ?>
-                <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
-                    style="float: right; margin-left: 5px;">Import File
-                </button>
-
-                <!-- Modal to upload file -->
-                <div class="modal fade" id="newItemModal" tabindex="-1" aria-labelledby="newItemModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="newItemModalLabel">Upload Excel File</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="index.php?r=imports/importconditiondata" method="POST"
-                                    enctype="multipart/form-data">
-                                    <div class="mb-3">
-                                        <label for="fileUpload" class="form-label">Choose Excel File</label>
-                                        <input type="file" class="form-control" id="fileUpload" name="fileUpload"
-                                            accept=".xlsx, .xls">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Upload</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <?php endif; ?>
+            <div
+                style="float: right;font-size: 15px !important;font-weight: bold;padding: 4px;border-bottom: 1px solid green;margin-top: -29px;height: 26px;">
+                Import Batch:
+                <a href="#">
+                    <i class="ace-icon fa fa-circle light-green"></i> &nbsp;
+                    <span class="red">
+                        <b><?= $condition_data['batch_name'] ?></b></span>
+                </a>
+            </div>
+            <div
+                style="float: right;font-size: 15px !important;font-weight: bold;padding: 4px;border-bottom: 1px solid green;margin-top: -29px;height: 26px;">
+                &nbsp;|&nbsp;&nbsp;Date
+                <a href="#">
+                    <i class="ace-icon fa fa-circle light-green"></i> &nbsp;
+                    <span class="red">
+                        <b><?= $condition_data['date'] ?></b></span>
+                </a>
+            </div>
         </div>
 
         <hr class="bg-200">
         <div class="row" style="margin: 0px -40px;">
             <div class="table-responsive">
+                <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 8px;">
+                    <thead style="border: 1px solid #a9a9a954;">
+                        <tr style="text-align: center; background-color: #f2f2f2;">
+                            <th colspan="33" style="border: 1px solid #a9a9a954; padding: 5px; font-size: medium;">
+                                <span id="toggleArrow" style="cursor: pointer; margin-right: 10px;"
+                                    onclick="toggleTable()">
+                                    <i class="fa fa-eye"></i> PAVEMENT CONDITION SURVEY
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="table-responsive" id="table1">
                 <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 8px;">
                     <thead style="border: 1px solid #a9a9a954;">
                         <tr style="text-align: center; background-color: #f2f2f2;">
@@ -163,7 +162,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($pavement_condition_survey as $survey): ?>
+                        <?php foreach ($condition_data['pavement_condition_survey'] as $survey): ?>
                             <tr style="text-align: center; font-size: 8px;">
                                 <td style="border: 1px solid #a9a9a954; padding: 5px;">
                                     <?php echo htmlspecialchars($survey['route']); ?></td>
@@ -237,9 +236,207 @@
                 </table>
 
             </div>
+        </div>
+        <div class="row" style="margin: 0px -40px; margin-top:5px;">
+            <div class="table-responsive">
+                <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 8px;">
+                    <thead style="border: 1px solid #a9a9a954;">
+                        <tr style="text-align: center; background-color: #f2f2f2;">
+                            <th colspan="33" style="border: 1px solid #a9a9a954; padding: 5px; font-size: medium;">
+                                <span id="toggleArrow" style="cursor: pointer; margin-right: 10px;"
+                                    onclick="toggleTable1()">
+                                    <i class="fa fa-eye"></i> ROAD ROUGHNESS SURVEY
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="table-responsive" id="table2">
+                <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 8px;">
+                    <thead style="border: 1px solid #a9a9a954;">
+                        <tr style="text-align: center; background-color: #f2f2f2;">
+                            <th rowspan="2" style="border: 1px solid #a9a9a954; padding: 5px;">Route</th>
+                            <th rowspan="2" style="border: 1px solid #a9a9a954; padding: 5px;">Direction</th>
+                            <th rowspan="2" style="border: 1px solid #a9a9a954; padding: 5px;">Km.</th>
+                            <th rowspan="2" style="border: 1px solid #a9a9a954; padding: 5px;">Remarks</th>
+                            <th rowspan="2" style="border: 1px solid #a9a9a954; padding: 5px;">Date</th>
+                            <th colspan="2" style="border: 1px solid #a9a9a954; padding: 5px;">Roughness</th>
+                        </tr>
+                        <tr style="text-align: center; background-color: #f2f2f2;">
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">m/km </th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Index</th>
+                        </tr>
+                        <tr style="text-align: center; font-size: 8px; background-color: #f2f2f2;">
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Route</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">dir</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">km.</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rem</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Date</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rufmkm </th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">gi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($condition_data['road_roughness_survey'] as $survey): ?>
+                            <tr style="text-align: center; font-size: 8px;">
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['route']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['direction']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['km']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['remarks']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['date']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['roughness_m_per_km']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['roughness_index']); ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
 
+            </div>
+        </div>
 
+        <div class="row" style="margin: 0px -40px; margin-top:5px;">
+            <div class="table-responsive">
+                <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 8px;">
+                    <thead style="border: 1px solid #a9a9a954;">
+                        <tr style="text-align: center; background-color: #f2f2f2;">
+                            <th colspan="33" style="border: 1px solid #a9a9a954; padding: 5px; font-size: medium;">
+                                <span id="toggleArrow" style="cursor: pointer; margin-right: 10px;"
+                                    onclick="toggleTable2()">
+                                    <i class="fa fa-eye"></i> REMAINING SERVICE LIFE
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="table-responsive" id="table3">
+                <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 8px;">
+                    <thead style="border: 1px solid #a9a9a954;">
+                        <tr style="text-align: center; background-color: #f2f2f2;">
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Route</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Direction</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Km.</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Rutting</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Cracking(Structural)</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Cracking (Thermal)</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Ravelling</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Roughness</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">Pavement</th>
+                        </tr>
+                        <tr style="text-align: center; background-color: #f2f2f2;">
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">route </th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">dir</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">km</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rslrd</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rslcds</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rslcdt</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rslrv</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rslgd</th>
+                            <th style="border: 1px solid #a9a9a954; padding: 5px;">rslpd</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($condition_data['remaining_service_life'] as $survey): ?>
+                            <tr style="text-align: center; font-size: 8px;">
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['route']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['direction']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['km']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['rutting']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['cracking_structural']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['cracking_thermal']); ?></td>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['ravelling']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['roughness']); ?>
+                                </td>
+                                <td style="border: 1px solid #a9a9a954; padding: 5px;">
+                                    <?php echo htmlspecialchars($survey['pavement']); ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     </div>
 
 </div>
+
+<script>
+    function toggleTable() {
+        var table = document.getElementById("table1");
+        var icon = document.getElementById("toggleArrow").getElementsByTagName("i")[0];
+
+        // Toggle table visibility
+        if (table.style.display === "none") {
+            table.style.display = "block";
+            icon.classList.remove("fa-arrow-up");
+            icon.classList.add("fa-arrow-down");
+        } else {
+            table.style.display = "none";
+            icon.classList.remove("fa-arrow-down");
+            icon.classList.add("fa-arrow-up");
+        }
+    }
+
+    function toggleTable1() {
+        var table = document.getElementById("table2");
+        var icon = document.getElementById("toggleArrow").getElementsByTagName("i")[0];
+
+        // Toggle table visibility
+        if (table.style.display === "none") {
+            table.style.display = "block";
+            icon.classList.remove("fa-arrow-up");
+            icon.classList.add("fa-arrow-down");
+        } else {
+            table.style.display = "none";
+            icon.classList.remove("fa-arrow-down");
+            icon.classList.add("fa-arrow-up");
+        }
+    }
+
+    function toggleTable2() {
+        var table = document.getElementById("table3");
+        var icon = document.getElementById("toggleArrow").getElementsByTagName("i")[0];
+
+        // Toggle table visibility
+        if (table.style.display === "none") {
+            table.style.display = "block";
+            icon.classList.remove("fa-arrow-up");
+            icon.classList.add("fa-arrow-down");
+        } else {
+            table.style.display = "none";
+            icon.classList.remove("fa-arrow-down");
+            icon.classList.add("fa-arrow-up");
+        }
+    }
+</script>

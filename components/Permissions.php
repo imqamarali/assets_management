@@ -207,7 +207,8 @@ class Permissions extends Component
             'notification/progressdetails',
 
 
-            'imports/importconditiondata',
+            'imports/details',
+            'imports/conditiondata'
 
         ];
         return in_array($action, $actions);

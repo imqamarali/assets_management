@@ -67,6 +67,19 @@ AppAsset::register($this)
             background-color: #fff !important;
         }
     </style>
+    <?php
+    $script = <<< JS
+    setTimeout(function() {
+        var flash = document.getElementById('flash-info');
+        if (flash) {
+            flash.style.opacity = '0';
+            setTimeout(() => flash.style.display = 'none', 500);
+        }
+    }, 2000);
+JS;
+    $this->registerJs($script);
+    ?>
+
     <script>
         var phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
