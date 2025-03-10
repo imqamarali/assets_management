@@ -133,6 +133,22 @@ class AssetsController extends Controller
             }
         }
 
+        // Count total assets for pagination
+        $countQuery = 'SELECT COUNT(*) FROM public."n_asset" na
+            LEFT JOIN public."a_province" ap ON na.province_id = ap."ID"
+            LEFT JOIN public."a_district" ad ON na.district_id = ad.id
+            LEFT JOIN public."a_tehsil" at ON na.techsil_id = at.id
+            LEFT JOIN public."a_zone" az ON na.zone_id = az.id
+            LEFT JOIN public."a_route" ar ON na."Route_id" = ar.id
+            LEFT JOIN public."u_unit" uu ON na."M_Unit_id" = uu."ID"
+            LEFT JOIN public."m_type" mt ON na.type_id = mt.id
+            WHERE ' . $where;
+
+        $totalCount = Yii::$app->db->createCommand($countQuery)->queryScalar();
+
+        $pages = new Pagination(['totalCount' => $totalCount]);
+        $pages->setPageSize(10);
+
         $asset_Q = 'SELECT 
                 na.id, na.province_id, ap."name" as province_name, 
                 na.district_id, ad.name as district_name, 
@@ -157,14 +173,11 @@ class AssetsController extends Controller
             LEFT JOIN public."a_route" ar ON na."Route_id" = ar.id
             LEFT JOIN public."u_unit" uu ON na."M_Unit_id" = uu."ID"
             LEFT JOIN public."m_type" mt ON na.type_id = mt.id
-            WHERE ' . $where;
+            WHERE ' . $where . '
+            LIMIT ' . $pages->limit . ' OFFSET ' . $pages->offset;
 
         $assets_list = Yii::$app->db->createCommand($asset_Q)->queryAll();
 
-        $totalCount = count($assets_list);
-        $pages = new Pagination(['totalCount' => $totalCount]);
-        $pages->setPageSize(10);
-        $assets_list = array_slice($assets_list, $pages->offset, $pages->limit);
 
 
 

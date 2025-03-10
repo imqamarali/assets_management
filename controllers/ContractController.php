@@ -3,15 +3,11 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\BadRequestHttpException;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
-use app\models\User;
 use yii\data\Pagination;
+use yii\web\UploadedFile;
 
 class ContractController extends Controller
 {
@@ -208,14 +204,18 @@ class ContractController extends Controller
         }
 
 
-        $contract_pay = 'SELECT * FROM public."m_contractor" WHERE ' . $filter;
-        $contractors_list = Yii::$app->db->createCommand($contract_pay, $params)->queryAll();
-
-
-        $totalCount = count($contractors_list);
+        // Step 1: Get total count
+        $countQuery = 'SELECT COUNT(*) FROM public."m_contractor" WHERE ' . $filter;
+        $totalCount = Yii::$app->db->createCommand($countQuery, $params)->queryScalar();
         $pages = new Pagination(['totalCount' => $totalCount]);
         $pages->setPageSize(10);
-        $contractors_list = array_slice($contractors_list, $pages->offset, $pages->limit);
+        $contract_pay = 'SELECT * FROM public."m_contractor"
+                WHERE ' . $filter . '
+                ORDER BY id ASC
+                LIMIT ' . $pages->limit . ' OFFSET ' . $pages->offset;
+
+        $contractors_list = Yii::$app->db->createCommand($contract_pay, $params)->queryAll();
+
 
         return $this->render('contractor', [
             'can' => [
@@ -384,11 +384,9 @@ class ContractController extends Controller
         $district_list = Yii::$app->db->createCommand('SELECT * FROM public."a_district" ')->queryAll();
 
 
-        // Build the query
-        $contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name, t.name AS type_name, ms.name AS scope_name,
-                        r.name AS region_name, u.name AS unit_name,
-                        rt.name AS route_name, d.name AS district_name
-                FROM public."m_contract" as cont
+        // Step 1: Get total count for pagination
+        $countQuery = 'SELECT COUNT(*) 
+                FROM public."m_contract" AS cont
                 LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
                 LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
                 LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
@@ -396,15 +394,31 @@ class ContractController extends Controller
                 LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
                 LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
                 LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
-                WHERE ' . $filter . ' ORDER BY cont."id" ASC';
+                WHERE ' . $filter;
 
-        // Execute the query to get all results
-        $contract_list = Yii::$app->db->createCommand($contract_Q, $params)->queryAll();
+        $totalCount = Yii::$app->db->createCommand($countQuery, $params)->queryScalar();
 
-        $totalCount = count($contract_list);
+        // Step 2: Configure pagination
         $pages = new Pagination(['totalCount' => $totalCount]);
         $pages->setPageSize(10);
-        $contract_list = array_slice($contract_list, $pages->offset, $pages->limit);
+
+        // Step 3: Fetch paginated data with LIMIT and OFFSET
+        $contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name, t.name AS type_name, ms.name AS scope_name,
+                        r.name AS region_name, u.name AS unit_name,
+                        rt.name AS route_name, d.name AS district_name
+                FROM public."m_contract" AS cont
+                LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+                WHERE ' . $filter . ' 
+                ORDER BY cont."id" ASC
+                LIMIT ' . $pages->limit . ' OFFSET ' . $pages->offset;
+
+        $contract_list = Yii::$app->db->createCommand($contract_Q, $params)->queryAll();
 
         return $this->render('contract', [
             'can' => [
@@ -445,7 +459,6 @@ class ContractController extends Controller
         $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_region"')->queryAll();
         $route_list = Yii::$app->db->createCommand('SELECT * FROM public."a_route" ORDER BY id ASC ')->queryAll();
         $district_list = Yii::$app->db->createCommand('SELECT * FROM public."a_district" ')->queryAll();
-
         $treatment_list = Yii::$app->db->createCommand('	SELECT * FROM public."m_treatment" ORDER BY id ASC ')->queryAll();
 
 
@@ -480,6 +493,11 @@ class ContractController extends Controller
                             LEFT JOIN public."m_contract" cont ON cp."contract_id" = cont.id
                             LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
                             WHERE cont."id" = ' . $ref . ' ';
+        $contract_documents_Q = 'SELECT id, title, create_date, file_path, contract_id
+                                FROM public.m_contract_documents
+                                WHERE contract_id = ' . $ref . ' ';
+
+
 
 
         $contract_Progress =
@@ -505,11 +523,13 @@ class ContractController extends Controller
         $contract_revised_list = Yii::$app->db->createCommand($contract_revised_Q)->queryAll();
         $contract_pay_list = Yii::$app->db->createCommand($contract_pay_Q)->queryAll();
         $contract_Progress_list = Yii::$app->db->createCommand($contract_Progress)->queryAll();
+        $contract_documents = Yii::$app->db->createCommand($contract_documents_Q)->queryAll();
 
         $contract['contract_sub'] = $contract_sub_list;
         $contract['contract_revised'] = $contract_revised_list;
         $contract['contract_payment'] = $contract_pay_list;
         $contract['contract_progress'] = $contract_Progress_list;
+        $contract['contract_documents'] = $contract_documents;
 
 
         return $this->render('contractdetails', [
@@ -1265,5 +1285,93 @@ class ContractController extends Controller
             'contract_list' => $cont_list,
             'new_contract_list' => $new_contract_list
         ]);
+    }
+
+    public function actionContract_documents()
+    {
+
+        $file_path_dir = 'file/contract_documents/';
+
+        if (Yii::$app->request->isPost) {
+            $data = Yii::$app->request->post();
+
+            if (isset($data['save_record'])) {
+                $transaction = Yii::$app->db->beginTransaction();
+
+                if ($data['save_record'] == 'delete_record') {
+                    $id = $data['id'];
+
+                    // Fetch file path first
+                    $fileInfo = (new \yii\db\Query())
+                        ->select(['file_path'])
+                        ->from('m_contract_documents')
+                        ->where(['id' => $id])
+                        ->one();
+                    if ($fileInfo && file_exists($fileInfo['file_path'])) {
+                        unlink($fileInfo['file_path']);
+                    }
+                    Yii::$app->db->createCommand()->delete('m_contract_documents', ['id' => $id])->execute();
+
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('toast', 'Document deleted successfully!');
+                    return $this->redirect(isset($_REQUEST['referance']) ?
+                        ['contract/contractdetails', 'referance' => $_REQUEST['referance']] : ['contract/index']);
+                }
+                try {
+                    $id = $data['id'] ?? null;
+                    $title = $data['title'];
+                    $date = $data['date'];
+                    $contract_id = $data['contract_id'] ?? null;
+
+                    $uploadedFile = UploadedFile::getInstanceByName('fileUpload');
+                    $file_uploaded = null;
+
+                    if ($uploadedFile) {
+                        // Ensure upload directory exists
+                        if (!is_dir($file_path_dir)) {
+                            mkdir($file_path_dir, 0777, true);
+                        }
+
+                        $fileName = time() . '_' . preg_replace('/[^a-zA-Z0-9\._-]/', '_', $uploadedFile->name);
+                        $fullPath = $file_path_dir . $fileName;
+
+                        if ($uploadedFile->saveAs($fullPath)) {
+                            $file_uploaded = $fullPath;
+                        } else {
+                            throw new \Exception('File upload failed.');
+                        }
+                    }
+
+                    if ($id) {
+                        Yii::$app->db->createCommand()->update('m_contract_documents', [
+                            'title' => $title,
+                            'file_path' => $file_uploaded,
+                            'create_date' => $date,
+                            'contract_id' => $contract_id,
+                        ], ['id' => $id])->execute();
+                    } else {
+                        Yii::$app->db->createCommand()->insert('m_contract_documents', [
+                            'title' => $title,
+                            'file_path' => $file_uploaded,
+                            'create_date' => $date,
+                            'contract_id' => $contract_id,
+                        ])->execute();
+                    }
+
+                    $transaction->commit();
+
+                    Yii::$app->session->setFlash('toast', 'Document uploaded successfully!');
+                    return $this->redirect(isset($_REQUEST['referance']) ?
+                        ['contract/contractdetails', 'referance' => $_REQUEST['referance']] : ['contract/index']);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', 'Error occurred while saving the document: ' . $e->getMessage());
+                    return $this->redirect(isset($_REQUEST['referance']) ?
+                        ['contract/contractdetails', 'referance' => $_REQUEST['referance']] : ['contract/index']);
+                }
+            }
+        }
+
+        return $this->redirect(['contract/index']);
     }
 }

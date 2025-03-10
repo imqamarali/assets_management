@@ -45,9 +45,9 @@ $conn = Yii::$app->getDb();
             data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;age&quot;],&quot;page&quot;:5,&quot;pagination&quot;:{&quot;innerWindow&quot;:2,&quot;left&quot;:1,&quot;right&quot;:1}}">
             <div class="table-responsive">
                 <?php if ($can['can_add'] == 1): ?>
-                    <button data-bs-toggle="modal" data-bs-target="#newItem" class="btn btn-outline-primary mt-2 mb-2"
-                        style="float: right" style="margin-left: 5px"> Add New<span
-                            class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+                <button data-bs-toggle="modal" data-bs-target="#newItem" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add New<span
+                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
                 <?php endif; ?>
 
                 <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
@@ -68,58 +68,76 @@ $conn = Yii::$app->getDb();
                             $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                         ?>
 
-                            <tr style="margin: -3px;font-size: smaller;">
-                                <td style="padding-left: 5px;"><?= $index++ ?></td>
-                                <td><?= $item['title'] ?></td>
-                                <td><?= $item['year'] ?></td>
-                                <td><?= $item['create_date'] ?></td>
-                                <td><?= $status ?></td>
-                                <td>
+                        <tr style="margin: -3px;font-size: smaller;">
+                            <td style="padding-left: 5px;"><?= $index++ ?></td>
+                            <td><?= $item['title'] ?></td>
+                            <td><?= $item['year'] ?></td>
+                            <td><?= $item['create_date'] ?></td>
+                            <td><?= $status ?></td>
+                            <td>
 
-                                    <?php if ($can['can_view'] == 1): ?>
-                                        <div class="hidden-sm hidden-xs action-buttons"
-                                            style="display: inline-flex; gap: 10px;">
-                                            <a class="green"
-                                                href="index.php?r=budgeting/amp_details&referance=<?= $item['id'] ?> "
-                                                onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                                <i class="ace-icon fa fa-eye bigger-130"></i>
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if ($can['can_edit'] == 1): ?>
-                                        <div class="hidden-sm hidden-xs action-buttons"
-                                            style="display: inline-flex; gap: 10px;">
-                                            <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
-                                                onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                                <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
+                                <?php if ($can['can_view'] == 1): ?>
+                                <div class="hidden-sm hidden-xs action-buttons"
+                                    style="display: inline-flex; gap: 10px;">
+                                    <a class="green"
+                                        href="index.php?r=budgeting/amp_details&referance=<?= $item['id'] ?> "
+                                        onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                        <i class="ace-icon fa fa-eye bigger-130"></i>
+                                    </a>
+                                </div>
+                                <?php endif; ?>
+                                <?php if ($can['can_edit'] == 1): ?>
+                                <div class="hidden-sm hidden-xs action-buttons"
+                                    style="display: inline-flex; gap: 10px;">
+                                    <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
+                                        onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                    </a>
+                                </div>
+                                <?php endif; ?>
 
-                                    <?php if ($can['can_delete'] == 1): ?>
-                                        <div class="hidden-sm hidden-xs action-buttons"
-                                            style="display: inline-flex; gap: 10px;">
-                                            <form id="deleteForm_<?php echo $item['id']; ?>" action="index.php?r=amp/index"
-                                                method="POST" style="display: inline;">
-                                                <input type="hidden" name="_csrf"
-                                                    value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                                <input type="hidden" name="save_record" value="delete_record">
-                                                <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                                <button type="button" class="green" style="border: none; background: none;"
-                                                    onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                                    <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    <?php endif; ?>
-                                </td>
+                                <?php if ($can['can_delete'] == 1): ?>
+                                <div class="hidden-sm hidden-xs action-buttons"
+                                    style="display: inline-flex; gap: 10px;">
+                                    <form id="deleteForm_<?php echo $item['id']; ?>" action="index.php?r=amp/index"
+                                        method="POST" style="display: inline;">
+                                        <input type="hidden" name="_csrf"
+                                            value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                        <input type="hidden" name="save_record" value="delete_record">
+                                        <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                        <button type="button" class="green" style="border: none; background: none;"
+                                            onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                            <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <?php endif; ?>
+                            </td>
 
 
 
-                            </tr>
+                        </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
+            <div class="pagination-container text-center mt-3">
+                <?= LinkPager::widget([
+                    'pagination' => $pages,
+                    'options' => ['class' => 'pagination justify-content-center'],
+                    'prevPageLabel' => '&laquo; Previous',
+                    'nextPageLabel' => 'Next &raquo;',
+                    'firstPageLabel' => 'First',
+                    'lastPageLabel' => 'Last',
+                    'maxButtonCount' => 5,
+                    'linkOptions' => ['class' => 'page-link'],
+                    'disabledPageCssClass' => 'disabled',
+                    'prevPageCssClass' => 'page-item',
+                    'nextPageCssClass' => 'page-item',
+                    'firstPageCssClass' => 'page-item',
+                    'lastPageCssClass' => 'page-item',
+                    'activePageCssClass' => 'active',
+                ]); ?>
             </div>
         </div>
     </div>
@@ -127,23 +145,23 @@ $conn = Yii::$app->getDb();
 
 <!-- Script to handle update functionality -->
 <script>
-    function confirmDelete(itemId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('deleteForm_' + itemId).submit();
-        }
+function confirmDelete(itemId) {
+    if (confirm('Are you sure you want to delete this item?')) {
+        document.getElementById('deleteForm_' + itemId).submit();
     }
+}
 
-    function update(item) {
-        console.log(item)
-        // Update form fields with the values from the item
-        document.getElementById('modalTitle').value = item.title;
-        document.getElementById('modalYear').value = item.year;
-        document.getElementById('modalStatus').value = item.status; // Ensure the correct status is selected
-        document.getElementById('modalId').value = item.id;
+function update(item) {
+    console.log(item)
+    // Update form fields with the values from the item
+    document.getElementById('modalTitle').value = item.title;
+    document.getElementById('modalYear').value = item.year;
+    document.getElementById('modalStatus').value = item.status; // Ensure the correct status is selected
+    document.getElementById('modalId').value = item.id;
 
-        // Update the modal title to indicate update mode
-        document.querySelector('.modal-title').textContent = 'Update Record';
-    }
+    // Update the modal title to indicate update mode
+    document.querySelector('.modal-title').textContent = 'Update Record';
+}
 </script>
 <!-- Modal for Adding/Updating Record -->
 <div class="modal fade modal-xl" id="newItem" tabindex="-1" aria-labelledby="newItem" aria-hidden="true">

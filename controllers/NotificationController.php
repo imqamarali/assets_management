@@ -213,23 +213,30 @@ class NotificationController extends Controller
                 break;
         }
 
-        $contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name,
-                    cp.id as progress_id, cp.task,cp.details,
-                    cp.id as progress_id, cp.progress, cp.start_date, cp.end_date, cp.status as progress_status,
-                    cp.submission_date, emp.name as submitted_by
-                    FROM public."m_contract" as cont
-                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
-                    LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
-                    LEFT JOIN public.employee AS emp ON emp.id = cp.submitted_by
-                    WHERE cont.status=1 AND cp.id > 0  ' . $progress_status . '
-                    ORDER BY cont.id ASC';
-        // echo $contract_Q;
-        // exit;
-        $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
-        $totalCount = count($contract_list);
+        $countQuery = 'SELECT COUNT(*) 
+                FROM public."m_contract" as cont
+                LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+                WHERE cont.status = 1 AND cp.id > 0 ' . $progress_status;
+
+        $totalCount = Yii::$app->db->createCommand($countQuery)->queryScalar();
+
         $pages = new Pagination(['totalCount' => $totalCount]);
         $pages->setPageSize(10);
-        $contract_list = array_slice($contract_list, $pages->offset, $pages->limit);
+
+        $contract_Q = 'SELECT cont.*, contr."company_name" as contractor_name,
+                    cp.id as progress_id, cp.task, cp.details,
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status,
+                    cp.submission_date, emp.name as submitted_by
+                FROM public."m_contract" as cont
+                LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+                LEFT JOIN public.employee AS emp ON emp.id = cp.submitted_by
+                WHERE cont.status = 1 AND cp.id > 0 ' . $progress_status . '
+                ORDER BY cont.id ASC
+                LIMIT ' . $pages->limit . ' OFFSET ' . $pages->offset;
+
+        $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
+
 
         return $this->render('progressnotifications', [
             'can' => [

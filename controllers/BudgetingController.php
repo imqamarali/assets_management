@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\User;
+use yii\data\Pagination;
 
 class BudgetingController extends Controller
 {
@@ -143,9 +144,21 @@ class BudgetingController extends Controller
             }
         }
 
+
+        $totalCount = Yii::$app->db->createCommand(
+            'SELECT COUNT(*) FROM public."amp_main"'
+        )->queryScalar();
+
+        $pages = new Pagination(['totalCount' => $totalCount]);
+        $pages->setPageSize(10);
+
         $main_list = Yii::$app->db->createCommand(
-            'SELECT id, title, year, create_date,status FROM public."amp_main";'
+            'SELECT id, title, year, create_date, status
+                FROM public."amp_main"
+                ORDER BY id DESC
+                LIMIT ' . $pages->limit . ' OFFSET ' . $pages->offset
         )->queryAll();
+
 
 
 
@@ -156,7 +169,8 @@ class BudgetingController extends Controller
                 'can_edit'   => 1,
                 'can_delete' => 1,
             ],
-            'main_list' => $main_list
+            'main_list' => $main_list,
+            'pages' => $pages,
         ]);
     }
     public function actionAmp_details()

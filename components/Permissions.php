@@ -184,6 +184,7 @@ class Permissions extends Component
             'contract/contractdetails',
             'contract/progress',
             'contract/new_progress',
+            'contract/contract_documents',
 
             'users/index',
             'users/roles',
