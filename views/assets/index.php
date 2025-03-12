@@ -1,27 +1,27 @@
 <style>
-.dropdown-toggle {
-    border: 0;
-    background: #fff;
-}
+    .dropdown-toggle {
+        border: 0;
+        background: #fff;
+    }
 
-h4 {
-    float: left;
-}
+    h4 {
+        float: left;
+    }
 </style>
 
 
 <div class="row">
     <div class="col_12">
-        <div class="d-flex" id="scrollspyEcommerce"><span class="fa-stack me-2 ms-n1"><svg
-                    class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
+        <div class="d-flex" id="scrollspyEcommerce">
+            <span class="fa-stack me-2 ms-n1">
+                <svg class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
                     data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512" data-fa-i2svg="">
                     <path fill="currentColor"
                         d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z">
                     </path>
                 </svg>
-                <!-- <i class="fas fa-circle fa-stack-2x text-primary"></i> Font Awesome fontawesome.com --><svg
-                    class="svg-inline--fa fa-cart-plus fa-inverse fa-stack-1x text-primary-soft"
+                <svg class="svg-inline--fa fa-cart-plus fa-inverse fa-stack-1x text-primary-soft"
                     data-fa-transform="shrink-4" aria-hidden="true" focusable="false" data-prefix="fas"
                     data-icon="cart-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
                     data-fa-i2svg="" style="transform-origin: 0.5625em 0.5em;">
@@ -33,7 +33,7 @@ h4 {
                         </g>
                     </g>
                 </svg>
-                <!-- <i class="fa-inverse fa-stack-1x text-primary-soft fas fa-cart-plus" data-fa-transform="shrink-4"></i> Font Awesome fontawesome.com --></span>
+            </span>
             <div class="col">
                 <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">Asset
                         Management</span><span
@@ -47,42 +47,42 @@ h4 {
             <div class="col-12 col-xl-8">
                 <div class="row align-items-center g-4">
                     <?php if (isset($submenus[0]) && $submenus[0]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-danger fas fa-road fs-6"></span>
-                            <div class="ms-3">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-danger fas fa-road fs-6"></span>
+                                <div class="ms-3">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h4 class="mb-0">Assets</h4>
-                                </button>
-                                <p class="text-800 fs--1 mb-0">Awating processing</p>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
-                                    <a class="dropdown-item" href="index.php?r=assets/list">View List</a>
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h4 class="mb-0">Assets</h4>
+                                    </button>
+                                    <p class="text-800 fs--1 mb-0">Awating processing</p>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                        <a class="dropdown-item" href="index.php?r=assets/list">View List</a>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                     <?php endif; ?>
                     <?php if (!isset($submenus[1]) && $submenus[1]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-success fas fa-dice-d20 fs-6"></span>
-                            <div class="ms-3">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-success fas fa-dice-d20 fs-6"></span>
+                                <div class="ms-3">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h4 class="mb-0">Amenities</h4>
-                                </button>
-                                <p class="text-800 fs--1 mb-0">Awating processing</p>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
-                                    <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h4 class="mb-0">Amenities</h4>
+                                    </button>
+                                    <p class="text-800 fs--1 mb-0">Awating processing</p>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                        <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                     <?php endif; ?>
                     <hr class="bg-200">
                 </div>
@@ -90,182 +90,182 @@ h4 {
 
                     <?php if (isset($submenus[2]) && $submenus[2]['can_view'] == true): ?>
 
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-info far fa-circle fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-info far fa-circle fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Zone</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Zone</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/zone">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/zone">View List</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <?php if (isset($submenus[3]) && $submenus[3]['can_view'] == true): ?>
 
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span
-                                class="text-success fas fab fa-buromobelexperte fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span
+                                    class="text-success fas fab fa-buromobelexperte fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Region </h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Region </h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/region">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/region">View List</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                     <?php if (isset($submenus[4]) && $submenus[4]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-success fab fa-delicious fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-success fab fa-delicious fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Province</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Province</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/province">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/province">View List</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                     <?php if (isset($submenus[5]) && $submenus[5]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-success fab fa-flipboard fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-success fab fa-flipboard fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">District</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">District</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/district">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/district">View List</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                     <?php endif; ?>
                     <?php if (isset($submenus[6]) && $submenus[6]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-danger fas fa-road fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-danger fas fa-road fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Route</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Route</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/route">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/route">View List</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                     <?php endif; ?>
                     <?php if (!isset($submenus[7]) && $submenus[7]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span
-                                class="text-success fas fa-chart-area-d20 fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span
+                                    class="text-success fas fa-chart-area-d20 fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Section</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Section</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                     <?php if (isset($submenus[8]) && $submenus[8]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span
-                                class="text-success fas fa-layer-group fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span
+                                    class="text-success fas fa-layer-group fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Layer's</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Layer's</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/layers">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/layers">View List</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                     <?php if (isset($submenus[9]) && $submenus[9]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-danger fab fa-unity fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-danger fab fa-unity fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Units</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Units</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/unit">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/unit">View List</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                     <?php endif; ?>
                     <?php if (!isset($submenus[10]) && $submenus[10]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-success fas fa-dice-d20 fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-success fas fa-dice-d20 fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Media</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Media</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                     <?php if (!isset($submenus[11]) && $submenus[11]['can_view'] == true): ?>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center"><span class="text-success fas fa-dice-d20 fs-3"></span>
-                            <div class="ms-1">
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex align-items-center"><span class="text-success fas fa-dice-d20 fs-3"></span>
+                                <div class="ms-1">
 
-                                <button class="dropdown-toggle" id="disabledLinkExample" type="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <h6 style="margin-top: 24%;" class="mb-0">Amenities</h6>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
+                                    <button class="dropdown-toggle" id="disabledLinkExample" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h6 style="margin-top: 24%;" class="mb-0">Amenities</h6>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="disabledLinkExample">
 
-                                    <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                        <a class="dropdown-item" href="index.php?r=assets/index">View List</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
 

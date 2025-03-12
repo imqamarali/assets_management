@@ -1039,8 +1039,8 @@ class ContractController extends Controller
                         return $this->redirect(['contract/progress']);
                     }
                 } catch (\Exception $e) {
-                    echo 'Internal Exception: ' . $e->getMessage();
-                    exit;
+                    // echo 'Internal Exception: ' . $e->getMessage();
+                    // exit;
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('toast', 'Internal Exception: ' . $e->getMessage());
                     return $this->redirect(['contract/progress']);
@@ -1051,7 +1051,8 @@ class ContractController extends Controller
                     r.name AS region_name,u.name AS unit_name,
                     rt.name AS route_name,d.name AS district_name,
                     cp.id as progress_id, cp.task,cp.details,
-                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status, cp.submission_date
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status, cp.submission_date,
+                    demB.date as demand_date, demB.title
                     FROM public."m_contract" as cont
                     LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
                     LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
@@ -1061,6 +1062,7 @@ class ContractController extends Controller
                     LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
                     LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
                     LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+                    LEFT JOIN public."demand_of_bill" as demB ON cp.id = demB.progress_id
                     WHERE cont.status=1 AND cp.submitted_by =\'' . $login_user . '\'
                     ORDER BY cp.status ASC';
         $contract_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
@@ -1286,7 +1288,131 @@ class ContractController extends Controller
             'new_contract_list' => $new_contract_list
         ]);
     }
+    public function actionDemand_of_bill($id)
+    {
+        $login_user = Yii::$app->Component->SessionId();
+        $module_features = Yii::$app->Permissions->getModuleFeatures(24);
+        if (count($module_features) < 1) $this->redirect(['site/index']);
+        $submenus = isset($module_features[0]['submenus']) ? $module_features[0]['submenus'] : [];
+        $hasViewPermission = false;
+        foreach ($submenus as $submenu) {
+            if (isset($submenu['can_view']) && $submenu['can_view'] === true) {
+                $hasViewPermission = true;
+                break;
+            }
+        }
+        if (!$hasViewPermission) {
+            $this->redirect(['site/index']);
+        }
 
+        if (Yii::$app->request->isPost) {
+            $data = Yii::$app->request->post();
+
+            // Define the folder where the file will be stored
+            $file_path_dir = 'file/contract_documents/';
+            $file_path = '';
+
+            // Check if a file is uploaded
+            if (isset($_FILES['file_path']) && $_FILES['file_path']['error'] == 0) {
+                $file = $_FILES['file_path'];
+                $file_extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $file_name = uniqid('file_') . '.' . $file_extension;
+                $file_path = $file_path_dir . $file_name;
+                if (!move_uploaded_file($file['tmp_name'], $file_path)) {
+                    Yii::$app->session->setFlash('toast', 'File upload failed.');
+                    return $this->redirect(['contract/progress']);
+                }
+            }
+            $bill_amount = $data['bill_amount'];
+            $comments = isset($data['comments']) ? $data['comments'] : '';
+            $date = $data['date'];
+            $status = isset($data['status']) ? $data['status'] : 1;
+            $title = $data['bill_title'];
+            $progress_id = isset($data['progress_id']) ? $data['progress_id'] : $id;
+
+            if (isset($data['demand_id']) && !empty($data['demand_id'])) {
+                if ($file_path != '') {
+                    $demand_id = $data['demand_id'];
+                    $sql = "UPDATE public.demand_of_bill 
+                    SET bill_amount = :bill_amount, comments = :comments, date = :date, 
+                        file_path = :file_path, status = :status, progress_id = :progress_id, title = :title
+                    WHERE id = :demand_id";
+                    $params = [
+                        ':bill_amount' => $bill_amount,
+                        ':comments' => $comments,
+                        ':date' => $date,
+                        ':file_path' => $file_path,
+                        ':status' => $status,
+                        ':progress_id' => $progress_id,
+                        ':title' => $title,
+                        ':demand_id' => $demand_id
+                    ];
+                } else {
+                    $demand_id = $data['demand_id'];
+                    $sql = "UPDATE public.demand_of_bill 
+                    SET bill_amount = :bill_amount, comments = :comments, date = :date, 
+                        status = :status, progress_id = :progress_id, title = :title
+                    WHERE id = :demand_id";
+                    $params = [
+                        ':bill_amount' => $bill_amount,
+                        ':comments' => $comments,
+                        ':date' => $date,
+                        ':status' => $status,
+                        ':progress_id' => $progress_id,
+                        ':title' => $title,
+                        ':demand_id' => $demand_id
+                    ];
+                }
+            } else {
+                $sql = "INSERT INTO public.demand_of_bill(bill_amount, comments, date, file_path, status, progress_id, title,submitted_by)
+                    VALUES(:bill_amount, :comments, :date, :file_path, :status, :progress_id, :title,  :submitted_by)";
+                $params = [
+                    ':bill_amount' => $bill_amount,
+                    ':comments' => $comments,
+                    ':date' => $date,
+                    ':file_path' => $file_path,
+                    ':status' => $status,
+                    ':progress_id' => $progress_id,
+                    ':title' => $title,
+                    ':submitted_by' => $login_user
+                ];
+            }
+
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                Yii::$app->db->createCommand($sql, $params)->execute();
+                $transaction->commit();
+                Yii::$app->session->setFlash('toast', 'Record saved successfully.');
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('toast', 'Error: ' . $e->getMessage());
+            }
+
+            return $this->redirect(['contract/progress']);
+        }
+        $Q = 'SELECT cont.*, contr."company_name" as contractor_name, t.name AS type_name,ms.name AS scope_name,
+                    r.name AS region_name,u.name AS unit_name,
+                    rt.name AS route_name,d.name AS district_name,
+                    cp.id as progress_id, cp.task,cp.details,
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status, cp.submission_date,
+                    demB.id as demand_id, demB.bill_amount, demB.comments, demB.date as demand_date,
+                    demB.file_path, demB.status as demand_status, demB.title as demand_title, demB.comments
+                    FROM public."m_contract" as cont
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+                    LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+                    LEFT JOIN public."demand_of_bill" as demB ON cp.id = demB.progress_id
+                    WHERE cp.id = ' . $id . ' ORDER BY cp.status ASC';
+        $demand = Yii::$app->db->createCommand($Q)->queryOne();
+        return $this->render('demand_of_bill', [
+            'demand' => $demand,
+        ]);
+    }
     public function actionContract_documents()
     {
 

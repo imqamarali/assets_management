@@ -155,15 +155,15 @@
                         }
 
                     ?>
-                        <tr>
-                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                            <td><?= $item['task'] ?></td>
-                            <td><?= $item['details'] ?></td>
-                            <td><?= $item['progress'] ?></td>
-                            <td><?= $item['start_date'] ?></td>
-                            <td><?= $item['end_date'] ?></td>
-                            <td><?= $current_status ?></td>
-                        </tr>
+                    <tr>
+                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                        <td><?= $item['task'] ?></td>
+                        <td><?= $item['details'] ?></td>
+                        <td><?= $item['progress'] ?></td>
+                        <td><?= $item['start_date'] ?></td>
+                        <td><?= $item['end_date'] ?></td>
+                        <td><?= $current_status ?></td>
+                    </tr>
 
 
                     <?php $index++;
@@ -178,9 +178,9 @@
             <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Contract
                 Sub</button>
             <?php if ($can['can_add'] == 1): ?>
-                <button data-bs-toggle="modal" data-bs-target="#modalSub" class="btn btn-outline-primary mt-2 mb-2"
-                    style="float: right" style="margin-left: 5px"> Add New<span
-                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+            <button data-bs-toggle="modal" data-bs-target="#modalSub" class="btn btn-outline-primary mt-2 mb-2"
+                style="float: right" style="margin-left: 5px"> Add New<span
+                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
             <table class="table table-striped table-hover table-sm fs--1 mb-0">
                 <thead>
@@ -206,51 +206,51 @@
                     foreach ($contract['contract_sub'] as $item):
                         $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                     ?>
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
-                            <td><?= $item['contract_no'] ?></td>
-                            <td><?= $item['company_name'] ?></td>
-                            <td><?= $item['km_from'] ?></td>
-                            <td><?= $item['Km_to'] ?></td>
-                            <td><?= $item['direction'] ?></td>
-                            <td><?= $item['type_name'] ?></td>
-                            <td><?= $item['treatment_name'] ?></td>
-                            <td><?= $item['lenght'] ?></td>
-                            <td><?= $item['location_from'] ?></td>
-                            <td><?= $item['location_to'] ?></td>
-                            <td><?= $item['disc'] ?></td>
-                            <td><?= $status ?></td>
-                            <td>
-                                <?php if ($can['can_edit'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <a class="green" data-bs-toggle="modal" data-bs-target="#modalSub"
-                                            onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                        </a>
-                                    </div>
-                                <?php endif; ?>
+                    <tr>
+                        <td class="center"><?= $index++ ?></td>
+                        <td><?= $item['contract_no'] ?></td>
+                        <td><?= $item['company_name'] ?></td>
+                        <td><?= $item['km_from'] ?></td>
+                        <td><?= $item['Km_to'] ?></td>
+                        <td><?= $item['direction'] ?></td>
+                        <td><?= $item['type_name'] ?></td>
+                        <td><?= $item['treatment_name'] ?></td>
+                        <td><?= $item['lenght'] ?></td>
+                        <td><?= $item['location_from'] ?></td>
+                        <td><?= $item['location_to'] ?></td>
+                        <td><?= $item['disc'] ?></td>
+                        <td><?= $status ?></td>
+                        <td>
+                            <?php if ($can['can_edit'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <a class="green" data-bs-toggle="modal" data-bs-target="#modalSub"
+                                    onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                </a>
+                            </div>
+                            <?php endif; ?>
 
-                                <?php if ($can['can_delete'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <form id="subdeleteForm_<?php echo $item['id']; ?>"
-                                            action="index.php?r=contract/contract_cub" method="POST" style="display: inline;">
-                                            <input type="hidden" name="_csrf"
-                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                            <input type="hidden" name="save_record"
-                                                value="delete_record&referance=<?= $_REQUEST['referance'] ?>">
-                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                            <button type="button" class="green" style="border: none; background: none;"
-                                                onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                <?php endif; ?>
-                            </td>
+                            <?php if ($can['can_delete'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <form id="subdeleteForm_<?php echo $item['id']; ?>"
+                                    action="index.php?r=contract/contract_cub" method="POST" style="display: inline;">
+                                    <input type="hidden" name="_csrf"
+                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                    <input type="hidden" name="save_record"
+                                        value="delete_record&referance=<?= $_REQUEST['referance'] ?>">
+                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                    <button type="button" class="green" style="border: none; background: none;"
+                                        onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        </td>
 
 
 
-                        </tr>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -262,9 +262,9 @@
             <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Revised
                 Contract</button>
             <?php if ($can['can_add'] == 1): ?>
-                <button data-bs-toggle="modal" data-bs-target="#modalRev" class="btn btn-outline-primary mt-2 mb-2"
-                    style="float: right" style="margin-left: 5px"> Add New<span
-                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+            <button data-bs-toggle="modal" data-bs-target="#modalRev" class="btn btn-outline-primary mt-2 mb-2"
+                style="float: right" style="margin-left: 5px"> Add New<span
+                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
             <table class="table table-striped table-hover table-sm fs--1 mb-0">
                 <thead>
@@ -286,49 +286,49 @@
                     foreach ($contract['contract_revised'] as $item):
                         $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                     ?>
-                        <!-- id, contract_id, type, revised_amount, revised_date, remarks, create_date, status
+                    <!-- id, contract_id, type, revised_amount, revised_date, remarks, create_date, status
                             -->
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
-                            <td><?= $item['contract_no'] ?></td>
-                            <td><?= $item['company_name'] ?></td>
-                            <td><?= $item['type_name'] ?></td>
-                            <td><?= $item['revised_amount'] ?></td>
-                            <td><?= $item['revised_date'] ?></td>
-                            <td><?= $item['remarks'] ?></td>
-                            <td><?= $item['create_date'] ?></td>
-                            <td><?= $status ?></td>
-                            <td>
-                                <?php if ($can['can_edit'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <a class="green" data-bs-toggle="modal" data-bs-target="#modalRev"
-                                            onclick="update1(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                        </a>
-                                    </div>
-                                <?php endif; ?>
+                    <tr>
+                        <td class="center"><?= $index++ ?></td>
+                        <td><?= $item['contract_no'] ?></td>
+                        <td><?= $item['company_name'] ?></td>
+                        <td><?= $item['type_name'] ?></td>
+                        <td><?= $item['revised_amount'] ?></td>
+                        <td><?= $item['revised_date'] ?></td>
+                        <td><?= $item['remarks'] ?></td>
+                        <td><?= $item['create_date'] ?></td>
+                        <td><?= $status ?></td>
+                        <td>
+                            <?php if ($can['can_edit'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <a class="green" data-bs-toggle="modal" data-bs-target="#modalRev"
+                                    onclick="update1(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                </a>
+                            </div>
+                            <?php endif; ?>
 
-                                <?php if ($can['can_delete'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <form id="revdeleteForm_<?php echo $item['id']; ?>"
-                                            action="index.php?r=contract/contract_revised&referance=<?= $_REQUEST['referance'] ?>"
-                                            method="POST" style="display: inline;">
-                                            <input type="hidden" name="_csrf"
-                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                            <input type="hidden" name="save_record" value="delete_record">
-                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                            <button type="button" class="green" style="border: none; background: none;"
-                                                onclick="confirmDelete1(<?php echo $item['id']; ?>)">
-                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                <?php endif; ?>
-                            </td>
+                            <?php if ($can['can_delete'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <form id="revdeleteForm_<?php echo $item['id']; ?>"
+                                    action="index.php?r=contract/contract_revised&referance=<?= $_REQUEST['referance'] ?>"
+                                    method="POST" style="display: inline;">
+                                    <input type="hidden" name="_csrf"
+                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                    <input type="hidden" name="save_record" value="delete_record">
+                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                    <button type="button" class="green" style="border: none; background: none;"
+                                        onclick="confirmDelete1(<?php echo $item['id']; ?>)">
+                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        </td>
 
 
 
-                        </tr>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -339,9 +339,9 @@
         <div class="table-responsive">
             <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Payment</button>
             <?php if ($can['can_add'] == 1): ?>
-                <button data-bs-toggle="modal" data-bs-target="#modalPay" class="btn btn-outline-primary mt-2 mb-2"
-                    style="float: right" style="margin-left: 5px"> Add New<span
-                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+            <button data-bs-toggle="modal" data-bs-target="#modalPay" class="btn btn-outline-primary mt-2 mb-2"
+                style="float: right" style="margin-left: 5px"> Add New<span
+                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
             <table class="table table-striped table-hover table-sm fs--1 mb-0">
                 <thead>
@@ -364,48 +364,48 @@
                     foreach ($contract['contract_payment'] as $item):
                         $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                     ?>
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
-                            <td><?= $item['contract_no'] ?></td>
-                            <td><?= $item['company_name'] ?></td>
-                            <td><?= $item['type_of_payment'] ?></td>
-                            <td><?= $item['dated'] ?></td>
-                            <td><?= $item['voucher_no'] ?></td>
-                            <td><?= $item['amount'] ?></td>
-                            <td><?= $item['intrument_no'] ?></td>
-                            <td><?= $item['instrument_date'] ?></td>
-                            <td><?= $status ?></td>
-                            <td>
-                                <?php if ($can['can_edit'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <a class="green" data-bs-toggle="modal" data-bs-target="#modalPay"
-                                            onclick="update2(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                        </a>
-                                    </div>
-                                <?php endif; ?>
+                    <tr>
+                        <td class="center"><?= $index++ ?></td>
+                        <td><?= $item['contract_no'] ?></td>
+                        <td><?= $item['company_name'] ?></td>
+                        <td><?= $item['type_of_payment'] ?></td>
+                        <td><?= $item['dated'] ?></td>
+                        <td><?= $item['voucher_no'] ?></td>
+                        <td><?= $item['amount'] ?></td>
+                        <td><?= $item['intrument_no'] ?></td>
+                        <td><?= $item['instrument_date'] ?></td>
+                        <td><?= $status ?></td>
+                        <td>
+                            <?php if ($can['can_edit'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <a class="green" data-bs-toggle="modal" data-bs-target="#modalPay"
+                                    onclick="update2(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                </a>
+                            </div>
+                            <?php endif; ?>
 
-                                <?php if ($can['can_delete'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <form id="paydeleteForm_<?php echo $item['id']; ?>"
-                                            action="index.php?r=contract/contract_payment&referance=<?= $_REQUEST['referance'] ?>"
-                                            method="POST" style="display: inline;">
-                                            <input type="hidden" name="_csrf"
-                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                            <input type="hidden" name="save_record" value="delete_record">
-                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                            <button type="button" class="green" style="border: none; background: none;"
-                                                onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                <?php endif; ?>
-                            </td>
+                            <?php if ($can['can_delete'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <form id="paydeleteForm_<?php echo $item['id']; ?>"
+                                    action="index.php?r=contract/contract_payment&referance=<?= $_REQUEST['referance'] ?>"
+                                    method="POST" style="display: inline;">
+                                    <input type="hidden" name="_csrf"
+                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                    <input type="hidden" name="save_record" value="delete_record">
+                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                    <button type="button" class="green" style="border: none; background: none;"
+                                        onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        </td>
 
 
 
-                        </tr>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -415,54 +415,54 @@
         <div class="table-responsive">
             <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Documents</button>
             <?php if ($can['can_add'] == 1): ?>
-                <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
-                    style="float: right; margin-left: 5px;">Upload File
-                </button>
-                <div class="modal fade" id="newItemModal" tabindex="-1" aria-labelledby="newItemModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="newItemModalLabel">Upload Document</h5>
-                                <small>(.xlsx, .xls, .csv, .pdf, .doc, .docx, image/*) only</small>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form
-                                    action="index.php?r=contract/contract_documents&referance=<?= $_REQUEST['referance'] ?>"
-                                    method="POST" enctype="multipart/form-data">
-                                    <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                    <input type="hidden" name="contract_id" value="<?= $_REQUEST['referance'] ?>" />
-                                    <input type="hidden" name="save_record" value="save_record" />
-                                    <div class="mb-3">
-                                        <label for="title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" required>
-                                    </div>
+            <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
+                style="float: right; margin-left: 5px;">Upload File
+            </button>
+            <div class="modal fade" id="newItemModal" tabindex="-1" aria-labelledby="newItemModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newItemModalLabel">Upload Document</h5>
+                            <small>(.xlsx, .xls, .csv, .pdf, .doc, .docx, image/*) only</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form
+                                action="index.php?r=contract/contract_documents&referance=<?= $_REQUEST['referance'] ?>"
+                                method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                <input type="hidden" name="contract_id" value="<?= $_REQUEST['referance'] ?>" />
+                                <input type="hidden" name="save_record" value="save_record" />
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
 
-                                    <div class="col-12 col-md-12 mb-3">
-                                        <label for="organizerSingle2">Date</label>
-                                        <div class="flatpickr-input-container">
-                                            <div class="form-floating">
-                                                <input class="form-control datetimepicker flatpickr-input" id="date"
-                                                    name="date" type="text" placeholder="Select Date" readonly="readonly">
-                                                <label class="ps-6" for="date">Select Date</label>
-                                                <span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
-                                            </div>
+                                <div class="col-12 col-md-12 mb-3">
+                                    <label for="organizerSingle2">Date</label>
+                                    <div class="flatpickr-input-container">
+                                        <div class="form-floating">
+                                            <input class="form-control datetimepicker flatpickr-input" id="date"
+                                                name="date" type="text" placeholder="Select Date" readonly="readonly">
+                                            <label class="ps-6" for="date">Select Date</label>
+                                            <span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="fileUpload" class="form-label">Choose File</label>
-                                        <input type="file" class="form-control" id="fileUpload" name="fileUpload"
-                                            accept=".xlsx, .xls, .csv, .pdf, .doc, .docx, image/*">
-                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fileUpload" class="form-label">Choose File</label>
+                                    <input type="file" class="form-control" id="fileUpload" name="fileUpload"
+                                        accept=".xlsx, .xls, .csv, .pdf, .doc, .docx, image/*">
+                                </div>
 
-                                    <!-- Submit Button -->
-                                    <button type="submit" class="btn btn-primary" style="float: right;">Upload</button>
-                                </form>
-                            </div>
+                                <!-- Submit Button -->
+                                <button type="submit" class="btn btn-primary" style="float: right;">Upload</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+            </div>
             <?php endif; ?>
             <table class="table table-striped table-hover table-sm fs--1 mb-0">
                 <thead>
@@ -477,38 +477,38 @@
                     <?php $index = 1;
                     foreach ($contract['contract_documents'] as $item):
                     ?>
-                        <tr>
-                            <td class="center"><?= $index++ ?></td>
-                            <td><?= $item['title'] ?></td>
-                            <td><?= $item['create_date'] ?></td>
-                            <td>
-                                <a href="<?= Yii::getAlias('@web') . '/' . $item['file_path'] ?>" target="_blank">
-                                    <?= basename($item['file_path']) ?>
-                                </a>
-                            </td>
+                    <tr>
+                        <td class="center"><?= $index++ ?></td>
+                        <td><?= $item['title'] ?></td>
+                        <td><?= $item['create_date'] ?></td>
+                        <td>
+                            <a href="<?= Yii::getAlias('@web') . '/' . $item['file_path'] ?>" target="_blank">
+                                <?= basename($item['file_path']) ?>
+                            </a>
+                        </td>
 
-                            <td>
-                                <?php if ($can['can_delete'] == 1): ?>
-                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                        <form id="subdelete_doc_<?php echo $item['id']; ?>"
-                                            action="index.php?r=contract/contract_documents&referance=<?= $_REQUEST['referance'] ?>"
-                                            method="POST" style="display: inline;">
-                                            <input type="hidden" name="_csrf"
-                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                            <input type="hidden" name="save_record" value="delete_record">
-                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                            <button type="button" class="green" style="border: none; background: none;"
-                                                onclick="confirmDelete_doc(<?php echo $item['id']; ?>)">
-                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                <?php endif; ?>
-                            </td>
+                        <td>
+                            <?php if ($can['can_delete'] == 1): ?>
+                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                <form id="subdelete_doc_<?php echo $item['id']; ?>"
+                                    action="index.php?r=contract/contract_documents&referance=<?= $_REQUEST['referance'] ?>"
+                                    method="POST" style="display: inline;">
+                                    <input type="hidden" name="_csrf"
+                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                    <input type="hidden" name="save_record" value="delete_record">
+                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                    <button type="button" class="green" style="border: none; background: none;"
+                                        onclick="confirmDelete_doc(<?php echo $item['id']; ?>)">
+                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        </td>
 
 
 
-                        </tr>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -522,69 +522,69 @@
 
 
 <script>
-    function confirmDelete_doc(itemId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('subdelete_doc_' + itemId).submit();
-        }
+function confirmDelete_doc(itemId) {
+    if (confirm('Are you sure you want to delete this item?')) {
+        document.getElementById('subdelete_doc_' + itemId).submit();
     }
+}
 
-    function confirmDelete(itemId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('subdeleteForm_' + itemId).submit();
-        }
+function confirmDelete(itemId) {
+    if (confirm('Are you sure you want to delete this item?')) {
+        document.getElementById('subdeleteForm_' + itemId).submit();
     }
+}
 
-    function update(item) {
-        // Populate the modal fields with the selected row's data
-        document.getElementById('submodalId').value = item.id;
-        document.getElementById('submodalContract').value = item.contract_id; // Ensure the key matches the data structure
-        document.getElementById('submodalTreatment').value = item.treatment; // Ensure the key matches the data structure
-        document.getElementById('submodalType').value = item.type_of_work; // Ensure the key matches the data structure
-        document.getElementById('submodalKmfrom').value = item.km_from;
-        document.getElementById('submodalKmto').value = item.Km_to;
-        document.getElementById('submodalLocationFrom').value = item.location_from;
-        document.getElementById('submodalLocationTo').value = item.location_to;
-        document.getElementById('submodalDirection').value = item.direction;
-        document.getElementById('submodalLength').value = item.lenght;
-        document.getElementById('submodalStatus').value = item.status; // 0 or 1 for disabled or active
-        document.getElementById('submodalDetails').value = item.disc; // Make sure 'disc' is the correct key for details
+function update(item) {
+    // Populate the modal fields with the selected row's data
+    document.getElementById('submodalId').value = item.id;
+    document.getElementById('submodalContract').value = item.contract_id; // Ensure the key matches the data structure
+    document.getElementById('submodalTreatment').value = item.treatment; // Ensure the key matches the data structure
+    document.getElementById('submodalType').value = item.type_of_work; // Ensure the key matches the data structure
+    document.getElementById('submodalKmfrom').value = item.km_from;
+    document.getElementById('submodalKmto').value = item.Km_to;
+    document.getElementById('submodalLocationFrom').value = item.location_from;
+    document.getElementById('submodalLocationTo').value = item.location_to;
+    document.getElementById('submodalDirection').value = item.direction;
+    document.getElementById('submodalLength').value = item.lenght;
+    document.getElementById('submodalStatus').value = item.status; // 0 or 1 for disabled or active
+    document.getElementById('submodalDetails').value = item.disc; // Make sure 'disc' is the correct key for details
+}
+
+function confirmDelete1(itemId) {
+    if (confirm('Are you sure you want to delete this item?')) {
+        document.getElementById('revdeleteForm_' + itemId).submit();
     }
+}
 
-    function confirmDelete1(itemId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('revdeleteForm_' + itemId).submit();
-        }
+function update1(item) {
+
+    document.getElementById('revmodalId').value = item.id; // ID field
+    document.getElementById('revmodalContract').value = item.contract_id; // Contractor ID (linked to contract)
+    document.getElementById('revmodalStatus').value = item.status; // Status
+    document.getElementById('revmodalType').value = item.type; // Type of Work ID
+    document.getElementById('revmodalRevisedAmount').value = item.revised_amount; // Revised Amount
+    document.getElementById('revrevisedDate').value = item.revised_date; // Revised Date
+    document.getElementById('revmodalRemarks').value = item.remarks; // Remarks
+    document.querySelector('.modal-title').textContent = 'Update Revised Contract';
+}
+
+function confirmDelete2(itemId) {
+    if (confirm('Are you sure you want to delete this item?')) {
+        document.getElementById('paydeleteForm_' + itemId).submit();
     }
+}
 
-    function update1(item) {
-
-        document.getElementById('revmodalId').value = item.id; // ID field
-        document.getElementById('revmodalContract').value = item.contract_id; // Contractor ID (linked to contract)
-        document.getElementById('revmodalStatus').value = item.status; // Status
-        document.getElementById('revmodalType').value = item.type; // Type of Work ID
-        document.getElementById('revmodalRevisedAmount').value = item.revised_amount; // Revised Amount
-        document.getElementById('revrevisedDate').value = item.revised_date; // Revised Date
-        document.getElementById('revmodalRemarks').value = item.remarks; // Remarks
-        document.querySelector('.modal-title').textContent = 'Update Revised Contract';
-    }
-
-    function confirmDelete2(itemId) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            document.getElementById('paydeleteForm_' + itemId).submit();
-        }
-    }
-
-    function update2(item) {
-        document.getElementById('paymodalId').value = item.id;
-        document.getElementById('paymodalContract').value = item.contract_id;
-        document.getElementById('paymodalPaymentType').value = item.type_of_payment;
-        document.getElementById('paymodalDated').value = item.dated;
-        document.getElementById('paymodalStatus').value = item.status;
-        document.getElementById('paymodalVoucherno').value = item.voucher_no;
-        document.getElementById('paymodalAmount').value = item.amount;
-        document.getElementById('paymodalInstrument').value = item.intrument_no;
-        document.getElementById('paymodalInstrumentDate').value = item.instrument_date;
-    }
+function update2(item) {
+    document.getElementById('paymodalId').value = item.id;
+    document.getElementById('paymodalContract').value = item.contract_id;
+    document.getElementById('paymodalPaymentType').value = item.type_of_payment;
+    document.getElementById('paymodalDated').value = item.dated;
+    document.getElementById('paymodalStatus').value = item.status;
+    document.getElementById('paymodalVoucherno').value = item.voucher_no;
+    document.getElementById('paymodalAmount').value = item.amount;
+    document.getElementById('paymodalInstrument').value = item.intrument_no;
+    document.getElementById('paymodalInstrumentDate').value = item.instrument_date;
+}
 </script>
 
 <div class="modal fade modal-xl" id="modalPay" tabindex="-1" aria-labelledby="modalPay" aria-hidden="true">
@@ -745,8 +745,8 @@
                             <select class="form-select" name="typeofwork_id" id="revmodalType" required>
                                 <option value="">Select Type Of Work</option>
                                 <?php foreach ($type_list as $item): ?> <option value="<?= $item['id'] ?>">
-                                        <?= $item['name']  ?>
-                                    </option>
+                                    <?= $item['name']  ?>
+                                </option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="revmodalType">Select Type Of Work<span style="color:red">*</span></label>
@@ -825,7 +825,7 @@
                             <select class="form-select" name="treatment_id" id="submodalTreatment" required>
                                 <option value="">Select Treatment</option>
                                 <?php foreach ($treatment_list as $item): ?>
-                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="submodalTreatment">Treatment<span style="color:red">*</span></label>
@@ -837,7 +837,7 @@
                             <select class="form-select" name="typeofwork_id" id="submodalType" required>
                                 <option value="">Select Type of Work</option>
                                 <?php foreach ($type_list as $item): ?>
-                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="submodalType">Select Type of Work<span style="color:red">*</span></label>

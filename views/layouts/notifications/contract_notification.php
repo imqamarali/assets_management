@@ -103,6 +103,17 @@ $progress_Q = 'SELECT
 $progress_list = Yii::$app->db->createCommand($progress_Q)->queryOne();
 
 
+$demand_Q = 'SELECT
+                    COUNT(cp.*) as total, MAX(cp.date) as last_submission, 
+                    MAX(emp.name) as last_submitted_by
+                FROM public.demand_of_bill AS cp
+                LEFT JOIN public.employee AS emp ON emp.id = cp.submitted_by
+                WHERE 1=1 ' . $progress_status . '
+                HAVING COUNT(cp.*) > 0 ;';
+
+$demand_list = Yii::$app->db->createCommand($demand_Q)->queryOne();
+
+
 ?>
 
 <!--  Contract Notifications -->
@@ -222,6 +233,58 @@ $progress_list = Yii::$app->db->createCommand($progress_Q)->queryOne();
                                     <div class="flex-1 me-sm-3">
                                         <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal"><span
                                                 class="me-1 fs--2"></span>No Progress Notification!<span
+                                                class="ms-2 text-400 fw-bold fs--2"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <?php if ($demand_list) { ?>
+                        <div
+                            class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
+                            <div class="d-flex align-items-center justify-content-between position-relative">
+                                <!-- Notification content -->
+                                <div class="d-flex">
+                                    <div class="flex-1 me-sm-3">
+                                        <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
+                                            <span class="me-1 fs--2">💬</span> <?= $demand_list['total'] ?>
+                                            New Demand Submissions
+                                        </p>
+
+                                        <!-- Displaying created date -->
+                                        <p class="text-800 fs--1 mb-0">
+                                            <small>Last Submission At</small>
+                                        </p>
+                                        <p class="text-800 fs--1 mb-0">
+                                            <span class="me-1 fas fa-clock"></span>
+                                            <span
+                                                class="fw-bold"><?= date('h:i A', strtotime($demand_list['last_submission'])) ?>
+                                            </span>
+                                            <?= date('F j, Y', strtotime($demand_list['last_submission'])) ?>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- Notification actions (button) -->
+                                <div class="font-sans-serif d-none d-sm-block">
+                                    <a href="index.php?r=notification/demandnotifications"
+                                        class="btn fs--2 btn-sm transition-none notification-dropdown-toggle"
+                                        type="button">
+                                        <span class="ace-icon fa fa-eye bigger-130"></span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <?php } else { ?>
+                        <div
+                            class="px-2 px-sm-3 py-3 border-300 notification-card position-relative unread border-bottom">
+                            <div class="d-flex align-items-center justify-content-between position-relative">
+                                <div class="d-flex">
+                                    <div class="flex-1 me-sm-3">
+                                        <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal"><span
+                                                class="me-1 fs--2"></span>No Demand Notification!<span
                                                 class="ms-2 text-400 fw-bold fs--2"></span></p>
                                     </div>
                                 </div>

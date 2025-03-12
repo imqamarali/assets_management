@@ -185,6 +185,7 @@ class Permissions extends Component
             'contract/progress',
             'contract/new_progress',
             'contract/contract_documents',
+            'contract/demand_of_bill',
 
             'users/index',
             'users/roles',
@@ -206,6 +207,7 @@ class Permissions extends Component
             'notification/contractdetails',
             'notification/progressnotifications',
             'notification/progressdetails',
+            'notification/demandnotifications',
 
 
             'imports/details',

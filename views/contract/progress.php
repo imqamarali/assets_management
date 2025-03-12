@@ -55,6 +55,19 @@ h4 {
 
         </div>
         <hr class="bg-200">
+
+        <?php if (Yii::$app->session->hasFlash('info')): ?>
+        <div id="flash-info" class="alert alert-info"
+            style="transition: opacity 0.5s ease;height: 27px;text-align: left;vertical-align: middle;padding: 0px;width: 385px;font-size: small;color: black;border: none;padding: 4px;padding-left: 13px;background: #f2f2f2;">
+            <?= Yii::$app->session->getFlash('info') ?>
+        </div>
+        <?php endif; ?>
+        <?php if (Yii::$app->session->hasFlash('error')): ?>
+        <div id="flash-info" class="alert alert-info"
+            style="transition: opacity 0.5s ease;height: 27px;text-align: left;vertical-align: middle;padding: 0px;width: 385px;font-size: small;color: #050404;border: none;padding: 4px;padding-left: 13px;background: #ed200052;">
+            <?= Yii::$app->session->getFlash('info') ?>
+        </div>
+        <?php endif; ?>
         <div class="row g-5 mb-5">
             <div class="col-xl-12" style="padding: 0px;">
 
@@ -65,7 +78,6 @@ h4 {
                             <tr style="margin: -3px;font-size: smaller;">
                                 <th>Contract</th>
                                 <th>Area</th>
-                                <th>Region</th>
                                 <th>Type </th>
                                 <td>Task</td>
                                 <td>Details</td>
@@ -74,44 +86,49 @@ h4 {
                                 <td>End Date</td>
                                 <td>Submission Date</td>
                                 <td>Current Status</td>
+                                <td>Demand of Bill</td>
+                                <td>Action</td>
                             </tr>
                         </thead>
                         <tbody class="list">
                             <?php $index = 1;
-                                    foreach ($contract_list as $item):
-                                        // if ($item['progress_status'] != 1) continue;
-                                        // if ($item['progress_status'] != 1) continue; //do not add draft contracts
-                                        $status = $item['progress_status'];
-                                        $current_status = "Draft Saved";
-                                        if ($status == 2) {
-                                            $current_status = "Draft Submitted";
-                                        } elseif ($status == -2) {
-                                            $current_status = "Draft Rejected";
-                                        } elseif ($status == 3) {
-                                            $current_status = "Approved by RO";
-                                        } elseif ($status == -3) {
-                                            $current_status = "Rejected by RO";
-                                        } elseif ($status == 4) {
-                                            $current_status = "Approved by ZONE";
-                                        } elseif ($status == -4) {
-                                            $current_status = "Rejected by ZONE";
-                                        } elseif ($status == 5) {
-                                            $current_status = "Approved by RAMD";
-                                        } elseif ($status == -5) {
-                                            $current_status = "Rejected by RAMD";
-                                        } elseif ($status == 6) {
-                                            $current_status = "Approved by HO";
-                                        } elseif ($status == -6) {
-                                            $current_status = "Rejected by HO";
-                                        }
+                            foreach ($contract_list as $item):
+                                // if ($item['progress_status'] != 1) continue;
+                                // if ($item['progress_status'] != 1) continue; //do not add draft contracts
+                                $status = $item['progress_status'];
+                                $current_status = "Draft Saved";
+                                if ($status == 2) {
+                                    $current_status = "Draft Submitted";
+                                } elseif ($status == -2) {
+                                    $current_status = "Draft Rejected";
+                                } elseif ($status == 3) {
+                                    $current_status = "Approved by RO";
+                                } elseif ($status == -3) {
+                                    $current_status = "Rejected by RO";
+                                } elseif ($status == 4) {
+                                    $current_status = "Approved by ZONE";
+                                } elseif ($status == -4) {
+                                    $current_status = "Rejected by ZONE";
+                                } elseif ($status == 5) {
+                                    $current_status = "Approved by RAMD";
+                                } elseif ($status == -5) {
+                                    $current_status = "Rejected by RAMD";
+                                } elseif ($status == 6) {
+                                    $current_status = "Approved by HO";
+                                } elseif ($status == -6) {
+                                    $current_status = "Rejected by HO";
+                                }
 
-                                    ?>
+                                $demand_color = 'red';
+                                if (isset($item['demand_date']) && !empty($item['demand_date']))
+                                    $demand_color = 'green';
+
+                            ?>
 
                             <tr style="margin: -3px;font-size: smaller;">
                                 <td style="padding-left: 5px;"><?= $item['contract_no'] ?>
                                     (<?= $item['contractor_name'] ?>)</td>
                                 <td><?= $item['area'] ?></td>
-                                <td><?= $item['region_name'] ?></td>
                                 <td><?= $item['type_name'] ?></td>
                                 <td><?= $item['task'] ?></td>
                                 <td><?= $item['details'] ?></td>
@@ -120,33 +137,39 @@ h4 {
                                 <td><?= $item['end_date'] ?></td>
                                 <td><?= $item['submission_date'] ?></td>
                                 <td><?= $current_status ?></td>
+                                <td style="font-weight: bold;color: <?= $demand_color ?>;">
+                                    <?= $item['demand_date'] ?? 'Not Submitted' ?></td>
+                                <td style="color: #3974ff; cursor: pointer"><a
+                                        href="index.php?r=contract/demand_of_bill&id=<?= $item['progress_id'] ?>"><i
+                                            class="fas fa-arrow-up"></i>
+                                        Demand</a></td>
+
                             </tr>
 
 
                             <?php $index++;
-                                    endforeach; ?>
+                            endforeach; ?>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Add pagination links here -->
                 <div class="pagination-container text-center mt-3">
                     <?= LinkPager::widget([
-                                'pagination' => $pages,
-                                'options' => ['class' => 'pagination justify-content-center'],
-                                'prevPageLabel' => '&laquo; Previous',
-                                'nextPageLabel' => 'Next &raquo;',
-                                'firstPageLabel' => 'First',
-                                'lastPageLabel' => 'Last',
-                                'maxButtonCount' => 5,
-                                'linkOptions' => ['class' => 'page-link'],
-                                'disabledPageCssClass' => 'disabled',
-                                'prevPageCssClass' => 'page-item',
-                                'nextPageCssClass' => 'page-item',
-                                'firstPageCssClass' => 'page-item',
-                                'lastPageCssClass' => 'page-item',
-                                'activePageCssClass' => 'active',
-                            ]); ?>
+                        'pagination' => $pages,
+                        'options' => ['class' => 'pagination justify-content-center'],
+                        'prevPageLabel' => '&laquo; Previous',
+                        'nextPageLabel' => 'Next &raquo;',
+                        'firstPageLabel' => 'First',
+                        'lastPageLabel' => 'Last',
+                        'maxButtonCount' => 5,
+                        'linkOptions' => ['class' => 'page-link'],
+                        'disabledPageCssClass' => 'disabled',
+                        'prevPageCssClass' => 'page-item',
+                        'nextPageCssClass' => 'page-item',
+                        'firstPageCssClass' => 'page-item',
+                        'lastPageCssClass' => 'page-item',
+                        'activePageCssClass' => 'active',
+                    ]); ?>
                 </div>
             </div>
 

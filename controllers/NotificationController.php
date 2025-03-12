@@ -334,4 +334,71 @@ class NotificationController extends Controller
             'progress' => $progress,
         ]);
     }
+
+    public function actionDemandnotifications()
+    {
+
+        $user_level = Yii::$app->session->get('user_array')['user_level'];
+        $progress_status = '';
+        switch ($user_level) {
+            case 1: // "1"  "Admin Role"    "Admin"
+                $progress_status = ''; //Show ALL
+                break;
+            case 2: // "2"  "RO Role"	    "RO"
+                $progress_status = ' AND (cp.status = 2 OR cp.status = -2 OR cp.status = -3)';
+                break;
+            case 3: // "3"  "ZONE Role"	    "ZONE"
+                $progress_status = ' AND (cp.status = 3 OR cp.status = -3 OR cp.status = -4)';
+                break;
+            case 4: // "4"  "RAMD Role"	    "RAMD"
+                $progress_status = ' AND (cp.status = 4 OR cp.status = -4 OR cp.status = -5)';
+                break;
+            case 5: // "5"  "HO Role"	    "HO"
+                $progress_status = ' AND (cp.status = 5 OR cp.status = -5 OR cp.status = -6)';
+                break;
+            default:
+                $progress_status = '';
+                break;
+        }
+
+        $countQuery = 'SELECT COUNT(*) 
+                FROM public."m_contract_progress" as cont
+                LEFT JOIN public."demand_of_bill" AS cp ON cont.id = cp.progress_id
+                WHERE cont.status = 1 AND cp.id > 0 ' . $progress_status;
+
+        $totalCount = Yii::$app->db->createCommand($countQuery)->queryScalar();
+
+        $pages = new Pagination(['totalCount' => $totalCount]);
+        $pages->setPageSize(10);
+        $contract_Q = ' SELECT 
+                    demB.id AS demand_id, 
+                    demB.bill_amount, 
+                    demB.comments, 
+                    demB.date AS demand_date,
+                    demB.file_path, 
+                    demB.status AS demand_status, 
+                    demB.title AS demand_title,
+                    emp.name as submitted_by
+                FROM public."m_contract_progress" as ascp
+                LEFT JOIN public."demand_of_bill" AS demB ON demB.progress_id = ascp.id
+                LEFT JOIN public.employee AS emp ON emp.id = ascp.submitted_by
+                WHERE demB.status = 1 AND ascp.id > 0 ' . $progress_status . '
+                ORDER BY demB.id ASC
+                LIMIT ' . $pages->limit . ' OFFSET ' . $pages->offset;
+
+        $demand_list = Yii::$app->db->createCommand($contract_Q)->queryAll();
+
+
+        return $this->render('demandnotifications', [
+            'can' => [
+                'can_add'    => 1,
+                'can_view'   => 1,
+                'can_edit'   => 1,
+                'can_delete' => 1,
+            ],
+            'demand_list' => $demand_list,
+            'pages' => $pages,
+
+        ]);
+    }
 }
