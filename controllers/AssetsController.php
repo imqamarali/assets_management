@@ -91,7 +91,6 @@ class AssetsController extends Controller
             'submenus' => $submenus
         ]);
     }
-
     public function actionList()
     {
         $where = '1=1'; // Start with a true condition to simplify appending filters
