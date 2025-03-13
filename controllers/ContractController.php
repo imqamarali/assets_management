@@ -1326,7 +1326,7 @@ class ContractController extends Controller
             $bill_amount = $data['bill_amount'];
             $comments = isset($data['comments']) ? $data['comments'] : '';
             $date = $data['date'];
-            $status = isset($data['status']) ? $data['status'] : 1;
+            $status = isset($data['status']) ? $data['status'] : 2;
             $title = $data['bill_title'];
             $progress_id = isset($data['progress_id']) ? $data['progress_id'] : $id;
 

@@ -401,4 +401,91 @@ class NotificationController extends Controller
 
         ]);
     }
+    public function actionDemanddetails()
+    {
+        if (!isset($_REQUEST['referance']) && empty($_REQUEST['referance'])) {
+            Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+            return $this->redirect(['notification/demandnotifications']);
+        }
+
+        $ref = $_REQUEST['referance'];
+
+        if (Yii::$app->request->isPost) {
+            $data = Yii::$app->request->post();
+            // echo json_encode($data);
+            // exit;
+
+            //{"progress_id":"2","status":"3","save_record":"save_record"}
+            if (isset($data['save_record'])) {
+                $transaction = Yii::$app->db->beginTransaction();
+                try {
+                    if (isset($data['demand_id']) && !empty($data['demand_id'])) {
+                        if (isset($data['status']) && !empty($data['status'])) {
+                            $id = $data['demand_id'];
+                            $status = $data['status'];
+                            Yii::$app->db->createCommand()->update('demand_of_bill', [
+                                'status' => $status
+                            ], ['id' => $id])->execute();
+                            $transaction->commit();
+                            Yii::$app->session->setFlash('toast', 'Record saved successfully!');
+                            return $this->redirect(['notification/demandnotifications']);
+                        }
+                        if (!isset($_REQUEST['referance']) && empty($_REQUEST['referance'])) {
+                            Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+                            return $this->redirect(['notification/demandnotifications']);
+                        }
+                        return $this->redirect(['notification/demanddetails', 'referance' => $_REQUEST['referance']]);
+                    }
+                    if (!isset($_REQUEST['referance']) && empty($_REQUEST['referance'])) {
+                        Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+                        return $this->redirect(['notification/demandnotifications']);
+                    }
+                    return $this->redirect(['notification/demanddetails', 'referance' => $_REQUEST['referance']]);
+                } catch (\Exception $e) {
+                    echo 'Internal Exception: ' . $e->getMessage();
+                    exit;
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('toast', 'Internal Exception: ' . $e->getMessage());
+                    if (!isset($_REQUEST['referance']) && empty($_REQUEST['referance'])) {
+                        Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+                        return $this->redirect(['notification/demandnotifications']);
+                    }
+                    return $this->redirect(['notification/demanddetails', 'referance' => $_REQUEST['referance']]);
+                }
+            }
+        }
+
+
+        $Q = 'SELECT cont.*, contr."company_name" as contractor_name, t.name AS type_name,ms.name AS scope_name,
+                    r.name AS region_name,u.name AS unit_name,
+                    rt.name AS route_name,d.name AS district_name,
+                    cp.id as progress_id, cp.task,cp.details,
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status, cp.submission_date,
+                    demB.id as demand_id, demB.bill_amount, demB.comments, demB.date as demand_date,
+                    demB.file_path, demB.status as demand_status, demB.title as demand_title, demB.comments,
+                    emp.name as submitted_by
+                    FROM public."m_contract" as cont
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+                    LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+                    LEFT JOIN public."demand_of_bill" as demB ON cp.id = demB.progress_id
+                    LEFT JOIN public.employee AS emp ON emp.id = demB.submitted_by
+                    WHERE cp.id = ' . $ref . ' ORDER BY cp.status ASC';
+        $demand = Yii::$app->db->createCommand($Q)->queryOne();
+
+        return $this->render('demanddetails', [
+            'can' => [
+                'can_add'    => 1,
+                'can_view'   => 1,
+                'can_edit'   => 1,
+                'can_delete' => 1,
+            ],
+            'demand' => $demand,
+        ]);
+    }
 }

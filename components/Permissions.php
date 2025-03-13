@@ -208,6 +208,7 @@ class Permissions extends Component
             'notification/progressnotifications',
             'notification/progressdetails',
             'notification/demandnotifications',
+            'notification/demanddetails',
 
 
             'imports/details',
