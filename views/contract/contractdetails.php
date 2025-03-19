@@ -25,7 +25,7 @@
             </span>
             <div class="col">
                 <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">Contract
-                        Details</span>
+                        Management</span>
                     <span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>
@@ -53,69 +53,248 @@
         </div>
     </div>
     <hr class="bg-200">
-    <div class="mb-2">
-        <div class="card h-5">
-            <div class="profile-user-info profile-user-info-striped"
-                style="display:flex; margin-top: 20px; font-size: smaller; margin:5px;margin-right:10px; width: 100%;">
-                <!-- <div style="width:12% ;background: #EDF3F4; padding: 5px">Contract No:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['contract_no'] ?></div> -->
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Contractor Name:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['contractor_name'] ?></div>
-                <div style="width: 12%;background: #EDF3F4; padding: 5px">Area:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['area'] ?></div>
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Type of Work:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['type_name'] ?></div>
-            </div>
-            <div
-                style="display:flex; margin-top: 20px; font-size: smaller; margin:5px; margin-top:-5px; margin-right:10px; width: 100%;">
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-xl-8 col-xxl-4">
 
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Scope:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['scope_name'] ?></div>
-                <div style="width: 12%;background: #EDF3F4; padding: 5px">Progress:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['progress'] ?></div>
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Contract Date:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['contract_date'] ?></div>
+            <div class="table-responsive">
+                <table id="" class="table table-striped table-hover table-sm fs--1 mb-0 simlee">
+                    <thead>
+                        <tr>
+                            <td colspan="4" style="background-color: #000;">
+                                <h5 style="color:#fff !important;"><b>Contract Details<b></h5>
+                            </td>
+
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        <tr>
+                            <td class="center">Contract #:</td>
+                            <td style="background-color:green;color:#fff"><b><?= $contract['contract_no'] ?></b></td>
+                            <td class="center">Contract Cost:</td>
+                            <td><b><?= $contract['bid_cost'] ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">AMP:</td>
+                            <td><b><?= $contract['year_name'] ?></b></td>
+                            <td class="center">Variation Order:</td>
+                            <td><b><?= '00' ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Maintenance Type:</td>
+                            <td><b><?= $contract['type_name'] ?></b></td>
+                            <td class="center">Revised Cost:</td>
+                            <td><b><?= '00' ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Scope Of work:</td>
+                            <td><b><?= $contract['scope_name'] ?></b></td>
+                            <td class="center">Duration::</td>
+                            <td><b><?= '00' ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Engineer Estimate:</td>
+                            <td><b><?= $contract['engineer_estimate'] ?></b></td>
+                            <td class="center">Date of Commencement:</td>
+                            <td><b><?= $contract['date_of_com'] ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Route:</td>
+                            <td><b><?= $contract['route_name'] ?></b></td>
+                            <td class="center">Date of Completion:</td>
+                            <td><b><?= $contract['date_of_completion'] ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Lenght #:</td>
+                            <td><b><?= '00' ?></b></td>
+                            <td class="center">Contractor Name:</td>
+                            <td><b><?= $contract['contractor_name'] ?></b></td>
+                        </tr>
+
+                        <tr>
+                            <td class="center">Zonal Office:</td>
+                            <td><b><?= '00' ?></b></td>
+                            <td class="center">Address:</td>
+                            <td><b><?= $contract['address'] ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Regional Office:</td>
+                            <td><b><?= $contract['region_name'] ?></b></td>
+                            <td class="center">PEC #:</td>
+                            <td><b><?= $contract['pec_no'] ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Maintenance Unit:</td>
+                            <td><b><?= '00' ?></b></td>
+                            <td class="center">SECP #:</td>
+                            <td><b><?= $contract['secp_no'] ?></b></td>
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
             </div>
 
-            <div class="profile-user-info profile-user-info-striped"
-                style="display:flex; margin-top: 20px; font-size: smaller; margin:5px; margin-top:-5px;margin-right:10px; width: 100%;">
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Engineer Estimate:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['engineer_estimate'] ?></div>
-                <div style="width: 12%;background: #EDF3F4; padding: 5px">Bid Cost:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['bid_cost'] ?></div>
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Completion Date:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['date_of_completion'] ?></div>
+        </div>
+
+        <div class="col-12 col-xl-4 col-xxl-4">
+            <div class="table-responsive">
+                <table id="" class="table table-striped table-hover table-sm fs--1 mb-0 simlee">
+                    <thead>
+                        <tr>
+                            <td colspan="2" style="background-color: #000;">
+                                <h5 style="color:#fff !important;"><b>Finance Section</b></h5>
+                            </td>
+                            <?php $paidamount = Yii::$app->db->createCommand('SELECT sum(amount) as amount FROM public."m_contract_payments" where contract_id=' . $contract['id'])->queryOne(); ?>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+
+                        <tr>
+                            <td class="center">Revised Contract Cost:</td>
+                            <td><b><?= number_format($contract['engineer_estimate'], 2) ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Payment:</td>
+                            <td style="color:green"><b><?= number_format($paidamount['amount'], 2) ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Balance Amount:</td>
+                            <td style="color:red">
+                                <b><?= number_format(($contract['bid_cost'] - $paidamount['amount']), 2) ?></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center">To be Paid(1):</td>
+                            <td style="color:red"><b><?= number_format(00, 2) ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">To be Paid(2):</td>
+                            <td style="color:red"><b><?= number_format(00, 2) ?></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="background-color: #000;">
+                                <h5 style="color:#fff !important;"><b>Progress</b></h5>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="center">Physical Progress:</td>
+                            <td style="color:red"><b><?= $contract['progress'] ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Fincancial Progress:</td>
+                            <td style="color:red">
+                                <b><?= number_format(($paidamount['amount'] / $contract['bid_cost']) * 100, 2) ?></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center">Issues:</td>
+                            <td style="color:red"><b><?= 'N/A' ?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="center">Last Remarks:</td>
+                            <td style="color:red"><b><?= 'N/A' ?></b></td>
+                        </tr>
+
+                    </tbody>
+                </table>
             </div>
 
-            <div class="profile-user-info profile-user-info-striped"
-                style="display:flex; margin-top: 20px; font-size: smaller; margin:5px; margin-top:-5px;margin-right:10px; width: 100%;">
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Unit:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['unit_name'] ?></div>
-                <div style="width: 12%;background: #EDF3F4; padding: 5px">Region:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['region_name'] ?></div>
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Route:</div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['route_name'] ?></div>
-            </div>
-            <div class="profile-user-info profile-user-info-striped"
-                style="display:flex; margin-top: 20px; font-size: smaller; margin:5px; margin-top:-5px;margin-right:10px; width: 100%;">
-
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">District:
-                </div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['district_name'] ?></div>
-                <div style="width:12% ;background: #EDF3F4; padding: 5px">Finance Ref Code:
-                </div>
-                <div style="width:20.5% ; padding: 5px"><?= $contract['finance_ref_code'] ?></div>
-
-            </div>
         </div>
     </div>
+
+    <div id="tableExample2">
+        <div class="table-responsive">
+
+            <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Other Details</button>
+            <?php if ($can['can_add'] == 1): ?>
+                <button data-bs-toggle="modal" data-bs-target="#modalSub" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add New<span
+                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+            <?php endif; ?>
+            <table class="table table-striped table-hover table-sm fs--1 mb-0">
+                <thead>
+                    <tr style="background-color: #b1b2b3;">
+                        <th class="sort border-top ps-3">Sr No</th>
+                        <th class="sort border-top">Contract No</th>
+                        <th class="sort border-top">Company Name</th>
+                        <th class="sort border-top">Km From</th>
+                        <th class="sort border-top">Km To</th>
+                        <th class="sort border-top">Direction</th>
+                        <th class="sort border-top">Type of Work</th>
+                        <th class="sort border-top">Treatment</th>
+                        <th class="sort border-top">Length</th>
+                        <th class="sort border-top">Location From</th>
+                        <th class="sort border-top">Location To</th>
+                        <th class="sort border-top">Status</th>
+                        <th class="sort border-top">Description</th>
+                        <th class="sort border-top">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                    <?php $index = 1;
+                    foreach ($contract['contract_sub'] as $item):
+                        $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
+                    ?>
+                        <tr>
+                            <td class="center"><?= $index++ ?></td>
+                            <td><?= $item['contract_no'] ?></td>
+                            <td><?= $item['company_name'] ?></td>
+                            <td><?= $item['km_from'] ?></td>
+                            <td><?= $item['Km_to'] ?></td>
+                            <td><?= $item['direction'] ?></td>
+                            <td><?= $item['type_name'] ?></td>
+                            <td><?= $item['treatment_name'] ?></td>
+                            <td><?= $item['lenght'] ?></td>
+                            <td><?= $item['location_from'] ?></td>
+                            <td><?= $item['location_to'] ?></td>
+                            <td><?= $item['disc'] ?></td>
+                            <td><?= $status ?></td>
+                            <td>
+                                <?php if ($can['can_edit'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <a class="green" data-bs-toggle="modal" data-bs-target="#modalSub"
+                                            onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($can['can_delete'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <form id="subdeleteForm_<?php echo $item['id']; ?>"
+                                            action="index.php?r=contract/contract_cub" method="POST" style="display: inline;">
+                                            <input type="hidden" name="_csrf"
+                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                            <input type="hidden" name="save_record"
+                                                value="delete_record&referance=<?= $_REQUEST['referance'] ?>">
+                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                            <button type="button" class="green" style="border: none; background: none;"
+                                                onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
+
+
+
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div id="tableExample2">
         <div class="table-responsive">
             <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Contract
                 Progress</button>
             <table class="table table-striped table-hover table-sm fs--1 mb-0">
                 <thead>
-                    <tr>
+                    <tr style="background-color: #b1b2b3;">
                         <th>Contract</th>
                         <td>Task</td>
                         <td>Details</td>
@@ -155,15 +334,15 @@
                         }
 
                     ?>
-                    <tr>
-                        <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
-                        <td><?= $item['task'] ?></td>
-                        <td><?= $item['details'] ?></td>
-                        <td><?= $item['progress'] ?></td>
-                        <td><?= $item['start_date'] ?></td>
-                        <td><?= $item['end_date'] ?></td>
-                        <td><?= $current_status ?></td>
-                    </tr>
+                        <tr>
+                            <td><?= $item['contract_no'] ?> (<?= $item['contractor_name'] ?>)</td>
+                            <td><?= $item['task'] ?></td>
+                            <td><?= $item['details'] ?></td>
+                            <td><?= $item['progress'] ?></td>
+                            <td><?= $item['start_date'] ?></td>
+                            <td><?= $item['end_date'] ?></td>
+                            <td><?= $current_status ?></td>
+                        </tr>
 
 
                     <?php $index++;
@@ -173,102 +352,20 @@
         </div>
     </div>
 
-    <div id="tableExample2">
-        <div class="table-responsive">
-            <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Contract
-                Sub</button>
-            <?php if ($can['can_add'] == 1): ?>
-            <button data-bs-toggle="modal" data-bs-target="#modalSub" class="btn btn-outline-primary mt-2 mb-2"
-                style="float: right" style="margin-left: 5px"> Add New<span
-                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
-            <?php endif; ?>
-            <table class="table table-striped table-hover table-sm fs--1 mb-0">
-                <thead>
-                    <tr>
-                        <th class="sort border-top ps-3">Sr No</th>
-                        <th class="sort border-top">Contract No</th>
-                        <th class="sort border-top">Company Name</th>
-                        <th class="sort border-top">Km From</th>
-                        <th class="sort border-top">Km To</th>
-                        <th class="sort border-top">Direction</th>
-                        <th class="sort border-top">Type of Work</th>
-                        <th class="sort border-top">Treatment</th>
-                        <th class="sort border-top">Length</th>
-                        <th class="sort border-top">Location From</th>
-                        <th class="sort border-top">Location To</th>
-                        <th class="sort border-top">Status</th>
-                        <th class="sort border-top">Description</th>
-                        <th class="sort border-top">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="list">
-                    <?php $index = 1;
-                    foreach ($contract['contract_sub'] as $item):
-                        $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
-                    ?>
-                    <tr>
-                        <td class="center"><?= $index++ ?></td>
-                        <td><?= $item['contract_no'] ?></td>
-                        <td><?= $item['company_name'] ?></td>
-                        <td><?= $item['km_from'] ?></td>
-                        <td><?= $item['Km_to'] ?></td>
-                        <td><?= $item['direction'] ?></td>
-                        <td><?= $item['type_name'] ?></td>
-                        <td><?= $item['treatment_name'] ?></td>
-                        <td><?= $item['lenght'] ?></td>
-                        <td><?= $item['location_from'] ?></td>
-                        <td><?= $item['location_to'] ?></td>
-                        <td><?= $item['disc'] ?></td>
-                        <td><?= $status ?></td>
-                        <td>
-                            <?php if ($can['can_edit'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <a class="green" data-bs-toggle="modal" data-bs-target="#modalSub"
-                                    onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
-                            </div>
-                            <?php endif; ?>
 
-                            <?php if ($can['can_delete'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <form id="subdeleteForm_<?php echo $item['id']; ?>"
-                                    action="index.php?r=contract/contract_cub" method="POST" style="display: inline;">
-                                    <input type="hidden" name="_csrf"
-                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                    <input type="hidden" name="save_record"
-                                        value="delete_record&referance=<?= $_REQUEST['referance'] ?>">
-                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                    <button type="button" class="green" style="border: none; background: none;"
-                                        onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <?php endif; ?>
-                        </td>
-
-
-
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
     <div id="tableExample2">
         <div class="table-responsive">
             <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Revised
                 Contract</button>
             <?php if ($can['can_add'] == 1): ?>
-            <button data-bs-toggle="modal" data-bs-target="#modalRev" class="btn btn-outline-primary mt-2 mb-2"
-                style="float: right" style="margin-left: 5px"> Add New<span
-                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+                <button data-bs-toggle="modal" data-bs-target="#modalRev" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add New<span
+                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
             <table class="table table-striped table-hover table-sm fs--1 mb-0">
                 <thead>
-                    <tr>
+                    <tr style="background-color: #b1b2b3;">
                         <th class="sort border-top ps-3">Sr No</th>
                         <th class="sort border-top">Contract No</th>
                         <th class="sort border-top">Contractor Name</th>
@@ -286,49 +383,49 @@
                     foreach ($contract['contract_revised'] as $item):
                         $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                     ?>
-                    <!-- id, contract_id, type, revised_amount, revised_date, remarks, create_date, status
+                        <!-- id, contract_id, type, revised_amount, revised_date, remarks, create_date, status
                             -->
-                    <tr>
-                        <td class="center"><?= $index++ ?></td>
-                        <td><?= $item['contract_no'] ?></td>
-                        <td><?= $item['company_name'] ?></td>
-                        <td><?= $item['type_name'] ?></td>
-                        <td><?= $item['revised_amount'] ?></td>
-                        <td><?= $item['revised_date'] ?></td>
-                        <td><?= $item['remarks'] ?></td>
-                        <td><?= $item['create_date'] ?></td>
-                        <td><?= $status ?></td>
-                        <td>
-                            <?php if ($can['can_edit'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <a class="green" data-bs-toggle="modal" data-bs-target="#modalRev"
-                                    onclick="update1(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
-                            </div>
-                            <?php endif; ?>
+                        <tr>
+                            <td class="center"><?= $index++ ?></td>
+                            <td><?= $item['contract_no'] ?></td>
+                            <td><?= $item['company_name'] ?></td>
+                            <td><?= $item['type_name'] ?></td>
+                            <td><?= $item['revised_amount'] ?></td>
+                            <td><?= $item['revised_date'] ?></td>
+                            <td><?= $item['remarks'] ?></td>
+                            <td><?= $item['create_date'] ?></td>
+                            <td><?= $status ?></td>
+                            <td>
+                                <?php if ($can['can_edit'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <a class="green" data-bs-toggle="modal" data-bs-target="#modalRev"
+                                            onclick="update1(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
 
-                            <?php if ($can['can_delete'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <form id="revdeleteForm_<?php echo $item['id']; ?>"
-                                    action="index.php?r=contract/contract_revised&referance=<?= $_REQUEST['referance'] ?>"
-                                    method="POST" style="display: inline;">
-                                    <input type="hidden" name="_csrf"
-                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                    <input type="hidden" name="save_record" value="delete_record">
-                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                    <button type="button" class="green" style="border: none; background: none;"
-                                        onclick="confirmDelete1(<?php echo $item['id']; ?>)">
-                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <?php endif; ?>
-                        </td>
+                                <?php if ($can['can_delete'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <form id="revdeleteForm_<?php echo $item['id']; ?>"
+                                            action="index.php?r=contract/contract_revised&referance=<?= $_REQUEST['referance'] ?>"
+                                            method="POST" style="display: inline;">
+                                            <input type="hidden" name="_csrf"
+                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                            <input type="hidden" name="save_record" value="delete_record">
+                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                            <button type="button" class="green" style="border: none; background: none;"
+                                                onclick="confirmDelete1(<?php echo $item['id']; ?>)">
+                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
 
 
 
-                    </tr>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -339,13 +436,13 @@
         <div class="table-responsive">
             <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Payment</button>
             <?php if ($can['can_add'] == 1): ?>
-            <button data-bs-toggle="modal" data-bs-target="#modalPay" class="btn btn-outline-primary mt-2 mb-2"
-                style="float: right" style="margin-left: 5px"> Add New<span
-                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+                <button data-bs-toggle="modal" data-bs-target="#modalPay" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add New<span
+                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
             <table class="table table-striped table-hover table-sm fs--1 mb-0">
                 <thead>
-                    <tr>
+                    <tr style="background-color: #b1b2b3;">
                         <th class="sort border-top ps-3">Sr No</th>
                         <th class="sort border-top">Contract No</th>
                         <th class="sort border-top">Company Name</th>
@@ -364,157 +461,56 @@
                     foreach ($contract['contract_payment'] as $item):
                         $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
                     ?>
-                    <tr>
-                        <td class="center"><?= $index++ ?></td>
-                        <td><?= $item['contract_no'] ?></td>
-                        <td><?= $item['company_name'] ?></td>
-                        <td><?= $item['type_of_payment'] ?></td>
-                        <td><?= $item['dated'] ?></td>
-                        <td><?= $item['voucher_no'] ?></td>
-                        <td><?= $item['amount'] ?></td>
-                        <td><?= $item['intrument_no'] ?></td>
-                        <td><?= $item['instrument_date'] ?></td>
-                        <td><?= $status ?></td>
-                        <td>
-                            <?php if ($can['can_edit'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <a class="green" data-bs-toggle="modal" data-bs-target="#modalPay"
-                                    onclick="update2(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if ($can['can_delete'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <form id="paydeleteForm_<?php echo $item['id']; ?>"
-                                    action="index.php?r=contract/contract_payment&referance=<?= $_REQUEST['referance'] ?>"
-                                    method="POST" style="display: inline;">
-                                    <input type="hidden" name="_csrf"
-                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                    <input type="hidden" name="save_record" value="delete_record">
-                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                    <button type="button" class="green" style="border: none; background: none;"
-                                        onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <?php endif; ?>
-                        </td>
-
-
-
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div id="tableExample2">
-        <div class="table-responsive">
-            <button class="btn  mt-2 mb-2" style="float: left;font-size:medium; margin-left: 5px">Documents</button>
-            <?php if ($can['can_add'] == 1): ?>
-            <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
-                style="float: right; margin-left: 5px;">Upload File
-            </button>
-            <div class="modal fade" id="newItemModal" tabindex="-1" aria-labelledby="newItemModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="newItemModalLabel">Upload Document</h5>
-                            <small>(.xlsx, .xls, .csv, .pdf, .doc, .docx, image/*) only</small>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form
-                                action="index.php?r=contract/contract_documents&referance=<?= $_REQUEST['referance'] ?>"
-                                method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                <input type="hidden" name="contract_id" value="<?= $_REQUEST['referance'] ?>" />
-                                <input type="hidden" name="save_record" value="save_record" />
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="title" name="title" required>
-                                </div>
-
-                                <div class="col-12 col-md-12 mb-3">
-                                    <label for="organizerSingle2">Date</label>
-                                    <div class="flatpickr-input-container">
-                                        <div class="form-floating">
-                                            <input class="form-control datetimepicker flatpickr-input" id="date"
-                                                name="date" type="text" placeholder="Select Date" readonly="readonly">
-                                            <label class="ps-6" for="date">Select Date</label>
-                                            <span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
-                                        </div>
+                        <tr>
+                            <td class="center"><?= $index++ ?></td>
+                            <td><?= $item['contract_no'] ?></td>
+                            <td><?= $item['company_name'] ?></td>
+                            <td><?= $item['type_of_payment'] ?></td>
+                            <td><?= $item['dated'] ?></td>
+                            <td><?= $item['voucher_no'] ?></td>
+                            <td><?= $item['amount'] ?></td>
+                            <td><?= $item['intrument_no'] ?></td>
+                            <td><?= $item['instrument_date'] ?></td>
+                            <td><?= $status ?></td>
+                            <td>
+                                <?php if ($can['can_edit'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <a class="green" data-bs-toggle="modal" data-bs-target="#modalPay"
+                                            onclick="update2(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="fileUpload" class="form-label">Choose File</label>
-                                    <input type="file" class="form-control" id="fileUpload" name="fileUpload"
-                                        accept=".xlsx, .xls, .csv, .pdf, .doc, .docx, image/*">
-                                </div>
+                                <?php endif; ?>
 
-                                <!-- Submit Button -->
-                                <button type="submit" class="btn btn-primary" style="float: right;">Upload</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php endif; ?>
-            <table class="table table-striped table-hover table-sm fs--1 mb-0">
-                <thead>
-                    <tr>
-                        <th class="sort border-top ps-3">Sr No</th>
-                        <th class="sort border-top">Title</th>
-                        <th class="sort border-top">Create Date</th>
-                        <th class="sort border-top">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="list">
-                    <?php $index = 1;
-                    foreach ($contract['contract_documents'] as $item):
-                    ?>
-                    <tr>
-                        <td class="center"><?= $index++ ?></td>
-                        <td><?= $item['title'] ?></td>
-                        <td><?= $item['create_date'] ?></td>
-                        <td>
-                            <a href="<?= Yii::getAlias('@web') . '/' . $item['file_path'] ?>" target="_blank">
-                                <?= basename($item['file_path']) ?>
-                            </a>
-                        </td>
-
-                        <td>
-                            <?php if ($can['can_delete'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <form id="subdelete_doc_<?php echo $item['id']; ?>"
-                                    action="index.php?r=contract/contract_documents&referance=<?= $_REQUEST['referance'] ?>"
-                                    method="POST" style="display: inline;">
-                                    <input type="hidden" name="_csrf"
-                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                    <input type="hidden" name="save_record" value="delete_record">
-                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                    <button type="button" class="green" style="border: none; background: none;"
-                                        onclick="confirmDelete_doc(<?php echo $item['id']; ?>)">
-                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <?php endif; ?>
-                        </td>
+                                <?php if ($can['can_delete'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <form id="paydeleteForm_<?php echo $item['id']; ?>"
+                                            action="index.php?r=contract/contract_payment&referance=<?= $_REQUEST['referance'] ?>"
+                                            method="POST" style="display: inline;">
+                                            <input type="hidden" name="_csrf"
+                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                            <input type="hidden" name="save_record" value="delete_record">
+                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                            <button type="button" class="green" style="border: none; background: none;"
+                                                onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
 
 
 
-                    </tr>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 
+    <?php //echo json_encode($contract); exit; 
+    ?>
     <hr style="margin-top:10px" class="bg-200">
 </div>
 </div>
@@ -522,69 +518,63 @@
 
 
 <script>
-function confirmDelete_doc(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('subdelete_doc_' + itemId).submit();
+    function confirmDelete(itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('subdeleteForm_' + itemId).submit();
+        }
     }
-}
 
-function confirmDelete(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('subdeleteForm_' + itemId).submit();
+    function update(item) {
+        // Populate the modal fields with the selected row's data
+        document.getElementById('submodalId').value = item.id;
+        document.getElementById('submodalContract').value = item.contract_id; // Ensure the key matches the data structure
+        document.getElementById('submodalTreatment').value = item.treatment; // Ensure the key matches the data structure
+        document.getElementById('submodalType').value = item.type_of_work; // Ensure the key matches the data structure
+        document.getElementById('submodalKmfrom').value = item.km_from;
+        document.getElementById('submodalKmto').value = item.Km_to;
+        document.getElementById('submodalLocationFrom').value = item.location_from;
+        document.getElementById('submodalLocationTo').value = item.location_to;
+        document.getElementById('submodalDirection').value = item.direction;
+        document.getElementById('submodalLength').value = item.lenght;
+        document.getElementById('submodalStatus').value = item.status; // 0 or 1 for disabled or active
+        document.getElementById('submodalDetails').value = item.disc; // Make sure 'disc' is the correct key for details
     }
-}
 
-function update(item) {
-    // Populate the modal fields with the selected row's data
-    document.getElementById('submodalId').value = item.id;
-    document.getElementById('submodalContract').value = item.contract_id; // Ensure the key matches the data structure
-    document.getElementById('submodalTreatment').value = item.treatment; // Ensure the key matches the data structure
-    document.getElementById('submodalType').value = item.type_of_work; // Ensure the key matches the data structure
-    document.getElementById('submodalKmfrom').value = item.km_from;
-    document.getElementById('submodalKmto').value = item.Km_to;
-    document.getElementById('submodalLocationFrom').value = item.location_from;
-    document.getElementById('submodalLocationTo').value = item.location_to;
-    document.getElementById('submodalDirection').value = item.direction;
-    document.getElementById('submodalLength').value = item.lenght;
-    document.getElementById('submodalStatus').value = item.status; // 0 or 1 for disabled or active
-    document.getElementById('submodalDetails').value = item.disc; // Make sure 'disc' is the correct key for details
-}
-
-function confirmDelete1(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('revdeleteForm_' + itemId).submit();
+    function confirmDelete1(itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('revdeleteForm_' + itemId).submit();
+        }
     }
-}
 
-function update1(item) {
+    function update1(item) {
 
-    document.getElementById('revmodalId').value = item.id; // ID field
-    document.getElementById('revmodalContract').value = item.contract_id; // Contractor ID (linked to contract)
-    document.getElementById('revmodalStatus').value = item.status; // Status
-    document.getElementById('revmodalType').value = item.type; // Type of Work ID
-    document.getElementById('revmodalRevisedAmount').value = item.revised_amount; // Revised Amount
-    document.getElementById('revrevisedDate').value = item.revised_date; // Revised Date
-    document.getElementById('revmodalRemarks').value = item.remarks; // Remarks
-    document.querySelector('.modal-title').textContent = 'Update Revised Contract';
-}
-
-function confirmDelete2(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('paydeleteForm_' + itemId).submit();
+        document.getElementById('revmodalId').value = item.id; // ID field
+        document.getElementById('revmodalContract').value = item.contract_id; // Contractor ID (linked to contract)
+        document.getElementById('revmodalStatus').value = item.status; // Status
+        document.getElementById('revmodalType').value = item.type; // Type of Work ID
+        document.getElementById('revmodalRevisedAmount').value = item.revised_amount; // Revised Amount
+        document.getElementById('revrevisedDate').value = item.revised_date; // Revised Date
+        document.getElementById('revmodalRemarks').value = item.remarks; // Remarks
+        document.querySelector('.modal-title').textContent = 'Update Revised Contract';
     }
-}
 
-function update2(item) {
-    document.getElementById('paymodalId').value = item.id;
-    document.getElementById('paymodalContract').value = item.contract_id;
-    document.getElementById('paymodalPaymentType').value = item.type_of_payment;
-    document.getElementById('paymodalDated').value = item.dated;
-    document.getElementById('paymodalStatus').value = item.status;
-    document.getElementById('paymodalVoucherno').value = item.voucher_no;
-    document.getElementById('paymodalAmount').value = item.amount;
-    document.getElementById('paymodalInstrument').value = item.intrument_no;
-    document.getElementById('paymodalInstrumentDate').value = item.instrument_date;
-}
+    function confirmDelete2(itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('paydeleteForm_' + itemId).submit();
+        }
+    }
+
+    function update2(item) {
+        document.getElementById('paymodalId').value = item.id;
+        document.getElementById('paymodalContract').value = item.contract_id;
+        document.getElementById('paymodalPaymentType').value = item.type_of_payment;
+        document.getElementById('paymodalDated').value = item.dated;
+        document.getElementById('paymodalStatus').value = item.status;
+        document.getElementById('paymodalVoucherno').value = item.voucher_no;
+        document.getElementById('paymodalAmount').value = item.amount;
+        document.getElementById('paymodalInstrument').value = item.intrument_no;
+        document.getElementById('paymodalInstrumentDate').value = item.instrument_date;
+    }
 </script>
 
 <div class="modal fade modal-xl" id="modalPay" tabindex="-1" aria-labelledby="modalPay" aria-hidden="true">
@@ -745,8 +735,8 @@ function update2(item) {
                             <select class="form-select" name="typeofwork_id" id="revmodalType" required>
                                 <option value="">Select Type Of Work</option>
                                 <?php foreach ($type_list as $item): ?> <option value="<?= $item['id'] ?>">
-                                    <?= $item['name']  ?>
-                                </option>
+                                        <?= $item['name']  ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="revmodalType">Select Type Of Work<span style="color:red">*</span></label>
@@ -825,7 +815,7 @@ function update2(item) {
                             <select class="form-select" name="treatment_id" id="submodalTreatment" required>
                                 <option value="">Select Treatment</option>
                                 <?php foreach ($treatment_list as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="submodalTreatment">Treatment<span style="color:red">*</span></label>
@@ -837,7 +827,7 @@ function update2(item) {
                             <select class="form-select" name="typeofwork_id" id="submodalType" required>
                                 <option value="">Select Type of Work</option>
                                 <?php foreach ($type_list as $item): ?>
-                                <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
+                                    <option value="<?= $item['id'] ?>"><?= $item['name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="submodalType">Select Type of Work<span style="color:red">*</span></label>

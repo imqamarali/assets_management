@@ -21,11 +21,11 @@
                 </svg>
             </span>
             <div class="col">
-                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">RAMD Executive Summary</span>
+                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">AMP Executive Summary</span>
                     <span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>
-                <p class="mb-0">Funds Allocation/Utilization - Revenue -Road Condition</p><hr class="bg-200">
+                <p class="mb-0">Funds Allocation/Utilization - Revanue -Road Condition</p><hr class="bg-200">
 				
             </div>
 
@@ -127,7 +127,7 @@ $amp_year = Yii::$app->db->createCommand('SELECT * FROM public."a_route"')->quer
 function searchform(){    
     $.ajax({
             type: "POST",
-            url: "http://<?php echo $address; ?>/index.php?r=site/indexpart",
+            url: "http://<?php echo $address; ?>/index.php?r=site/amppart",
             contenetType: "json",
             data: $("#ajaxform").serialize(),
             success: function(response) {

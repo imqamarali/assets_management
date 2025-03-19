@@ -1,0 +1,94 @@
+<div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
+    <div class="row">
+        <div class="d-flex" id="scrollspyEcommerce">
+            <span class="fa-stack me-2 ms-n1">
+                <svg class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
+                    data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                        d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z">
+                    </path>
+                </svg>
+                <svg class="svg-inline--fa fa-cart-plus fa-inverse fa-stack-1x text-primary-soft"
+                    data-fa-transform="shrink-4" aria-hidden="true" focusable="false" data-prefix="fas"
+                    data-icon="cart-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                    style="transform-origin: 0.5625em 0.5em;">
+                    <g transform="translate(288 256)">
+                        <path fill="currentColor"
+                            d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z">
+                        </path>
+                    </g>
+                </svg>
+            </span>
+            <div class="col">
+                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">Route List</span>
+                    <span
+                        class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
+                </h3>
+                <p class="mb-0">Route Wise AMP/Utilization </p>
+            </div>
+
+           
+        </div>
+        <?php
+        $fields = ['name', 'province', 'district', 'tehsil', 'zone', 'unit', 'type', 'route', 'km_from', 'km_to'];
+        echo Yii::$app->Component->renderSearchForm($fields);
+
+        ?>
+        <div class="row g-1  mb-5">
+            <div id=""
+                data-list="">
+                <div class="table-responsive">
+                    <table id="" class="table table-striped table-hover table-sm fs--1 mb-0 simlee">
+                        <thead>
+                            
+                                <th class="sort border-top ps-3">Sr No</th>
+                                <th class="sort border-top">Name</th>
+								<?php $years=Yii::$app->db->createCommand('SELECT * FROM public."amp_year"  order by id ASC limit 6')->queryAll();
+								foreach ($years as $year){
+								echo  '<th class="sort border-top" colspan="2">'.$year['year'].'</th>';
+								}echo '</tr><tr><th ></th><th ></th>'; 
+								
+								
+								foreach ($years as $year){
+
+								echo  '<th class="sort border-top" >Allocated</th>
+								<th class="sort border-top" >Utilized</th>';
+								}echo '</tr>'; 
+								?>
+								
+                        </thead>
+                        <tbody class="list">
+                            <?php $index = 1;
+                            foreach ($assets_list as $item):
+                                $status = ($item['status'] == 1) ? "Active" : (($item['status'] == 0) ? "Disabled" : "N/A");
+
+								
+								//print_r( $count);exit;
+                            ?>
+                                <tr>
+                                    <td class="center"><?= $index++ ?></td>
+                                    <td><b><?= $item['name'] ?></b></td>
+                                    <?php 
+									foreach ($years as $year){
+									$amp=Yii::$app->db->createCommand('SELECT cost FROM public."amp_sub" where route_id='.$item['ID'].' ')->queryOne();
+									$con=Yii::$app->db->createCommand('SELECT bid_cost FROM public."m_contract" where route_id='.$item['ID'].' ')->queryOne();
+								echo  '<th class="sort border-top" style="color:green;" >'; echo $amp['cost']??"00.00"; echo '</th>
+									   <th class="sort border-top" style="color:red;" >'; echo $con['bid_cost']??"00.00"; echo '</th>';
+								}echo '</tr>';
+									?>
+									
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script to handle update functionality -->
+
+
+

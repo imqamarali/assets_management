@@ -17,6 +17,11 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
+    public function beforeAction($action)
+    {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
     public function behaviors()
     {
         return [
@@ -105,6 +110,55 @@ class SiteController extends Controller
             'model' => $model,
         ]);
         //        return $this->render('index');
+    }
+    public function actionAmp()
+    {
+        return $this->render('amp');
+    }
+    public function actionIndexpart()
+    {
+        $this->layout = false;
+        return $this->render('indexpart');
+    }
+    public function actionAsset()
+    {
+        return $this->render('asset');
+    }
+    public function actionAssetpart()
+    {
+        $this->layout = false;
+        return $this->render('assetpart');
+    }
+    public function actionAmppart()
+    {
+        $this->layout = false;
+        return $this->render('amppart');
+    }
+    public function actionRegion($id)
+    {
+        $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_region" where zone_id=' . $id . '')->queryAll();
+        foreach ($region_list as $str) {
+            $region[] = $str;
+        }
+        echo json_encode($region);
+    }
+    public function actionUnit($id)
+    {
+        $region = array();
+        $region_list = Yii::$app->db->createCommand('SELECT * FROM public."u_unit" where region_id=' . $id . '')->queryAll();
+        foreach ($region_list as $str) {
+            $region[] = $str;
+        }
+        echo json_encode($region);
+    }
+    public function actionDistrict($id)
+    {
+        $region = array();
+        $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_district" where province_id=' . $id . '')->queryAll();
+        foreach ($region_list as $str) {
+            $region[] = $str;
+        }
+        echo json_encode($region);
     }
 
     public function actionIndex11()

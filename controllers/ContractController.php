@@ -327,6 +327,8 @@ class ContractController extends Controller
                         $bid_cost = $data['bid_cost'] ?? '';
                         $finance_ref_code = $data['finance_ref_code'] ?? '';
                         $area = $data['area'] ?? '';
+                        $amp_year = $data['amp_year'] ?? '';
+                        $award_year = $data['award_year'] ?? '';
                         $status = 0; //$data['status'];
 
                         // id, contract_no, contractor_id, area, type_of_work, scope, contract_date, 
@@ -348,6 +350,8 @@ class ContractController extends Controller
                             'region_id' => $region_id,
                             'route_id' => $route_id,
                             'district_id' => $district_id,
+                            'amp_year' => $amp_year,
+                            'award_year' => $award_year,
                             'finance_ref_code' => $finance_ref_code,
                         ]; // Remove null values from the update array
                         $updateFields = array_filter($fields, function ($value) {
@@ -382,6 +386,7 @@ class ContractController extends Controller
         $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_region"')->queryAll();
         $route_list = Yii::$app->db->createCommand('SELECT * FROM public."a_route" ORDER BY id ASC ')->queryAll();
         $district_list = Yii::$app->db->createCommand('SELECT * FROM public."a_district" ')->queryAll();
+        $amp_year = Yii::$app->db->createCommand('SELECT * FROM public.amp_year ORDER BY id ASC ')->queryAll();
 
 
         // Step 1: Get total count for pagination
@@ -435,10 +440,11 @@ class ContractController extends Controller
             'unit_list' => $unit_list,
             'route_list' => $route_list,
             'district_list' => $district_list,
+            'amp_year' => $amp_year,
             'pages' => $pages, // Pass the pagination object to the view
         ]);
     }
-    public function actionContractdetails()
+    public function actionContractdetails1()
     {
         $permissions = Yii::$app->Component->CheckPermissions(24, 38)[0];
 
@@ -530,6 +536,114 @@ class ContractController extends Controller
         $contract['contract_payment'] = $contract_pay_list;
         $contract['contract_progress'] = $contract_Progress_list;
         $contract['contract_documents'] = $contract_documents;
+
+
+        return $this->render('contractdetails', [
+            'can' => [
+                'can_add'    => 1,
+                'can_view'   => 1,
+                'can_edit'   => 1,
+                'can_delete' => 1,
+            ],
+            'contract' => $contract,
+            'type_list' => $type_list,
+            'scope_list' => $scope_list,
+            'region_list' => $region_list,
+            'unit_list' => $unit_list,
+            'route_list' => $route_list,
+            'district_list' => $district_list,
+            'treatment_list' => $treatment_list
+        ]);
+    }
+
+    public function actionContractdetails()
+    {
+        $permissions = Yii::$app->Component->CheckPermissions(24, 38)[0];
+
+        if ($permissions['can_view'] == '0') {
+            Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+            return $this->redirect(['contract/index']);
+        }
+        if (!isset($_REQUEST['referance']) && empty($_REQUEST['referance'])) {
+            Yii::$app->session->setFlash('toast', 'Unauthorized access.');
+            return $this->redirect(['contract/index']);
+        }
+
+        $ref = $_REQUEST['referance'];
+
+        $type_list = Yii::$app->db->createCommand('SELECT * FROM public."m_type"')->queryAll();
+        $scope_list = Yii::$app->db->createCommand('SELECT * FROM public."m_scope"')->queryAll();
+        $unit_list = Yii::$app->db->createCommand('SELECT * FROM public."u_unit" ')->queryAll();
+        $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_region"')->queryAll();
+        $route_list = Yii::$app->db->createCommand('SELECT * FROM public."a_route" ORDER BY id ASC ')->queryAll();
+        $district_list = Yii::$app->db->createCommand('SELECT * FROM public."a_district" ')->queryAll();
+
+        $treatment_list = Yii::$app->db->createCommand('	SELECT * FROM public."m_treatment" ORDER BY id ASC ')->queryAll();
+
+
+
+        $contract_Q = 'SELECT cont.*,ay.year as year_name, contr.address,contr,contractor_no,contr.secp_no,contr.pec_no,contr."company_name" as contractor_name, t.name AS type_name,ms.name AS scope_name,
+                    r.name AS region_name,u.name AS unit_name,
+                    rt.name AS route_name,d.name AS district_name
+                    FROM public."m_contract" as cont
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+					LEFT JOIN public."amp_year" AS ay ON cont.amp_year = ay.id
+                    WHERE cont."id" = ' . $ref . ' ';
+        $contract_sub_Q = 'SELECT cc.*, cont."contract_no", contr."company_name",
+                            t."name" as type_name, mt."name" as treatment_name
+                            FROM public."m_contract_cub" cc
+                            LEFT JOIN public."m_contract" cont ON cc."contract_id" = cont.id
+                            LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                            LEFT JOIN public."m_type" AS t ON cc."type_of_work" = t."id"
+                            LEFT JOIN public."m_treatment" AS mt ON cc."treatment" = mt."id"
+                            WHERE cont."id" = ' . $ref . ' ';
+        $contract_revised_Q = 'SELECT cr.*,cont."contract_no",contr."company_name" as company_name, t."name" as type_name  FROM public."m_contract_revised" cr
+                    LEFT JOIN public."m_contract" cont ON cr."contract_id" = cont.id
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    WHERE cont."id" = ' . $ref . ' ';
+        $contract_pay_Q = 'SELECT cp.*, cont."contract_no", contr."company_name"
+                            FROM public."m_contract_payments" cp
+                            LEFT JOIN public."m_contract" cont ON cp."contract_id" = cont.id
+                            LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                            WHERE cont."id" = ' . $ref . ' ';
+
+
+        $contract_Progress =
+            'SELECT cont.*,ay.year as year_name, contr."company_name" as contractor_name, t.name AS type_name,ms.name AS scope_name,
+                    r.name AS region_name,u.name AS unit_name,
+                    rt.name AS route_name,d.name AS district_name,
+                    cp.id as progress_id, cp.task,cp.details,
+                    cp.progress, cp.start_date, cp.end_date, cp.status as progress_status
+                    FROM public."m_contract" as cont
+                    LEFT JOIN public."m_contractor" AS contr ON cont."contractor_id" = contr."id"
+                    LEFT JOIN public."a_region" AS r ON cont."region_id" = r."ID"
+                    LEFT JOIN public."m_scope" AS ms ON cont.scope = ms."id"
+                    LEFT JOIN public."m_type" AS t ON cont.type_of_work = t."id"
+                    LEFT JOIN public."u_unit" AS u ON cont.unit = u."ID"
+                    LEFT JOIN public."a_route" AS rt ON cont.route_id = rt.id
+                    LEFT JOIN public."a_district" AS d ON cont.district_id = d.id
+                    LEFT JOIN public."m_contract_progress" AS cp ON cont.id = cp.contract_id
+					LEFT JOIN public."amp_year" AS ay ON cont.amp_year = ay.id
+                    WHERE cont.status=1 AND cp.contract_id =\'' . $ref . '\'
+                    ORDER BY cont.id ASC';
+
+        $contract = Yii::$app->db->createCommand($contract_Q)->queryOne();
+        $contract_sub_list = Yii::$app->db->createCommand($contract_sub_Q)->queryAll();
+        $contract_revised_list = Yii::$app->db->createCommand($contract_revised_Q)->queryAll();
+        $contract_pay_list = Yii::$app->db->createCommand($contract_pay_Q)->queryAll();
+        $contract_Progress_list = Yii::$app->db->createCommand($contract_Progress)->queryAll();
+
+        $contract['contract_sub'] = $contract_sub_list;
+        $contract['contract_revised'] = $contract_revised_list;
+        $contract['contract_payment'] = $contract_pay_list;
+        $contract['contract_progress'] = $contract_Progress_list;
 
 
         return $this->render('contractdetails', [

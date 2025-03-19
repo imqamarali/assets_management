@@ -45,5 +45,29 @@
         <hr class="bg-200">
 
     </div>
-
+<h4 class="mb-3 text-1000 fs-xxl-2">Road Network and status</h4>
+ <hr class="bg-200">
+              <ul class="mb-6 ps-4">
+                <li><a href="?r=reporting/route">Route Wise Network</a></li>
+				<li><a href="">Zone Wise Network</a></li>
+				<li><a href="">Unit/zone Wise Network</a></li>
+				
+              </ul>
+			  <h4 class="mb-3 text-1000 fs-xxl-2">AMP rReport:</h4>
+ <hr class="bg-200">
+              <ul class="mb-6 ps-4">
+                <li><a href="">Type wise AMP</a></li>
+                <li><a href="">Year wize AMP </a></li>
+                <li><a href="">Zone Wise AMP </a></li>
+               
+              </ul>
+			  <h4 class="mb-3 text-1000 fs-xxl-2">Contractor/Contracts</h4>
+ <hr class="bg-200">
+              <ul class="mb-6 ps-4">
+                <li><a href="">Contractors Report</a></li>
+				<li><a href="">Contracts Report</a></li>
+				<li><a href="">Progress Report</a></li>
+				<li><a href="">Payable Report</a></li>
+				
+              </ul>
 </div>

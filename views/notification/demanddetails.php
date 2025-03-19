@@ -208,7 +208,7 @@
         <!-- Form for Contract Status -->
         <form id="progressStatusForm"
             action="index.php?r=notification/demanddetails&referance=<?= $_REQUEST['referance'] ?>" method="POST">
-            <input type="hidden" name="demand_id" value="<?= $demand['demand_id'] ?>">
+            <input type="hidden" name="demand_id" value="<?= $_REQUEST['referance'] ?>">
             <input type="hidden" name="status" id="status">
 
             <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>" />
