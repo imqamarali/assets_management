@@ -137,6 +137,7 @@ class SiteController extends Controller
     public function actionRegion($id)
     {
         $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_region" where zone_id=' . $id . '')->queryAll();
+        $region = [];
         foreach ($region_list as $str) {
             $region[] = $str;
         }

@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 <div class="widget-box" id="widget-box-1">
     <div class="d-flex" id="scrollspyEcommerce">
@@ -17,9 +19,9 @@
     <div id="tableExample2">
         <div class="table-responsive">
             <?php if ($can['can_add'] == 1): ?>
-            <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
-                style="float: right" style="margin-left: 5px"> Add New<span
-                    class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
+                <button data-bs-toggle="modal" data-bs-target="#newItemModal" class="btn btn-outline-primary mt-2 mb-2"
+                    style="float: right" style="margin-left: 5px"> Add New<span
+                        class="fas fa-angle-right ms-2 fs--2 text-center"></span></button>
             <?php endif; ?>
             <table class=" table table-striped table-sm fs--1 mb-0 table-sm fs--1 leads-table simlee mt-3"
                 style="border: 1px solid #a9a9a954;">
@@ -38,7 +40,7 @@
                     <?php foreach ($employees as $key => $item): ?>
 
 
-                    <!-- $employee = "SELECT id, name, pic, sodowo, cnic, email, address, country,
+                        <!-- $employee = "SELECT id, name, pic, sodowo, cnic, email, address, country,
                     city, zip, job_discription, department, designation, username, password,
                     log_status, status, eobi, social, usertype, salecenter, user_id, create_date,
                     emis_id, gender, resign, resign_remarks, resign_date, resign_attachment, cadre,
@@ -48,90 +50,55 @@
                     expiry_of_contract, bank_name, account_title, account_number, branch, whatsapp_no, desk_id
                     FROM public.employee;"; -->
 
-                    <tr style="margin: -3px;font-size: smaller;">
-                        <td style="padding-left: 5px;"><?php echo $key + 1; ?></td>
-                        <td><?php echo htmlspecialchars($item['name']); ?></td>
-                        <td><?php echo htmlspecialchars($item['job_discription']); ?></td>
-                        <td><?php echo htmlspecialchars($item['usertype']); ?></td>
-                        <td><?php echo htmlspecialchars($item['username']); ?></td>
-                        <td><?php echo htmlspecialchars($item['password']); ?></td>
-                        <td>
+                        <tr style="margin: -3px;font-size: smaller;">
+                            <td style="padding-left: 5px;"><?php echo $key + 1; ?></td>
+                            <td><?php echo htmlspecialchars($item['name']); ?></td>
+                            <td><?php echo htmlspecialchars($item['job_discription']); ?></td>
+                            <td><?php echo htmlspecialchars($item['usertype']); ?></td>
+                            <td><?php echo htmlspecialchars($item['username']); ?></td>
+                            <td><?php echo htmlspecialchars($item['password']); ?></td>
+                            <td>
 
-                            <?php if ($can['can_view'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <a class="green" href="#"
-                                    onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
-                                </a>
-                            </div>
-                            <?php endif; ?>
-                            <?php if ($can['can_edit'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
-                                    onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
-                            </div>
-                            <?php endif; ?>
+                                <?php if ($can['can_view'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <a class="green" href="#"
+                                            onclick=" update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                            <i class="ace-icon fa fa-eye bigger-130"></i>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($can['can_edit'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <a class="green" data-bs-toggle="modal" data-bs-target="#newItem"
+                                            onclick="update(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
 
-                            <?php if ($can['can_delete'] == 1): ?>
-                            <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
-                                <form id="deleteForm_<?php echo $item['id']; ?>" action="index.php?r=users/userslist"
-                                    method="POST" style="display: inline;">
-                                    <input type="hidden" name="_csrf"
-                                        value="<?= Yii::$app->request->getCsrfToken() ?>" />
-                                    <input type="hidden" name="save_record" value="delete_record">
-                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                    <button type="button" class="green" style="border: none; background: none;"
-                                        onclick="confirmDelete(<?php echo $item['id']; ?>)">
-                                        <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
+                                <?php if ($can['can_delete'] == 1): ?>
+                                    <div class="hidden-sm hidden-xs action-buttons" style="display: inline-flex; gap: 10px;">
+                                        <form id="deleteForm_<?php echo $item['id']; ?>" action="index.php?r=users/userslist"
+                                            method="POST" style="display: inline;">
+                                            <input type="hidden" name="_csrf"
+                                                value="<?= Yii::$app->request->getCsrfToken() ?>" />
+                                            <input type="hidden" name="save_record" value="delete_record">
+                                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                            <button type="button" class="green" style="border: none; background: none;"
+                                                onclick="confirmDelete(<?php echo $item['id']; ?>)">
+                                                <i class="ace-icon fa fa-trash bigger-130" style="color: red;"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<script>
-function confirmDelete(itemId) {
-    if (confirm('Are you sure you want to delete this item?')) {
-        document.getElementById('deleteForm_' + itemId).submit();
-    }
-}
-
-function update(item) {
-    // Populate hidden and input fields
-    document.getElementById('modalId').value = item.id;
-    document.getElementById('modalname').value = item.name || '';
-    document.getElementById('modalsodowo').value = item.sodowo || '';
-    document.getElementById('modalcnic').value = item.cnic || '';
-    document.getElementById('modalemail').value = item.email || '';
-    document.getElementById('modalmobile').value = item.mobile || '';
-    document.getElementById('modalzip').value = item.zip || '';
-    document.getElementById('modaldepartment').value = item.department || '';
-    document.getElementById('modaltype').value = item.type || '';
-    document.getElementById('modalcountry').value = item.country || '';
-    document.getElementById('modalrole').value = item.user_level || '';
-    document.getElementById('modalmeritalstatus').value = item.merital_status || '';
-    document.getElementById('modalgender').value = item.gender || '';
-    document.getElementById('modaldateofbirth').value = item.dob || '';
-    document.getElementById('modalbloodgroup').value = item.b_group || '';
-    document.getElementById('modalreligion').value = item.religion || '';
-    document.getElementById('modalpassport').value = item.passport || '';
-    document.getElementById('modaldiscription').value = item.job_discription || '';
-    document.getElementById('modaladdress').value = item.address || '';
-    document.getElementById('modalusername').value = item.username || '';
-    document.getElementById('modalpassword').value = item.password || '';
-
-    // Show the modal
-    new bootstrap.Modal(document.getElementById('newItemModal')).show();
-}
-</script>
 <div class="modal fade modal-xl" id="newItemModal" tabindex="-1" aria-labelledby="newItemModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -157,14 +124,13 @@ function update(item) {
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
                             <input class="form-control" id="modalsodowo" name="sodowo" type="text"
-                                placeholder="Father/Spouse's Name" required>
+                                placeholder="Father/Spouse's Name">
                             <label for="modalsodowo">Father/Spouse's Name <span style="color:red">*</span></label>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <input class="form-control" id="modalcnic" name="cnic" type="text" placeholder="CNIC"
-                                required>
+                            <input class="form-control" id="modalcnic" name="cnic" type="text" placeholder="CNIC">
                             <label for="modalcnic">CNIC <span style="color:red">*</span></label>
                         </div>
                     </div>
@@ -172,8 +138,7 @@ function update(item) {
                     <!-- Name -->
                     <div class="col-sm-6 col-md-4">
                         <div class="form-floating">
-                            <input class="form-control" id="modalemail" name="email" type="text" placeholder="Email"
-                                required>
+                            <input class="form-control" id="modalemail" name="email" type="text" placeholder="Email">
                             <label for="modalemail">Email <span style="color:red">*</span></label>
                         </div>
                     </div>
@@ -228,7 +193,7 @@ function update(item) {
                             <select class="form-select" name="user_level" id="modalrole" required>
                                 <option value="">Select Role</option>
                                 <?php foreach ($roles as $item): ?>
-                                <option value="<?= $item['role_id'] ?>"><?= $item['role_name'] ?></option>
+                                    <option value="<?= $item['role_id'] ?>"><?= $item['role_name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <label for="modalrole">Role<span style="color:red">*</span></label>
@@ -324,6 +289,21 @@ function update(item) {
                             <label for="modalpassword">Password<span style="color:red">*</span></label>
                         </div>
                     </div>
+                    <div class="col-sm-6 col-md-4">
+
+                    </div>
+                    <select class="form-select" name="zones_list[]" data-choices multiple id="modalZones">
+                        <option value="">Select Zones</option>
+                    </select>
+
+                    <select class="form-select" name="regions_list[]" data-choices multiple id="modalRegions">
+                        <option value="">Select Regions</option>
+                    </select>
+
+                    <select class="form-select" name="units_list[]" data-choices multiple id="modalUnits">
+                        <option value="">Select Units</option>
+                    </select>
+
 
                     <!-- Modal Footer -->
                     <div class="modal-footer">
@@ -335,3 +315,103 @@ function update(item) {
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="your-script.js"></script>
+
+<?php $address = $_SERVER['HTTP_HOST'] . Yii::$app->request->baseUrl; ?>
+<script>
+    var zones = [];
+    var regions = [];
+    var units = [];
+
+    document.addEventListener("DOMContentLoaded", function() {
+        loadDropdownOptions('/get_list&id=1', 1, 'modalZones', 'id', 'Name');
+        loadDropdownOptions('/get_list&id=2', 2, 'modalRegions', 'ID', 'name');
+        loadDropdownOptions('/get_list&id=3', 3, 'modalUnits', 'ID', 'name');
+    });
+
+    function loadDropdownOptions(url, idd, selectId, valueKey, textKey) {
+        $.ajax({
+            url: 'index.php?r=users' + url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (idd == 1) {
+                    zones = data;
+                }
+                if (idd == 2) {
+                    regions = data;
+                }
+                if (idd == 3) {
+                    units = data;
+                }
+                const $select = $('#' + selectId);
+                $select.empty(); // Clear previous options
+                $select.append('<option value="">Select</option>');
+                $.each(data, function(index, item) {
+                    $select.append(
+                        $('<option></option>')
+                        .val(item[valueKey])
+                        .text(item[textKey])
+                    );
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(`Error loading data from ${url}:`, error);
+            }
+        });
+    }
+</script>
+
+<script>
+    function confirmDelete(itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            document.getElementById('deleteForm_' + itemId).submit();
+        }
+    }
+
+    function update(item) {
+        document.getElementById('modalId').value = item.id;
+        document.getElementById('modalname').value = item.name || '';
+        document.getElementById('modalsodowo').value = item.sodowo || '';
+        document.getElementById('modalcnic').value = item.cnic || '';
+        document.getElementById('modalemail').value = item.email || '';
+        document.getElementById('modalmobile').value = item.mobile || '';
+        document.getElementById('modalzip').value = item.zip || '';
+        document.getElementById('modaldepartment').value = item.department || '';
+        document.getElementById('modaltype').value = item.type || '';
+        document.getElementById('modalcountry').value = item.country || '';
+        document.getElementById('modalrole').value = item.user_level || '';
+        document.getElementById('modalmeritalstatus').value = item.merital_status || '';
+        document.getElementById('modalgender').value = item.gender || '';
+        document.getElementById('modaldateofbirth').value = item.dob || '';
+        document.getElementById('modalbloodgroup').value = item.b_group || '';
+        document.getElementById('modalreligion').value = item.religion || '';
+        document.getElementById('modalpassport').value = item.passport || '';
+        document.getElementById('modaldiscription').value = item.job_discription || '';
+        document.getElementById('modaladdress').value = item.address || '';
+        document.getElementById('modalusername').value = item.username || '';
+        document.getElementById('modalpassword').value = item.password || '';
+
+
+
+        const select = document.getElementById('modalZones');
+        select.innerHTML = '<option value="">Select Zones</option>';
+        var options = '';
+
+        zones.forEach(zone => {
+            console.log(zone);
+            const option = document.createElement('option');
+            option.value = zone.id;
+            option.textContent = zone.Name;
+            options = options + option;
+        });
+        console.log(options);
+        select.appendChild(options);
+        const modal = new bootstrap.Modal(document.getElementById('newItemModal'));
+        modal.show();
+
+    }
+</script>

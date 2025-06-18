@@ -14,9 +14,6 @@ use app\models\User;
 
 class UsersController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -39,10 +36,6 @@ class UsersController extends Controller
             ],
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
@@ -211,19 +204,24 @@ class UsersController extends Controller
 
         return "TRUE";
     }
+
     public function actionUserslist()
     {
-
-
+        // Step 1: Get the list of employees
         $employeeQuery = "SELECT * FROM public.employee";
         $employees = Yii::$app->db->createCommand($employeeQuery)->queryAll();
 
         if (Yii::$app->request->isPost) {
             $data = Yii::$app->request->post();
 
+            // Temporary output for debugging
+            // echo json_encode($data);
+            // exit;
+
             if (isset($data['save_record'])) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
+                    // Step 2: Check if we need to delete a record
                     if ($data['save_record'] == 'delete_record') {
                         $id = $data['id'];
                         Yii::$app->db->createCommand()->delete('employee', ['id' => $id])->execute();
@@ -231,6 +229,7 @@ class UsersController extends Controller
                         Yii::$app->session->setFlash('toast', 'Record deleted successfully!');
                         return $this->redirect(['users/userslist']);
                     } else {
+                        // Step 3: Prepare the employee data for saving or updating
                         $employeeData = [
                             'name' => $data['name'] ?? null,
                             'sodowo' => $data['sodowo'] ?? null,
@@ -288,19 +287,72 @@ class UsersController extends Controller
                             'create_date' => date('Y-m-d H:i:s'),
                         ];
 
+                        // Step 4: Save or update employee record
                         if (!empty($data['id'])) {
                             Yii::$app->db->createCommand()->update('employee', $employeeData, ['id' => $data['id']])->execute();
                         } else {
                             Yii::$app->db->createCommand()->insert('employee', $employeeData)->execute();
+                            $data['id'] = Yii::$app->db->getLastInsertID();
                         }
+                        // Step 5: Clear previous permissions for the employee
+                        Yii::$app->db->createCommand()->delete('employee_permissions', ['employee_id' => $data['id']])->execute();
 
+                        //"zones_list":["4","5"],"regions_list":["8","16"],"units_list":["29","17","14"]
+
+                        $zones = $data['zones_list'];
+                        $regions = $data['regions_list'];
+                        $units = $data['units_list'];
+
+                        // echo json_encode($zones);
+                        $permissions = [];
+                        foreach ($zones as $zone_id) {
+                            foreach ($regions as $region_id) {
+                                $check_region = Yii::$app->db->createCommand('SELECT * FROM public."a_region" WHERE  "zone_id" = ' . $zone_id . '')->queryAll();
+                                if (count($check_region) > 0) {
+                                    foreach ($units as $unit_id) {
+                                        $check_unit = Yii::$app->db->createCommand('SELECT * FROM public."u_unit" WHERE  "region_id" = ' . $region_id . '')->queryAll();
+                                        if (count($check_unit) > 0) {
+                                            $permissions[] = [
+                                                'employee_id' => $data['id'],
+                                                'zone_id' => $zone_id,
+                                                'region_id' => $region_id,
+                                                'unit_id' => $unit_id,
+                                                'created_at' => date('Y-m-d H:i:s')
+                                            ];
+                                        } else {
+                                            $permissions[] = [
+                                                'employee_id' => $data['id'],
+                                                'zone_id' => $zone_id,
+                                                'region_id' => $region_id,
+                                                'unit_id' => null,
+                                                'created_at' => date('Y-m-d H:i:s')
+                                            ];
+                                        }
+                                    }
+                                } else {
+                                    $permissions[] = [
+                                        'employee_id' => $data['id'],
+                                        'zone_id' => $zone_id,
+                                        'region_id' => null,
+                                        'unit_id' => null,
+                                        'created_at' => date('Y-m-d H:i:s')
+                                    ];
+                                }
+                            }
+                        }
+                        if (!empty($permissions)) {
+                            Yii::$app->db->createCommand()->batchInsert(
+                                'employee_permissions',
+                                ['employee_id', 'zone_id', 'region_id', 'unit_id', 'created_at'],
+                                $permissions
+                            )->execute();
+                        }
                         $transaction->commit();
                         Yii::$app->session->setFlash('toast', 'Record saved successfully!');
                         return $this->redirect(['users/userslist']);
                     }
                 } catch (\Exception $e) {
-                    echo 'Internal Exception: ' . $e->getMessage();
-                    exit;
+                    // Handle any exceptions and rollback the transaction
                     $transaction->rollBack();
                     Yii::$app->session->setFlash('toast', 'Internal Exception: ' . $e->getMessage());
                     return $this->redirect(['users/userslist']);
@@ -308,9 +360,38 @@ class UsersController extends Controller
             }
         }
 
+        // Step 10: Fetch roles, zones, regions, and units for the view
         $roles = Yii::$app->db->createCommand("SELECT role_id, role_name, is_active FROM public.role_types;")->queryAll();
+        $unit_list = Yii::$app->db->createCommand('SELECT * FROM public."u_unit"')->queryAll(); //Contains Region Ids
+        $region_list = Yii::$app->db->createCommand('SELECT * FROM public."a_region"')->queryAll(); // Contains Zone Id 
+        $zone_list = Yii::$app->db->createCommand('SELECT * FROM public."a_zone"')->queryAll();
 
+        $employeeQuery = "SELECT * FROM public.employee";
+        $employees = Yii::$app->db->createCommand($employeeQuery)->queryAll();
 
+        foreach ($employees as &$employee) {
+            $permissions = Yii::$app->db->createCommand(
+                'SELECT zone_id, region_id, unit_id
+                        FROM public."employee_permissions"
+                        WHERE employee_id = :employee_id'
+            )->bindValue(':employee_id', $employee['id'])->queryAll();
+
+            $zones = [];
+            $regions = [];
+            $units = [];
+
+            foreach ($permissions as $perm) {
+                if (!empty($perm['zone_id'])) $zones[] = ['id' => $perm['zone_id']];
+                if (!empty($perm['region_id'])) $regions[] = ['id' => $perm['region_id']];
+                if (!empty($perm['unit_id'])) $units[] = ['id' => $perm['unit_id']];
+            }
+
+            $employee['zones'] = $zones;
+            $employee['regions'] = $regions;
+            $employee['units'] = $units;
+        }
+
+        // Step 11: Render the view
         return $this->render('user_list', [
             'can' => [
                 'can_add'    => 1,
@@ -320,6 +401,22 @@ class UsersController extends Controller
             ],
             'employees' => $employees,
             'roles' => $roles,
+            'zones' => $zone_list,
+            'regions' => $region_list,
+            'units' => $unit_list,
         ]);
+    }
+    public function actionGet_list($id)
+    {
+        if ($id == 1) {
+            return json_encode(Yii::$app->db->createCommand('SELECT * FROM public."a_zone"')->queryAll());
+        }
+        if ($id == 2) {
+            return json_encode(Yii::$app->db->createCommand('SELECT * FROM public."a_region"')->queryAll());
+        }
+        if ($id == 3) {
+            return json_encode(Yii::$app->db->createCommand('SELECT * FROM public."u_unit"')->queryAll());
+        }
+        return json_encode([]);
     }
 }

@@ -192,6 +192,7 @@ class Permissions extends Component
             'users/permissions',
             'users/update',
             'users/userslist',
+            'users/get_list',
 
             'budgeting/index',
             'budgeting/amp_sub',

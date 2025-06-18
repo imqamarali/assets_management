@@ -11,9 +11,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ImportsController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -36,9 +33,6 @@ class ImportsController extends Controller
             ],
         ];
     }
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
